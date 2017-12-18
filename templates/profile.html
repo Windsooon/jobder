@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load socialaccount %}
+
+{% block content %}
+  <div class="hero-full-container background-image-container white-text-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <img src="" />
+          <p>FIND THE JOB THAT MATCH YOU MOST.</p>
+          <br>
+          <a href="{% url 'profile' %}" class="btn btn-default btn-lg" title="">Developer</a>
+          <a href="./project.html" class="btn btn-default btn-lg" title="">Hunter</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/header.js' %}"></script>
+{% endblock %}

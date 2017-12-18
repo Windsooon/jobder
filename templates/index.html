@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load socialaccount %}
-<h1>Django Allauth Tutorial</h1>
 
 {% block content %}
   <div class="hero-full-container background-image-container white-text-container">
@@ -11,7 +10,7 @@
           <h1>Jobder</h1>
           <p>FIND THE JOB THAT MATCH YOU MOST.</p>
           <br>
-          <a href="./project.html" class="btn btn-default btn-lg" title="">Developer</a>
+          <a href="{% url 'profile' %}" class="btn btn-default btn-lg" title="">Developer</a>
           <a href="./project.html" class="btn btn-default btn-lg" title="">Hunter</a>
         </div>
       </div>
@@ -95,15 +94,6 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<script>
-  document.addEventListener("DOMContentLoaded", function (event) {
-    navbarFixedTopAnimation();
-  });
-
-  document.addEventListener("DOMContentLoaded", function (event) {
-    navActivePage();
-    scrollRevelation('.reveal');
-  });
-</script>
+<script src="{% static 'js/header.js' %}"></script>
 {% endblock %}
 
