@@ -1,21 +1,3 @@
-// Vue settings
-var ItemsVue = new Vue({
-    el: '#Itemlist',
-    data: {
-        items: []
-    },
-    created: function () {
-        axios.get('/url', { data: this.data })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                // Wu oh! Something went wrong
-                console.log(error.message);
-            });
-    }
-});
-
 // Chart.js
 var config = {
     type: 'line',
@@ -54,3 +36,36 @@ var config = {
         }
     }
 };
+
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+
+// get user repo
+let user_repos = {
+	url: 'https://api.github.com/graphql',
+	method: 'post', 
+    headers: { 'Authorization': 'bearer cfb0afc6e06cee4ae5ccb5c3527825ad38ccce6c' },
+	data: {
+        "query": "query { viewer { login }}"
+    }
+} 
+
+// Vue settings
+var ItemsVue = new Vue({
+    el: '#app',
+    data: {
+        message: 'Hello Vue!'
+    },
+    created: function () {
+        axios(user_repos).then(response => {
+	        console.log('graphql response:', response.data);
+        }).catch(err => {
+	        console.log('graphql error:', err);
+        });
+    }
+});
