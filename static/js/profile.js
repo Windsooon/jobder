@@ -1,23 +1,22 @@
+// Vue settings
 var ItemsVue = new Vue({
     el: '#Itemlist',
     data: {
         items: []
     },
     created: function () {
-        var self = this;
-        $.ajax({
-            url: '/items',
-            method: 'GET',
-            success: function (data) {
-                self.items = data;
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
+        axios.get('/url', { data: this.data })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                // Wu oh! Something went wrong
+                console.log(error.message);
+            });
     }
 });
 
+// Chart.js
 var config = {
     type: 'line',
     data: {
@@ -54,9 +53,4 @@ var config = {
             }]
         }
     }
-};
-
-window.onload = function() {
-    var ctx = document.getElementById("canvas").getContext("2d");
-    window.myLine = new Chart(ctx, config);
 };
