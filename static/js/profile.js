@@ -51,21 +51,6 @@ let user_repos = {
 	method: 'post', 
     headers: { 'Authorization': 'bearer cfb0afc6e06cee4ae5ccb5c3527825ad38ccce6c' },
 	data: {
-        "query": "query { viewer { login }}"
+        "query": "query { viewer { login avatarUrl }}"
     }
 } 
-
-// Vue settings
-var ItemsVue = new Vue({
-    el: '#app',
-    data: {
-        message: 'Hello Vue!'
-    },
-    created: function () {
-        axios(user_repos).then(response => {
-	        console.log('graphql response:', response.data);
-        }).catch(err => {
-	        console.log('graphql error:', err);
-        });
-    }
-});
