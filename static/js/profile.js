@@ -1,3 +1,84 @@
+$(document).ready(function() {
+    const token = $("#api-token").val(); 
+    const url = "https://api.github.com/graphql"
+    get_user_data(url, token);
+});
+
+function get_user_data(url, token) {
+    var query = `query { viewer 
+        { login 
+          name
+          avatarUrl
+          location
+          email
+          bio
+          repositories(first:24, orderBy: {direction: DESC, field: UPDATED_AT}) {
+              edges {
+                  node {
+                      name
+                      description
+                      createdAt
+                      homepageUrl
+                      nameWithOwner
+                      projectsUrl
+                      url
+                      languages(first:3) {
+                          edges {
+                              node {
+                                  name
+                              }
+                          }
+                      }
+                  } 
+              }
+          }
+          repositoriesContributedTo(first:24, orderBy: {direction: DESC, field: UPDATED_AT}) {
+			  edges {
+                  node {
+                      name 
+                      description
+                      createdAt
+                      homepageUrl
+                      nameWithOwner
+                      projectsUrl
+                      url
+                      languages(first:3) {
+                          edges {
+                              node {
+                                  name
+                              }
+                          }
+                      } 
+                  }
+              }
+          }
+        }}`
+
+   	$.ajax({
+		url: url,
+		type: "POST",
+		dataType: "json",
+        headers: {
+            Authorization: "bearer " + token,
+        },
+        data: JSON.stringify(
+            {
+                "query": query
+            }),
+		success:function(data){
+            data = data.data.viewer;
+            console.log(data);
+            update_profile(data);
+        }
+    }); 
+}
+
+function update_profile(data) {
+    $("#avatar-img").attr("src", data.avatarUrl);
+    $("#user-name").text(data.name);
+    $("#user-bio").text(data.bio);
+}
+
 // Chart.js
 var config = {
     type: 'line',

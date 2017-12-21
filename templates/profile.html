@@ -5,19 +5,48 @@
 {% block extra_styles %}
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
 {% endblock %}
 
 {% block content %}
   <div class="hero-full-container background-image-container white-text-container">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12">
-          <div id="abc">
-            <span></span>
-          </div>
+        <input type="hidden" id="api-token" value="{{ user.socialaccount_set.first.socialtoken_set.first.token}}" />
+        <div class="col-xs-4 col-xs-offset-4">
+          <div id="avatar-div">
+            <img id="avatar-img" src="" />
+          </div> <!-- end avatar-div -->
+          <h3 id="user-name"></h3>
+          <p id="user-bio"></p>
           <br>
-          <a href="{% url 'profile' %}" class="btn btn-default btn-lg" title="">Developer</a>
-          <a href="./project.html" class="btn btn-default btn-lg" title="">Hunter</a>
+          <div>
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label for="email"></label>
+                <div class="col-sm-12">
+                  <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="password"></label>
+                <div class="col-sm-12">
+                  <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                </div>
+              </div>
+              <div class="public-checkbox">
+                <label>
+                  <input type="checkbox"><span> Make my profile public</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <button type="button" class="btn-width btn btn-default">Save</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <a href="{% url 'profile' %}" class="btn btn-default btn-lg" title="">Find most match</a>
         </div> <!-- end col-xs-12 -->
       </div> <!-- end row -->
     </div> <!-- end container -->
