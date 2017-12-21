@@ -44,13 +44,3 @@ function addData(chart, label, data) {
     });
     chart.update();
 }
-
-// get user repo
-let user_repos = {
-	url: 'https://api.github.com/graphql',
-	method: 'post', 
-    headers: { 'Authorization': 'bearer cfb0afc6e06cee4ae5ccb5c3527825ad38ccce6c' },
-	data: {
-        "query": "query { viewer { login avatarUrl }}"
-    }
-} 

@@ -2,6 +2,11 @@
 {% load staticfiles %}
 {% load socialaccount %}
 
+{% block extra_styles %}
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+{% endblock %}
+
 {% block content %}
   <div class="hero-full-container background-image-container white-text-container">
     <div class="container">
@@ -22,8 +27,11 @@
   <div class="section-container">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12">
-          <canvas id="canvas"></canvas>
+        <div class="col-xs-6">
+          <canvas id="commit-canvas"></canvas>
+        </div> <!-- end col-xs-12 -->
+        <div class="col-xs-6">
+          <canvas id="state-canvas"></canvas>
         </div> <!-- end col-xs-12 -->
       </div> <!-- end row -->
     </div> <!-- end container -->
@@ -32,15 +40,20 @@
   <div class="section-container">
     <div class="container">
       <div class="row">
-        <ol class="">
-          <li class="col-xs-4">
-            <span class="">
-              <span></span>
-              <p></p>
-              <p></p>
-            </span>
-          </li>
-        </ol>
+        <div class="your-class">
+          <div>your content</div>
+          <div>your content</div>
+          <div>your content</div>
+          <div>your content</div>
+          <div>your content</div>
+          <div>your content</div>
+          <div>your content</div>
+          <div>your content</div>
+          <div>your content</div>
+          <div>your content</div>
+          <div>your content</div>
+          <div>your content</div>
+        </div>
       </div> <!-- end row -->
     </div> <!-- end container -->
   </div> <!-- end section-container -->
@@ -51,6 +64,39 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
 <script src="{% static 'js/header.js' %}"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
 <script src="{% static 'js/utils.js' %}"></script>
 <script src="{% static 'js/profile.js' %}"></script>
+<script>
+$('.your-class').slick({
+    dots: true,
+    slidesPerRow: 3,
+    rows: 2,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+});
+</script>
 {% endblock %}
