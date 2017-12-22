@@ -13,7 +13,10 @@ def profile(request):
 
 def settings(request):
     """Settings page"""
-    return render(request, "settings.html")
+    if request.user.is_authenticated:
+        return render(request, "settings.html")
+    else:
+        return render(request, "404.html")
 
 
 def post_job(request):

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load socialaccount %}
+
+{% block extra_styles %}
+<style>
+.row-404 {
+    text-align: center;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row row-404">
+    <div class="col-xs-4 col-xs-offset-4">
+      <h1>404</h1>
+      <h4>Please login to see this page.</h4>
+      <br>
+      <a href="{% provider_login_url 'github' %}" class="btn btn-primary btn-lg" title="">Login with Github</a>
+    </div> <!-- end col-xs-12 -->
+  </div> <!-- end row -->
+</div> <!-- end container -->
+{% endblock %}
