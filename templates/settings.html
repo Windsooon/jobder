@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load socialaccount %}
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/settings.css' %}" />
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-4 col-xs-offset-4">
+        <h2 id="user-settings">Settings</h2>
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="blog"></label>
+            <div class="col-sm-12">
+              <input type="url" class="form-control" id="blog" placeholder="Blog (optional)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="linkedin"></label>
+            <div class="col-sm-12">
+              <input type="url" class="form-control" id="linkedin" placeholder="Linkedin (optional)">
+            </div>
+          </div>
+          <select class="form-control">
+            <option>On Site</option>
+            <option>Remote</option>
+            <option>Both</option>
+          </select>
+          <div class="public-checkbox">
+            <label>
+              <input type="checkbox" checked><span> Make my profile public</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <button type="button" class="btn-width btn btn-primary">Save</button>
+            </div>
+          </div>
+        </form>
+      </div> <!-- end col-xs -->
+    </div> <!-- end row -->
+  </div> <!-- end container -->
+{% endblock %}
