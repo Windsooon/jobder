@@ -11,6 +11,12 @@ def index(request):
 def profile(request, name):
     """Profile page"""
     user = get_object_or_404(get_user_model(), username=name)
+    # other users can see the profile if not visiable
+    if not user.settings.visiable:
+        if request.user.username == name:
+            return render(request, "profile.html")
+        else:
+            return render(request, "404.html")
     return render(request, "profile.html")
 
 
