@@ -1,8 +1,16 @@
+window.onload = function() {
+    var ctx = document.getElementById("commit-canvas").getContext("2d");
+    var state = document.getElementById("state-canvas").getContext("2d");
+    window.myLine = new Chart(ctx, config);
+    window.myLine = new Chart(state, config);
+};
+
 $(document).ready(function() {
     const token = $("#api-token").val(); 
     const url = "https://api.github.com/graphql"
     get_user_data(url, token);
 });
+
 
 function get_user_data(url, token) {
     var query = `query { viewer 
