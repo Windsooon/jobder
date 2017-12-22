@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'allauth.socialaccount.providers.github',
+    'common',
 ]
 
 SITE_ID = 1
