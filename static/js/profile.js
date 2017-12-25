@@ -1,26 +1,12 @@
-window.onload = function() {
-    var ctx = document.getElementById("commit-canvas").getContext("2d");
-    var state = document.getElementById("state-canvas").getContext("2d");
-    window.myLine = new Chart(ctx, config);
-    window.myLine = new Chart(state, config);
-};
-
-$(document).ready(function() {
-    const token = $("#api-token").val(); 
-    const url = "https://api.github.com/graphql"
-    get_user_data(url, token);
-});
-
-
-function get_user_data(url, token) {
-    var query = `query { viewer 
-        { login 
-          name
+function get_user_data(url, token, user_name) {
+    var query = `query {` + 
+        'user(login: "' + user_name + '") {' +
+          `name
           avatarUrl
           location
           email
           bio
-          repositories(first:24, orderBy: {direction: DESC, field: UPDATED_AT}) {
+          repositories(first:30, orderBy: {direction: DESC, field: UPDATED_AT}) {
               edges {
                   node {
                       name
@@ -40,7 +26,7 @@ function get_user_data(url, token) {
                   } 
               }
           }
-          repositoriesContributedTo(first:24, orderBy: {direction: DESC, field: UPDATED_AT}) {
+          repositoriesContributedTo(first:30, orderBy: {direction: DESC, field: UPDATED_AT}) {
 			  edges {
                   node {
                       name 
@@ -74,54 +60,70 @@ function get_user_data(url, token) {
                 "query": query
             }),
 		success:function(data){
-            data = data.data.viewer;
-            console.log(data);
+            data = data.data.user;
             update_profile(data);
+            update_chart(data);
         }
     }); 
 }
 
 function update_profile(data) {
     $("#avatar-img").attr("src", data.avatarUrl);
-    $("#user-name").text(data.name);
     $("#user-bio").text(data.bio);
 }
 
-// Chart.js
-var config = {
-    type: 'line',
-    data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-        datasets: [{
-            label: "My First dataset",
-            backgroundColor: window.chartColors.red,
-            borderColor: window.chartColors.red,
-            data: [10, 30, 39, 20, 25, 34, -10],
-            fill: false,
-        }, {
-            label: "My Second dataset",
-            fill: false,
-            backgroundColor: window.chartColors.blue,
-            borderColor: window.chartColors.blue,
-            data: [18, 33, 22, 19, 11, 39, 30],
-        }]
-    },
-    options: {
-        responsive: true,
-        title:{
-            display:true,
-            text:'Min and Max Settings'
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    // the data minimum used for determining the ticks is Math.min(dataMin, suggestedMin)
-                    suggestedMin: 10,
+function update_chart(data) {
+    var ctx = document.getElementById("commit-canvas").getContext("2d");
+    var state = document.getElementById("state-canvas").getContext("2d");
+    // window.myLine = new Chart(ctx, get_chart_config(get_month_list(-6)), [1,2,3,4,5,6]);
+    // window.myLine = new Chart(state, get_chart_config(get_month_list(-6)), [1,2,3,4,5,6]);
+    window.myLine = new Chart(ctx, get_chart_config(get_month_list(-6), [10,20,30,40,50,26]));
+};
 
-                    // the data maximum used for determining the ticks is Math.max(dataMax, suggestedMax)
-                    suggestedMax: 50
-                }
+function addMonths(index) {
+  var date = new Date()
+  date.setMonth(date.getMonth() + index);
+  locale = "en-us";
+  return date.toLocaleString(locale, { month: "long" });
+}
+
+function get_month_list(length) {
+    var month_list = new Array()
+
+    for (i = length; i < 0; i++) {
+        month_list.push(addMonths(i));
+    }
+    return month_list
+}
+
+// Chart.js
+function get_chart_config(last_six_month, data_list) {
+    return {
+        type: 'line',
+        data: {
+            labels: last_six_month,
+            datasets: [{
+                label: "My First dataset",
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: data_list,
+                fill: false,
             }]
+        },
+        options: {
+            responsive: true,
+            title:{
+                display:true,
+                text:'Min and Max Settings'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        suggestedMin: 10,
+                        suggestedMax: 100
+                    }
+                }]
+            }
         }
     }
 };

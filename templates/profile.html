@@ -18,7 +18,7 @@
           </div> <!-- end avatar-div -->
         </div> <!-- end col-xs -->
         <div class="col-xs-6 col-xs-offset-3">
-          <h3 id="user-name"></h3>
+          <h3 id="user-name">{{ user.username }}</h3>
           <p id="user-bio"></p>
           <br>
           <a href="#" class="btn btn-default btn-lg" title="">Find most match</a>
@@ -66,11 +66,18 @@
 
 {% block extra_scripts %}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+<script src="{% static 'js/Chart.bundle.min.js' %}"></script>
 <script src="{% static 'js/header.js' %}"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
 <script src="{% static 'js/utils.js' %}"></script>
 <script src="{% static 'js/profile.js' %}"></script>
+<script>
+$(document).ready(function() {
+    const token = $("#api-token").val(); 
+    const url = "https://api.github.com/graphql"
+    get_user_data(url, token, $("#user-name").text());
+});
+</script>
 <script>
 $('.your-class').slick({
     dots: true,
