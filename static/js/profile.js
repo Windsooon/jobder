@@ -6,7 +6,7 @@ function get_user_data(url, token, user_name) {
           location
           email
           bio
-          repositories(first:30, orderBy: {direction: DESC, field: UPDATED_AT}) {
+          repositories(first:40, orderBy: {direction: DESC, field: CREATED_AT}) {
               edges {
                   node {
                       name
@@ -16,17 +16,13 @@ function get_user_data(url, token, user_name) {
                       nameWithOwner
                       projectsUrl
                       url
-                      languages(first:3) {
-                          edges {
-                              node {
-                                  name
-                              }
-                          }
+                      primaryLanguage {
+                        name 
                       }
-                  } 
+                  }     
               }
           }
-          repositoriesContributedTo(first:30, orderBy: {direction: DESC, field: UPDATED_AT}) {
+          repositoriesContributedTo(first:18, orderBy: {direction: DESC, field: CREATED_AT}) {
 			  edges {
                   node {
                       name 
@@ -36,13 +32,9 @@ function get_user_data(url, token, user_name) {
                       nameWithOwner
                       projectsUrl
                       url
-                      languages(first:3) {
-                          edges {
-                              node {
-                                  name
-                              }
-                          }
-                      } 
+                      primaryLanguage {
+                        name 
+                      }
                   }
               }
           }
@@ -59,10 +51,13 @@ function get_user_data(url, token, user_name) {
             {
                 "query": query
             }),
-		success:function(data){
+		success: function(data){
             data = data.data.user;
             update_profile(data);
             update_chart(data);
+        },
+        error: function() {
+            alert("You may reach rate limit, please try again later");
         }
     }); 
 }
@@ -75,18 +70,29 @@ function update_profile(data) {
 function update_chart(data) {
     var ctx = document.getElementById("commit-canvas").getContext("2d");
     var state = document.getElementById("state-canvas").getContext("2d");
-    // window.myLine = new Chart(ctx, get_chart_config(get_month_list(-6)), [1,2,3,4,5,6]);
-    // window.myLine = new Chart(state, get_chart_config(get_month_list(-6)), [1,2,3,4,5,6]);
-    window.myLine = new Chart(ctx, get_chart_config(get_month_list(-6), [10,20,30,40,50,26]));
+    var languages_sta = get_repo_create(data);
+    window.myLine = new Chart(ctx, get_chart_config(languages_sta[0], languages_sta[1]));
 };
 
-function addMonths(index) {
-  var date = new Date()
-  date.setMonth(date.getMonth() + index);
-  locale = "en-us";
-  return date.toLocaleString(locale, { month: "long" });
+
+function get_repo_create(data) {
+    languages_array = new Array();
+    count_array = new Array();
+    $.each(data.repositories.edges, function(i, item) {
+        if(item.node.primaryLanguage && item.node.primaryLanguage.name != "HTML")  {
+            if (languages_array.indexOf(item.node.primaryLanguage.name) == -1) {
+                languages_array.push(item.node.primaryLanguage.name);
+                count_array.push(1);
+            }
+            else {
+                count_array[languages_array.indexOf(item.node.primaryLanguage.name)] += 1
+            }
+        }
+    });
+    return [languages_array, count_array]
 }
 
+// return last 6 month list
 function get_month_list(length) {
     var month_list = new Array()
 
@@ -96,14 +102,22 @@ function get_month_list(length) {
     return month_list
 }
 
+function addMonths(index) {
+  var date = new Date()
+  date.setMonth(date.getMonth() + index);
+  locale = "en-us";
+  return date.toLocaleString(locale, { month: "long" });
+}
+
 // Chart.js
-function get_chart_config(last_six_month, data_list) {
+function get_chart_config(label_list, data_list) {
     return {
-        type: 'line',
+        // type: 'line',
+        type: 'horizontalBar',
         data: {
-            labels: last_six_month,
+            labels: label_list,
             datasets: [{
-                label: "My First dataset",
+                label: "count",
                 backgroundColor: window.chartColors.red,
                 borderColor: window.chartColors.red,
                 data: data_list,
@@ -114,13 +128,13 @@ function get_chart_config(last_six_month, data_list) {
             responsive: true,
             title:{
                 display:true,
-                text:'Min and Max Settings'
+                text:'Primary Language'
             },
             scales: {
                 yAxes: [{
                     ticks: {
-                        suggestedMin: 10,
-                        suggestedMax: 100
+                        suggestedMin: 0,
+                        suggestedMax: 20
                     }
                 }]
             }
