@@ -10,3 +10,24 @@
 #user-bio {
     text-align: left;
 }
+
+.content-p {
+    line-height: 2rem;
+    height: 6rem;       /* height is 2x line-height, so two lines will display */
+    color: #586069;
+    overflow: hidden;  /* prevents extra lines from being visible */
+}
+
+.wrapper-border {
+    border: 1px #d1d5da solid;
+    margin: 6px;
+    border-radius: 3px;
+    padding: 12px;
+}
+
+.wrapper-div {
+}
+
+.content-p {
+    margin-top: 10px;
+}
