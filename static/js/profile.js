@@ -6,7 +6,7 @@ function get_user_data(url, token, user_name) {
           location
           email
           bio
-          repositories(first:40, orderBy: {direction: DESC, field: CREATED_AT}) {
+          repositories(first:50, orderBy: {direction: DESC, field: STARGAZERS}) {
               edges {
                   node {
                       name
@@ -22,7 +22,7 @@ function get_user_data(url, token, user_name) {
                   }     
               }
           }
-          repositoriesContributedTo(first:18, orderBy: {direction: DESC, field: CREATED_AT}) {
+          repositoriesContributedTo(first:50, orderBy: {direction: DESC, field: STARGAZERS}) {
 			  edges {
                   node {
                       name 
@@ -30,6 +30,7 @@ function get_user_data(url, token, user_name) {
                       createdAt
                       homepageUrl
                       nameWithOwner
+                      forkCount
                       projectsUrl
                       url
                       primaryLanguage {
@@ -70,10 +71,33 @@ function update_profile(data) {
 function update_chart(data) {
     var ctx = document.getElementById("commit-canvas").getContext("2d");
     var state = document.getElementById("state-canvas").getContext("2d");
+    // first sta
     var languages_sta = get_repo_create(data);
-    window.myLine = new Chart(ctx, get_chart_config(languages_sta[0], languages_sta[1]));
+    // second sta
+    var fork_sta = get_fork_count(data);
+    window.myLine = new Chart(ctx, get_chart_config(languages_sta[0],
+        languages_sta[1], "horizontalBar", [0, 30], "rgb(54, 162, 235)"));
+    window.myLine = new Chart(state, get_chart_config(fork_sta[0],
+        fork_sta[1], "bar", [0, 10], "rgb(255, 159, 64)"));
 };
 
+
+function get_fork_count(data) {
+    var fork_array = ["<100", "100-500", ">1000"];
+    var count_array = [0, 0, 0];
+    $.each(data.repositoriesContributedTo.edges, function(i, item) {
+        if (item.node.forkCount < 100) {
+            count_array[0] += 1;
+        }
+        else if (item.node.forkCount < 500) {
+            count_array[1] += 1;
+        }
+        else {
+            count_array[2] += 1;
+        }
+    });
+    return [fork_array, count_array]
+}
 
 function get_repo_create(data) {
     languages_array = new Array();
@@ -110,16 +134,15 @@ function addMonths(index) {
 }
 
 // Chart.js
-function get_chart_config(label_list, data_list) {
+function get_chart_config(label_list, data_list, type, suggest, color) {
     return {
-        // type: 'line',
-        type: 'horizontalBar',
+        type: type,
         data: {
             labels: label_list,
             datasets: [{
                 label: "count",
-                backgroundColor: window.chartColors.red,
-                borderColor: window.chartColors.red,
+                backgroundColor: color,
+                borderColor: color,
                 data: data_list,
                 fill: false,
             }]
@@ -128,13 +151,13 @@ function get_chart_config(label_list, data_list) {
             responsive: true,
             title:{
                 display:true,
-                text:'Primary Language'
+                text:"Top 50 Starred Repos's Language"
             },
             scales: {
                 yAxes: [{
                     ticks: {
-                        suggestedMin: 0,
-                        suggestedMax: 20
+                        suggestedMin: suggest[0],
+                        suggestedMax: suggest[1]
                     }
                 }]
             }
