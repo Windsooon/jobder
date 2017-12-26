@@ -14,6 +14,7 @@ function get_user_data(url, token, user_name) {
                       createdAt
                       homepageUrl
                       nameWithOwner
+                      forkCount
                       projectsUrl
                       url
                       primaryLanguage {
@@ -75,45 +76,69 @@ function update_chart(data) {
     var languages_sta = get_repo_create(data);
     // second sta
     var fork_sta = get_fork_count(data);
-    window.myLine = new Chart(ctx, get_chart_config(languages_sta[0],
-        languages_sta[1], "horizontalBar", [0, 30], "rgb(54, 162, 235)"));
-    window.myLine = new Chart(state, get_chart_config(fork_sta[0],
-        fork_sta[1], "bar", [0, 10], "rgb(255, 159, 64)"));
+    window.myLine = new Chart(ctx, get_h_chart_config(languages_sta, 
+        "horizontalBar", [0, 30]));
+    window.myLine = new Chart(state, get_h_chart_config(fork_sta,
+        "bar", [0, 30]));
 };
 
 
 function get_fork_count(data) {
     var fork_array = ["<100", "100-500", ">1000"];
-    var count_array = [0, 0, 0];
-    $.each(data.repositoriesContributedTo.edges, function(i, item) {
+    var own_array = [0, 0, 0];
+    var contribute_array = [0, 0, 0];
+    $.each(data.repositories.edges, function(i, item) {
         if (item.node.forkCount < 100) {
-            count_array[0] += 1;
+            own_array[0] += 1;
         }
         else if (item.node.forkCount < 500) {
-            count_array[1] += 1;
+            own_array[1] += 1;
         }
         else {
-            count_array[2] += 1;
+            own_array[2] += 1;
         }
     });
-    return [fork_array, count_array]
+    $.each(data.repositoriesContributedTo.edges, function(i, item) {
+        if (item.node.forkCount < 100) {
+            contribute_array[0] += 1;
+        }
+        else if (item.node.forkCount < 500) {
+            contribute_array[1] += 1;
+        }
+        else {
+            contribute_array[2] += 1;
+        }
+    });
+    return [fork_array, own_array, contribute_array]
 }
 
 function get_repo_create(data) {
     languages_array = new Array();
-    count_array = new Array();
+    own_array = new Array();
     $.each(data.repositories.edges, function(i, item) {
         if(item.node.primaryLanguage && item.node.primaryLanguage.name != "HTML")  {
             if (languages_array.indexOf(item.node.primaryLanguage.name) == -1) {
                 languages_array.push(item.node.primaryLanguage.name);
-                count_array.push(1);
+                own_array.push(1);
             }
             else {
-                count_array[languages_array.indexOf(item.node.primaryLanguage.name)] += 1
+                own_array[languages_array.indexOf(item.node.primaryLanguage.name)] += 1
             }
         }
     });
-    return [languages_array, count_array]
+    contribute_array = Array.from(Array(languages_array.length), () => 0)
+    $.each(data.repositoriesContributedTo.edges, function(i, item) {
+        if(item.node.primaryLanguage && item.node.primaryLanguage.name != "HTML")  {
+            if (languages_array.indexOf(item.node.primaryLanguage.name) == -1) {
+                languages_array.push(item.node.primaryLanguage.name);
+                contribute_array.push(1);
+            }
+            else {
+                contribute_array[languages_array.indexOf(item.node.primaryLanguage.name)] += 1
+            }
+        }
+    });
+    return [languages_array, own_array, contribute_array]
 }
 
 // return last 6 month list
@@ -134,21 +159,33 @@ function addMonths(index) {
 }
 
 // Chart.js
-function get_chart_config(label_list, data_list, type, suggest, color) {
+function get_h_chart_config(data_list, type, suggest, color) {
     return {
         type: type,
         data: {
-            labels: label_list,
-            datasets: [{
-                label: "count",
-                backgroundColor: color,
-                borderColor: color,
-                data: data_list,
-                fill: false,
-            }]
+            labels: data_list[0],
+            datasets: [
+                {
+                    label: "count",
+                    backgroundColor: window.chartColors.red,
+                    borderColor: color,
+                    data: data_list[1],
+                    fill: false,
+                },
+                {
+                    label: "count",
+                    backgroundColor: window.chartColors.blue,
+                    borderColor: color,
+                    data: data_list[2],
+                    fill: false,
+                }
+            ]
         },
         options: {
             responsive: true,
+            legend: {
+                position: 'right',
+            },
             title:{
                 display:true,
                 text:"Top 50 Starred Repos's Language"
@@ -158,8 +195,8 @@ function get_chart_config(label_list, data_list, type, suggest, color) {
                     ticks: {
                         suggestedMin: suggest[0],
                         suggestedMax: suggest[1]
-                    }
-                }]
+                    },
+                }],
             }
         }
     }
