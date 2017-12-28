@@ -9,36 +9,49 @@
     <div class="row">
       <div class="col-xs-4 col-xs-offset-4">
         <h2 id="user-settings">Settings</h2>
-        <form class="form-horizontal">
+        <form id="settings-form" class="form-horizontal">
           <div class="form-group">
-            <label for="blog"></label>
-            <div class="col-sm-12">
-              <input type="url" class="form-control" id="blog" placeholder="Blog (optional)">
+            <label for="blog">Blog</label>
+            <div>
+              <input name="blog" type="url" class="form-control" id="blog" placeholder="https://blog.example.com">
             </div>
           </div>
           <div class="form-group">
-            <label for="linkedin"></label>
-            <div class="col-sm-12">
-              <input type="url" class="form-control" id="linkedin" placeholder="Linkedin (optional)">
-            </div>
-          </div>
-          <select class="form-control">
-            <option>On Site</option>
-            <option>Remote</option>
-            <option>Both</option>
-          </select>
+            <label for="linkedin">Linkedin</label>
+            <div>
+              <input name="linkedin" type="url" class="form-control" id="linkedin" placeholder="Linkedin">
+            </div> <!-- end col-sm-12 -->
+          </div> <!-- end form-group -->
+          <div class="form-group">
+            <label for="open_source">Other Open Soure Projects</label>
+            <div>
+              <input name="open_source" type="text" class="form-control" id="open_source" placeholder="Linux, GCC  (Split with commas)">
+            </div> <!-- end col-sm-12 -->
+          </div> <!-- end form-group -->
+          <div class="form-group">
+            <label for="remote">On Site?</label>
+              <select class="form-control">
+                <option>On Site</option>
+                <option>Remote</option>
+                <option>Both</option>
+              </select>
+          </div> <!-- end form-group -->
           <div class="public-checkbox">
             <label>
               <input type="checkbox" checked><span> Make my profile public</span>
             </label>
           </div>
           <div class="form-group">
-            <div class="col-sm-12">
-              <button type="button" class="btn-width btn btn-primary">Save</button>
+            <div>
+              <button type="submit" class="btn-width btn btn-primary">Save</button>
             </div>
           </div>
         </form>
       </div> <!-- end col-xs -->
     </div> <!-- end row -->
   </div> <!-- end container -->
+{% endblock %}
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+<script src="{% static 'js/settings.js' %}"></script>
 {% endblock %}
