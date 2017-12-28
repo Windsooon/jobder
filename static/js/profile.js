@@ -13,12 +13,12 @@ function get_user_data(url, token, user_name) {
                       description
                       createdAt
                       homepageUrl
+                      url
                       nameWithOwner
                       stargazers {
                           totalCount
                       }
                       projectsUrl
-                      url
                       primaryLanguage {
                           name 
                       }
@@ -37,7 +37,6 @@ function get_user_data(url, token, user_name) {
                       stargazers {
                           totalCount
                       }
-                      url
                       primaryLanguage {
                         name 
                       }
