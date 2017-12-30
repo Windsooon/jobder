@@ -28,7 +28,29 @@ $( document ).ready(function() {
             },
         },
         submitHandler: function(form) {
-            console.log("success"); 
+            var csrftoken = getCookie("csrftoken");
+            if ($("#public-input").prop("checked")) {
+                var visiable = 1;
+            }
+            else {
+                var visiable = 0;
+            }
+            $.ajax({
+                url: "/api/settings/" + $("#user-id").val() + "/",
+                type: "PUT",
+                datatype: "json",
+                data:  ({"blog": $("#blog").val(),"linkedin": $("#linkedin").val(), 
+                    "location": $("#location-select option:selected").val(), 
+                    "visiable": visiable}),
+                beforeSend:function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    } 
+                },
+                success: function(xhr) {
+                    console.log("Successed");
+                },
+            });
         },
     });
 });

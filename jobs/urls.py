@@ -14,7 +14,10 @@ class SettingsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Settings
-        fields = ('id', 'user_name', 'blog', 'linkedin')
+        fields = (
+            'id', 'user_name', 'blog',
+            'linkedin', 'location', 'visiable'
+        )
 
 
 class SettingsViewSet(viewsets.ModelViewSet):

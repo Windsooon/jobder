@@ -9,17 +9,18 @@
     <div class="row">
       <div class="col-xs-4 col-xs-offset-4">
         <h2 id="user-settings">Settings</h2>
+        <input id="user-id" type="hidden" value="{{user.id}}" />
         <form id="settings-form" class="form-horizontal">
           <div class="form-group">
             <label for="blog">Blog</label>
             <div>
-              <input name="blog" type="url" class="form-control" id="blog" placeholder="https://blog.example.com">
+                <input name="blog" type="url" class="form-control" id="blog" value="{{ user.settings.blog }}" placeholder="https://blog.com">
             </div>
           </div>
           <div class="form-group">
             <label for="linkedin">Linkedin</label>
             <div>
-              <input name="linkedin" type="url" class="form-control" id="linkedin" placeholder="Linkedin">
+                <input name="linkedin" type="url" class="form-control" id="linkedin" value="{{ user.settings.linkedin }}" placeholder="Linkedin">
             </div> <!-- end col-sm-12 -->
           </div> <!-- end form-group -->
           <div class="form-group">
@@ -30,15 +31,15 @@
           </div> <!-- end form-group -->
           <div class="form-group">
             <label for="remote">On Site?</label>
-              <select class="form-control">
-                <option>On Site</option>
-                <option>Remote</option>
-                <option>Both</option>
+              <select id="location-select" class="form-control">
+                <option value="0">Both</option>
+                <option value="1">Remote</option>
+                <option value="2">On Site</option>
               </select>
           </div> <!-- end form-group -->
           <div class="public-checkbox">
             <label>
-              <input type="checkbox" checked><span> Make my profile public</span>
+              <input id="public-input" type="checkbox" checked><span> Make my profile public</span>
             </label>
           </div>
           <div class="form-group">
