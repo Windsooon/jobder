@@ -20,6 +20,10 @@
         <div class="col-xs-6 col-xs-offset-3">
           <h3 id="user-name">{{ user.username }}</h3>
           <p id="user-bio"></p>
+          <div>
+            <p>Blog: <a href="{{ user.settings.blog }}" target="_blank" >{{ user.settings.blog }}</a></p>
+            <p>Linkedin: <a href="{{ user.settings.linkedin }}" target="_blank">{{ user.settings.linkedin }}</a></p>
+          </div>
           <br>
           <a href="#" class="btn btn-default btn-lg" title="">Find most match</a>
         </div> <!-- end col-xs-12 -->

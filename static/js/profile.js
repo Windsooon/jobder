@@ -25,7 +25,7 @@ function get_user_data(url, token, user_name) {
                   }     
               }
           }
-          repositoriesContributedTo(first:50, orderBy: {direction: DESC, field: STARGAZERS}) {
+          repositoriesContributedTo(first:50, contributionTypes:[COMMIT,], orderBy: {direction: DESC, field: STARGAZERS}) {
 			  edges {
                   node {
                       name 
