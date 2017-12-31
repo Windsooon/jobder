@@ -4,6 +4,7 @@ function get_user_data(url, token, user_name) {
           `name
           avatarUrl
           location
+          websiteUrl
           email
           bio
           repositories(first:50, orderBy: {direction: DESC, field: STARGAZERS}) {
@@ -60,8 +61,11 @@ function get_user_data(url, token, user_name) {
             data = data.data.user;
             update_profile(data);
             update_chart(data);
+            
             update_repo($(".repo-class"), data.repositories.edges);
             update_repo($(".contributed-class"), data.repositoriesContributedTo.edges);
+
+            update_blog(data);
             update_slider($('.repo-class'));
             update_slider($('.contributed-class'));
         },
@@ -69,6 +73,12 @@ function get_user_data(url, token, user_name) {
             alert("You may reach rate limit, please try again later");
         }
     }); 
+}
+
+function update_blog(data) {
+    if (!$("#user-blog-a").text()) {
+        $("#user-blog-a").text(data.websiteUrl);
+    }
 }
 
 function update_repo(container, data) {
