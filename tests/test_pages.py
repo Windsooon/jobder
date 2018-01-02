@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from .accounts import create_random_accounts
+from .accounts import create_one_account
 
 
 class PageTestCase(TestCase):
@@ -16,17 +16,17 @@ class PageTestCase(TestCase):
         self.assertContains(response, 'Please login to see this page.')
 
     def test_user_login_frontpage_settings(self):
-        user = create_random_accounts(1)
-        self.client.force_login(user[0])
+        user = create_one_account()
+        self.client.force_login(user)
         response = self.client.get(reverse('front_page'))
         self.assertNotContains(response, 'Log in with Github')
         self.assertContains(response, 'Find a Job')
         response = self.client.get(reverse('settings'))
-        self.assertContains(response, '1testaccount')
+        self.assertContains(response, '1testoneaccount')
 
     def test_user_profile(self):
-        user = create_random_accounts(1)
-        self.client.force_login(user[0])
+        user = create_one_account()
+        self.client.force_login(user)
         response = self.client.get(
-            reverse('profile', kwargs={'name': user[0].username}))
+            reverse('profile', kwargs={'name': user.username}))
         self.assertEqual(response.status_code, 200)
