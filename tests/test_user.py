@@ -3,11 +3,12 @@ import django
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.test import Client
+from .accounts import create_random_account
 
 
-class ProfileTestCase(TestCase):
+class UserTestCase(TestCase):
 
-    def test_front_page_200(self):
+    def test_user(self):
+        user = create_random_account(1)
         # frontpage
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
+
