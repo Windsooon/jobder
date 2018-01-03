@@ -1,0 +1,24 @@
+.selectize-input {
+    min-height: 51px;
+}
+
+.selectize-input > input {
+    margin-top: 10px !important;
+}
+
+#job-des, #job-looking {
+    width: 100%;
+}
+
+.btn-width {
+    width: 100%;
+}
+
+#user-settings {
+    text-align:center;
+}
+
+.public-checkbox {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
