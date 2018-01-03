@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load socialaccount %}
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/post_job.css' %}" />
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
+        <h2 id="user-settings">Job Details</h2>
+        <input id="user-id" type="hidden" value="{{ user.id }}" />
+        <form id="job-form" class="form-horizontal">
+          <div class="form-group">
+            <label for="title">Job Title</label>
+            <div>
+                <input name="job-title" type="text" class="form-control" id="job-title"  placeholder="Senior Back End Engineer">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="job-looking">What People you are looking for</label>
+            <div>
+              <textarea form="job-looking" name="job-looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers."></textarea>
+            </div> <!-- end job-looking -->
+          </div> <!-- end form-group -->
+          <div class="form-group">
+            <label for="remote">On Site?</label>
+              <select id="location-select" class="form-control">
+                <option value="0">Both</option>
+                <option value="1">Remote</option>
+                <option value="2">On Site</option>
+              </select>
+          </div> <!-- end form-group -->
+          <h2 id="user-settings">Company</h2>
+          <div class="form-group">
+            <label for="title">Company Name</label>
+            <div>
+                <input name="job-title" type="text" class="form-control" id="job-title"  placeholder="Senior Back End Engineer">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="job-des">What You are doing</label>
+            <div>
+              <textarea form="job-des" name="job-des" id="job-des" rows="5" cols="35" wrap="soft" placeholder="We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers."></textarea>
+            </div> <!-- end job-des -->
+          </div> <!-- end form-group -->
+          <div class="form-group">
+            <label for="open_source">Other Open Soure Projects</label>
+            <div>
+              <input name="open_source" type="text" class="form-control" id="open_source" placeholder="Linux, GCC  (Split with commas)">
+            </div> <!-- end col-sm-12 -->
+          </div> <!-- end form-group -->
+          <div class="public-checkbox">
+            <label>
+              <input id="public-input" type="checkbox" checked><span> Make my profile public</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <div>
+              <button type="submit" class="btn-width btn btn-primary">Save</button>
+            </div>
+          </div>
+        </form>
+      </div> <!-- end col-xs -->
+    </div> <!-- end row -->
+  </div> <!-- end container -->
+{% endblock %}
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+<script>
+    var remote = "{{ user.settings.location }}";
+    var visiable = "{{ user.settings.visiable }}";
+    console.log(visiable);
+    if (visiable != "False") {
+        $("#public-input").prop("checked", true)
+    }
+    else {
+        $("#public-input").prop("checked", false)
+    }
+    $("#location-select")[0].selectedIndex = remote;
+</script>
+<script src="{% static 'js/settings.js' %}"></script>
+{% endblock %}
