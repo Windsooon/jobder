@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load socialaccount %}
 {% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/css_lib/selectize.bootstrap3.css' %}" />
 <link rel="stylesheet" href="{% static 'css/post_job.css' %}" />
 {% endblock %}
 {% block content %}
@@ -18,36 +19,48 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="job-looking">What People you are looking for</label>
+            <label for="job-looking">What people you are looking for</label>
             <div>
-              <textarea form="job-looking" name="job-looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers."></textarea>
+              <textarea form="job-looking" name="job-looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We're looking for the most tenacious designers, software engineers, product managers."></textarea>
             </div> <!-- end job-looking -->
           </div> <!-- end form-group -->
           <div class="form-group">
-            <label for="remote">On Site?</label>
-              <select id="location-select" class="form-control">
-                <option value="0">Both</option>
-                <option value="1">Remote</option>
-                <option value="2">On Site</option>
+            <label for="select-open-source">Open Source Projects</label>
+              <select id="select-open-source" class="movies" placeholder="Find a movie..."></select>
+          </div> <!-- end form-group -->
+          <div class="form-group">
+            <label for="remote">Onsite?</label>
+            <select id="location-select" class="form-control">
+              <option value="0">Both</option>
+              <option value="2">Onsite</option>
+              <option value="1">Remote</option>
+            </select>
+          </div> <!-- end form-group -->
+          <div class="form-group">
+            <label for="salary">Salary Range</label>
+              <select id="salary-select" class="form-control">
+                <option value="0">$50-$100k</option>
+                <option value="1">$100k-$150k</option>
+                <option value="2">More than $150k</option>
               </select>
           </div> <!-- end form-group -->
           <h2 id="user-settings">Company</h2>
           <div class="form-group">
             <label for="title">Company Name</label>
             <div>
-                <input name="job-title" type="text" class="form-control" id="job-title"  placeholder="Senior Back End Engineer">
+                <input name="job-title" type="text" class="form-control" id="job-title"  placeholder="Google">
             </div>
           </div>
           <div class="form-group">
-            <label for="job-des">What You are doing</label>
+            <label for="job-des">Tell me more abou your company</label>
             <div>
               <textarea form="job-des" name="job-des" id="job-des" rows="5" cols="35" wrap="soft" placeholder="We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers."></textarea>
             </div> <!-- end job-des -->
           </div> <!-- end form-group -->
           <div class="form-group">
-            <label for="open_source">Other Open Soure Projects</label>
+            <label for="open_source">How to apply this job</label>
             <div>
-              <input name="open_source" type="text" class="form-control" id="open_source" placeholder="Linux, GCC  (Split with commas)">
+              <input name="apply" type="text" class="form-control" id="apply" placeholder="Email address or URL"/>
             </div> <!-- end col-sm-12 -->
           </div> <!-- end form-group -->
           <div class="public-checkbox">
@@ -57,7 +70,7 @@
           </div>
           <div class="form-group">
             <div>
-              <button type="submit" class="btn-width btn btn-primary">Save</button>
+              <button type="submit" class="btn-width btn btn-primary">Confirm and preview</button>
             </div>
           </div>
         </form>
@@ -67,17 +80,6 @@
 {% endblock %}
 {% block extra_scripts %}
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
-<script>
-    var remote = "{{ user.settings.location }}";
-    var visiable = "{{ user.settings.visiable }}";
-    console.log(visiable);
-    if (visiable != "False") {
-        $("#public-input").prop("checked", true)
-    }
-    else {
-        $("#public-input").prop("checked", false)
-    }
-    $("#location-select")[0].selectedIndex = remote;
-</script>
-<script src="{% static 'js/settings.js' %}"></script>
+<script src="{% static 'js/js_lib/selectize.min.js' %}"></script>
+<script src="{% static 'js/post_job.js' %}"></script>
 {% endblock %}
