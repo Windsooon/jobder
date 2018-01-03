@@ -69,7 +69,7 @@ def index():
                     'primary_language': (
                         d['node']['primaryLanguage']['name']
                         if d['node']['primaryLanguage'] else ""),
-                    'start_count': d['node']['stargazers']['totalCount']
+                    'star_count': d['node']['stargazers']['totalCount']
                 }
             )
         print(last_cursor)

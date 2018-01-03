@@ -9,7 +9,7 @@ class Popular(models.Model):
     url = models.URLField(default="")
     homepage_url = models.URLField(default="", null=True)
     primary_language = models.CharField(max_length=256, default="", null=True)
-    start_count = models.IntegerField()
+    star_count = models.IntegerField()
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
