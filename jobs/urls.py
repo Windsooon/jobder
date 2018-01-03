@@ -34,15 +34,21 @@ class PopularSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Popular
         fields = (
-            'globle_id', 'name'
+            'globle_id', 'name', 'name_with_owner'
         )
 
 
 class PopularViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminUserOrReadOnly,)
-
-    queryset = Popular.objects.all()
     serializer_class = PopularSerializer
+    queryset = Popular.objects.all()
+
+    def get_queryset(self):
+        queryset = Popular.objects.all()
+        name = self.request.query_params.get('name', None)
+        if name is not None:
+            queryset = queryset.filter(name=name)
+        return queryset
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()

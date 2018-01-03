@@ -72,5 +72,4 @@ def index():
                     'star_count': d['node']['stargazers']['totalCount']
                 }
             )
-        print(last_cursor)
 index()
