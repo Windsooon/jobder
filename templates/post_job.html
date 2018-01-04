@@ -13,20 +13,20 @@
         <input id="user-id" type="hidden" value="{{ user.id }}" />
         <form id="job-form" class="form-horizontal">
           <div class="form-group">
-            <label for="title">Job Title</label>
+            <label for="job_title">* Job Title</label>
             <div>
-                <input name="job-title" type="text" class="form-control" id="job-title"  placeholder="Senior Back End Engineer" maxlength="50">
+                <input name="job_title" type="text" class="form-control" id="job_title"  placeholder="Senior Back End Engineer" maxlength="50">
             </div>
           </div>
           <div class="form-group">
-            <label for="job-looking">What people you are looking for</label>
+            <label for="job_looking">* What people you are looking for</label>
             <div>
-              <textarea maxlength="600" form="job-looking" name="job-looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We're looking for the most tenacious designers, software engineers, product managers. (up to 600 characters)"></textarea>
+              <textarea maxlength="600" name="job_looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We're looking for the most tenacious designers, software engineers, product managers. (up to 600 characters)"></textarea>
             </div> <!-- end job-looking -->
           </div> <!-- end form-group -->
           <div class="form-group">
             <div class="control-group">
-              <label for="select-open-source">What contribulers you are looking for, your job will first show to these contributers</label>
+              <label for="select-open-source">* What contribulers you are looking for, your job will first show to these contributers</label>
               <input type="text" id="select-open-source" class="demo-default" placeholder="Django, Vue">
             </div>
           </div> <!-- end form-group -->
@@ -48,19 +48,19 @@
           </div> <!-- end form-group -->
           <h2 id="user-settings">Tell me about your company</h2>
           <div class="form-group">
-            <label for="title">Company Name</label>
+            <label for="company">* Company Name</label>
             <div>
-                <input name="job-title" type="text" class="form-control" id="job-title"  placeholder="Google" maxlength="50">
+                <input name="company" type="text" class="form-control" id="company"  placeholder="Google" maxlength="50">
             </div>
           </div>
           <div class="form-group">
-            <label for="job-des">Tell me more abou your company</label>
+            <label for="company_des">* What are your company doing?</label>
             <div>
-              <textarea maxlength="600" form="job-des" name="job-des" id="job-des" rows="5" cols="35" wrap="soft" placeholder="We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers."></textarea>
+              <textarea maxlength="600" name="company_des" id="company-des" rows="5" cols="35" wrap="soft" placeholder="We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers."></textarea>
             </div> <!-- end job-des -->
           </div> <!-- end form-group -->
           <div class="form-group">
-            <label for="open_source">How to apply this job</label>
+            <label for="open_source">* How to apply this job</label>
             <div>
               <input name="apply" type="text" class="form-control" id="apply" placeholder="Email address or URL" maxlength="200" />
             </div> <!-- end col-sm-12 -->
