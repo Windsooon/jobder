@@ -18,7 +18,7 @@ class Settings(models.Model):
     blog = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
     visiable = models.BooleanField(default=True)
-    location = models.SmallIntegerField(default=Both)
+    onsite = models.SmallIntegerField(default=Both)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
