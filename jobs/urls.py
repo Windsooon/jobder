@@ -2,13 +2,14 @@ from django.contrib import admin
 from django.conf.urls import url
 from django.urls import path, include
 from rest_framework import routers
-from .api import SettingsViewSet, PopularViewSet
+from .api import SettingsViewSet, PopularViewSet, PostViewSet
 
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'settings', SettingsViewSet)
 router.register(r'popular', PopularViewSet)
+router.register(r'post', PostViewSet)
 
 
 urlpatterns = [

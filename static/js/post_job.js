@@ -16,7 +16,7 @@ $( document ).ready(function() {
             var re = new RegExp(regexp);
             return this.optional(element) || re.test(value);
         },
-        "Project name can't contain <, > or /"
+        "Project name can't contain <, >"
     );
     var validator = $("#job-form").validate({
         rules: {
@@ -33,6 +33,12 @@ $( document ).ready(function() {
                 regex_name: /^((?!<|>).)*$/
             },
             company: {
+                required: true,
+                minlength: 3,
+                maxlength: 50,
+                regex_name: /^((?!<|>).)*$/
+            },
+            location: {
                 required: true,
                 minlength: 3,
                 maxlength: 50,
@@ -61,6 +67,11 @@ $( document ).ready(function() {
                 minlength: jQuery.validator.format("Please Enter at least {0} characters."),
                 maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
             },
+            company: {
+                required: "Please enter your company location city.",
+                minlength: jQuery.validator.format("Please Enter at least {0} characters."),
+                maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
+            },
             company_des: {
                 required: "Please enter your company's details.",
                 minlength: jQuery.validator.format("Please Enter at least {0} characters."),
@@ -73,12 +84,19 @@ $( document ).ready(function() {
                 return false;
             }
             $.ajax({
-                url: "/api/settings/" + $("#user-id").val() + "/",
-                type: "PUT",
+                url: "/api/post/",
+                type: "POST",
                 datatype: "json",
-                data:  ({"blog": $("#blog").val(),"linkedin": $("#linkedin").val(), 
-                    "location": $("#location-select option:selected").val(), 
-                    "visiable": visiable}),
+                data:  ({
+                    "title": $("#job_title").val(),"job_des": $("#job-looking").val(), 
+                    "repo": $('#select-open-source').selectize()[0].selectize.getValue(),
+                    "onsite": $("#location-select option:selected").val(), 
+                    "salary": $("#salary-select").val(),
+                    "company_name": $("#company").val(),
+                    "location": $("#location").val(),
+                    "company_des": $("$company-des").val(),
+                    "apply": $("#apply").val(),
+                }),
                 beforeSend:function(xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
                         xhr.setRequestHeader("X-CSRFToken", csrftoken);

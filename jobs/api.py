@@ -53,11 +53,12 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Post
         fields = (
-            'title', 'job_des',
+            'title', 'job_des', 'repo', 'onsite', 'salary',
+            'company_name', 'company_des', 'apply',
         )
 
 
-class RepoViewSet(viewsets.ModelViewSet):
+class PostViewSet(viewsets.ModelViewSet):
     permission_classes = (rf_permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
     serializer_class = PostSerializer
