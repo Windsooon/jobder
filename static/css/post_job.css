@@ -1,3 +1,11 @@
+.selectize-control.multi .selectize-input > div {
+    padding: 7px 10px;
+}
+
+.selectize-dropdown, .selectize-input, .selectize-input input {
+    font-size: 16px;
+}
+
 .selectize-input {
     min-height: 51px;
 }
@@ -6,7 +14,7 @@
     margin-top: 10px !important;
 }
 
-#job-des, #job-looking {
+#company-des, #job-looking {
     width: 100%;
 }
 
