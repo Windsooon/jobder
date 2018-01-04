@@ -7,7 +7,7 @@ function get_user_data(url, token, user_name) {
           websiteUrl
           email
           bio
-          repositories(first:50, orderBy: {direction: DESC, field: STARGAZERS}) {
+          repositories(first:54, orderBy: {direction: DESC, field: STARGAZERS}) {
               edges {
                   node {
                       name
@@ -26,7 +26,7 @@ function get_user_data(url, token, user_name) {
                   }     
               }
           }
-          repositoriesContributedTo(first:50, contributionTypes:[COMMIT,], orderBy: {direction: DESC, field: STARGAZERS}) {
+          repositoriesContributedTo(first:54, contributionTypes:[COMMIT,], orderBy: {direction: DESC, field: STARGAZERS}) {
 			  edges {
                   node {
                       name 

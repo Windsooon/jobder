@@ -13,7 +13,7 @@ $( document ).ready(function() {
             var re = new RegExp(regexp);
             return this.optional(element) || re.test(value);
         },
-        "Please enter your open source project."
+        "Project name can't contain <, > or /"
     );
     var validator = $("#settings-form").validate({
         rules: {
@@ -40,7 +40,7 @@ $( document ).ready(function() {
                 type: "PUT",
                 datatype: "json",
                 data:  ({"blog": $("#blog").val(),"linkedin": $("#linkedin").val(), 
-                    "location": $("#location-select option:selected").val(), 
+                    "onsite": $("#location-select option:selected").val(), 
                     "visiable": visiable}),
                 beforeSend:function(xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
