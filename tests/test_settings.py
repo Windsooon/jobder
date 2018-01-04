@@ -1,12 +1,12 @@
 import json
 from django.test import TestCase
 from django.urls import reverse
-from .accounts import create_one_account
+from tests.accounts import create_one_account
 
 
 class SettingsTestCase(TestCase):
 
-    def __init__(self):
+    def setUp(self):
         self.user = create_one_account()
         self.client.force_login(self.user)
 
