@@ -21,7 +21,9 @@ class Post(models.Model):
     # company
     company_name = models.CharField(max_length=50)
     company_des = models.CharField(max_length=600)
+    location = models.CharField(max_length=50)
     apply = models.CharField(max_length=256)
+    pay = models.BooleanField(default=False)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
