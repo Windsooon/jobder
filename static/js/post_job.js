@@ -67,8 +67,8 @@ $( document ).ready(function() {
                 minlength: jQuery.validator.format("Please Enter at least {0} characters."),
                 maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
             },
-            company: {
-                required: "Please enter your company location city.",
+            location: {
+                required: "Please enter your company location.",
                 minlength: jQuery.validator.format("Please Enter at least {0} characters."),
                 maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
             },
@@ -79,6 +79,7 @@ $( document ).ready(function() {
             },
         },
         submitHandler: function(form) {
+            var csrftoken = getCookie("csrftoken");
             if (!$('#select-open-source').selectize()[0].selectize.getValue()) {
                 alert("Please enter which project's contributer you are looking for"); 
                 return false;
@@ -86,15 +87,16 @@ $( document ).ready(function() {
             $.ajax({
                 url: "/api/post/",
                 type: "POST",
+                contentType: "application/json",
                 datatype: "json",
-                data:  ({
+                data:  JSON.stringify({
                     "title": $("#job_title").val(),"job_des": $("#job-looking").val(), 
                     "repo": $('#select-open-source').selectize()[0].selectize.getValue(),
                     "onsite": $("#location-select option:selected").val(), 
                     "salary": $("#salary-select").val(),
                     "company_name": $("#company").val(),
                     "location": $("#location").val(),
-                    "company_des": $("$company-des").val(),
+                    "company_des": $("#company-des").val(),
                     "apply": $("#apply").val(),
                 }),
                 beforeSend:function(xhr, settings) {
@@ -102,9 +104,12 @@ $( document ).ready(function() {
                         xhr.setRequestHeader("X-CSRFToken", csrftoken);
                     } 
                 },
-                success: function(xhr) {
-                    console.log("Successed");
+                success: function(data) {
+                    console.log(data);  
                 },
+                error: function() {
+                    alert("Something went wrong, please email to contact@jobder.net");
+                }
             });
         },
     });
