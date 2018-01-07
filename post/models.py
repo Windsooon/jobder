@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 
 class Repo(models.Model):
@@ -12,6 +13,10 @@ class Post(models.Model):
     Remote = 1
     OnSite = 2
 
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='post')
     # job
     title = models.CharField(max_length=50)
     job_des = models.CharField(max_length=600)
