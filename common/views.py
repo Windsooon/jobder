@@ -36,10 +36,11 @@ def job(request, id):
         job = Post.objects.get(id=id)
     except Post.DoesNotExist:
         return render(request, '404.html')
-    print(job.pay_time)
-    if not job.pay or job.pay_time:
-        if request.user != job.user:
-            return render(request, '404.html')
+    else:
+        # not pay yet or expired
+        if not job.pay or job.pay_time:
+            if request.user != job.user:
+                return render(request, '404.html')
     onsite = ['Both', 'Remote', 'Onsite']
     return render(
         request, 'job.html', 
