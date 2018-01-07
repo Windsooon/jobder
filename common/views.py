@@ -32,7 +32,14 @@ def post_job(request):
 
 def job(request, id):
     '''job page'''
-    job = get_object_or_404(Post, id=id)
+    try:
+        job = Post.objects.get(id=id)
+    except Post.DoesNotExist:
+        return render(request, '404.html')
+    print(job.pay_time)
+    if not job.pay or job.pay_time:
+        if request.user != job.user:
+            return render(request, '404.html')
     onsite = ['Both', 'Remote', 'Onsite']
     return render(
         request, 'job.html', 

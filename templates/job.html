@@ -13,18 +13,19 @@
         </div>
         <div class="job-div"> <!-- job -->
           <h2 id="title">{{ job.title }}</h2>
+          <h4 id="job-title">Job Des</h4>
+          <span id="job-des">{{ job.job_des }}</span>
           <div>
             <span id="salary">{{ salary }}</span>
             <span id="onsite">{{ onsite }}</span>
           </div>
-          <h4 id="job-title">Job Des</h4>
-          <span id="job-des">{{ job.job_des }}</span>
         </div>
         <hr>
         <div class="company-div"> <!-- company -->
-          <h3 id="company">{{ job.company_name }}</h3>
-          <span id="location">{{ job.location }}</span>
+          <h2 id="company">{{ job.company_name }}</h2>
+          <h4 id="company-des-h4">Company Des</h4>
           <p id="company-des">{{ job.company_des }}</p>
+          <span id="location">{{ job.location }}</span>
         </div> <!-- end company -->
         <hr>
         <div>

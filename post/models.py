@@ -29,6 +29,7 @@ class Post(models.Model):
     location = models.CharField(max_length=50)
     apply = models.CharField(max_length=256)
     pay = models.BooleanField(default=False)
+    pay_time = models.DateTimeField(auto_now_add=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
