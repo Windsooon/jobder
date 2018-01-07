@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load socialaccount %}
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/job.css' %}" />
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
+        <div class="alert alert-danger" role="alert">
+          This job has not been post. Click bottom button to pay.
+        </div>
+        <div class="job-div"> <!-- job -->
+          <h2 id="title">{{ job.title }}</h2>
+          <div>
+            <span id="salary">{{ salary }}</span>
+            <span id="onsite">{{ onsite }}</span>
+          </div>
+          <h4 id="job-title">Job Des</h4>
+          <span id="job-des">{{ job.job_des }}</span>
+        </div>
+        <hr>
+        <div class="company-div"> <!-- company -->
+          <h3 id="company">{{ job.company_name }}</h3>
+          <span id="location">{{ job.location }}</span>
+          <p id="company-des">{{ job.company_des }}</p>
+        </div> <!-- end company -->
+        <hr>
+        <div>
+          <button type="submit" class="btn-width btn btn-primary">Confirm and Pay $129 per month</button>
+        </div>
+      </div>
+    </div> <!-- end row -->
+  </div> <!-- end container -->
+{% endblock %}
+{% block extra_scripts %}
+<script src="{% static 'js/job.js' %}"></script>
+{% endblock %}
