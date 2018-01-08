@@ -1,14 +1,19 @@
 import datetime
+import logging
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
-from django.utils.dateparse import parse_datetime
 from post.models import Post
+from jobs.set_logging import setup_logging
+
+init_logging = setup_logging()
+logger = init_logging.getLogger(__name__)
 
 
 def index(request):
     '''Front page'''
     return render(request, 'index.html')
+
 
 def profile(request, name):
     '''Profile page'''
@@ -21,6 +26,7 @@ def profile(request, name):
             return render(request, '404.html')
     return render(request, 'profile.html')
 
+
 def settings(request):
     '''Settings page'''
     if request.user.is_authenticated:
@@ -28,13 +34,18 @@ def settings(request):
     else:
         return render(request, '404.html')
 
+
 def post_job(request):
     '''Post job page'''
     return render(request, 'post_job.html')
 
+
 def job(request, id):
     '''job page'''
     onsite = ['Both', 'Remote', 'Onsite']
+
+    logger.debug('just base debug')
+    logger.info('just base info')
 
     try:
         job = Post.objects.get(id=id)
@@ -47,8 +58,8 @@ def job(request, id):
             if request.user != job.user:
                 return render(request, '404.html')
     return render(
-        request, 'job.html', 
+        request, 'job.html',
         {
-            'job': job, 
-            'onsite': onsite[job.onsite], 
+            'job': job,
+            'onsite': onsite[job.onsite],
             'salary': job.salary})
