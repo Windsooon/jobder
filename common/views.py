@@ -1,6 +1,8 @@
+import datetime
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from django.utils.dateparse import parse_datetime
 from post.models import Post
 
 
@@ -32,16 +34,18 @@ def post_job(request):
 
 def job(request, id):
     '''job page'''
+    onsite = ['Both', 'Remote', 'Onsite']
+
     try:
         job = Post.objects.get(id=id)
     except Post.DoesNotExist:
         return render(request, '404.html')
     else:
         # not pay yet or expired
-        if not job.pay or job.pay_time:
+        if not job.pay or ((datetime.datetime.now() -
+            datetime.timedelta(days=30)) > job.pay_time):
             if request.user != job.user:
                 return render(request, '404.html')
-    onsite = ['Both', 'Remote', 'Onsite']
     return render(
         request, 'job.html', 
         {

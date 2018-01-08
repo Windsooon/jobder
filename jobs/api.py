@@ -61,7 +61,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = (
-            'id', 'title', 'job_des', 'repo', 'onsite', 'salary',
+            'id', 'user', 'title', 'job_des', 'repo', 'onsite', 'salary',
             'company_name', 'location', 'company_des', 'apply',
         )
 

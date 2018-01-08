@@ -90,6 +90,7 @@ $( document ).ready(function() {
                 contentType: "application/json",
                 datatype: "json",
                 data:  JSON.stringify({
+                    "user": $("#user-id").val(),
                     "title": $("#job_title").val(),"job_des": $("#job-looking").val(), 
                     "repo": $('#select-open-source').selectize()[0].selectize.getValue(),
                     "onsite": $("#location-select option:selected").val(), 
