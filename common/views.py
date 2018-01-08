@@ -1,5 +1,4 @@
 import datetime
-import logging
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
@@ -44,17 +43,17 @@ def job(request, id):
     '''job page'''
     onsite = ['Both', 'Remote', 'Onsite']
 
-    logger.debug('just base debug')
-    logger.info('just base info')
-
     try:
         job = Post.objects.get(id=id)
     except Post.DoesNotExist:
+        logger.info('job id %s not found' % id)
         return render(request, '404.html')
     else:
         # not pay yet or expired
-        if not job.pay or ((datetime.datetime.now() -
-            datetime.timedelta(days=30)) > job.pay_time):
+        if not job.pay or \
+            ((datetime.datetime.now() -
+                datetime.timedelta(days=30)) > job.pay_time):
+            logger.info('job id %s hasn\'t pay or it\'s expired.' % id)
             if request.user != job.user:
                 return render(request, '404.html')
     return render(
