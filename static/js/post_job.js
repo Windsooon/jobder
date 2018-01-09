@@ -1,11 +1,55 @@
 $('#select-open-source').selectize({
-    delimiter: ',',
+    valueField: 'url',
+    labelField: 'name',
+    searchField: 'name',
     persist: false,
-    create: function(input) {
-        return {
-            value: input,
-            text: input
+    options: [],
+    create: false,
+    render: {
+        item: function(item, escape) {
+            return '<div>' +
+                (item.name ? '<span class="repo-name">' + escape(item.name) + '</span>' : '') + 
+                (item.username ? '<span class="author">' + "  by " + escape(item.username) + '</span>' : '') +
+            '</div>';
+        },
+        option: function(item, escape) {
+            return '<div>' +
+                '<span class="title">' +
+                    '<span class="repo-name"><i class="icon ' + (item.fork ? 'fork' : 'source') + '"></i>' + escape(item.name) + ' ' + '</span>' +
+                    '<span class="by">' + escape(item.username) + '</span>' +
+                '</span>' +
+                '<span class="description">' + escape(item.description) + '</span>' +
+                '<ul class="meta">' +
+                    (item.language ? '<li class="language">' + escape(item.language) + '</li>' : '') +
+                    '<li class="watchers"><span>' + escape(item.watchers) + '</span> stars</li>' +
+                    '<li class="forks"><span>' + escape(item.forks) + '</span> forks</li>' +
+                '</ul>' +
+            '</div>';
         }
+    },
+    score: function(search) {
+        var score = this.getScoreFunction(search);
+        return function(item) {
+            return score(item) * (1 + Math.min(item.watchers / 100, 1));
+        };
+    },
+    onItemAdd: function (value, item) {
+        // var repo_name = value.split("https://github.com/");
+        // $("#front-btn-w").attr("href", host + "/thanks/" + repo_name[1] + "/");
+        // $("#front-btn-b").attr("href", host + "/list/" + repo_name[1] + "/");
+    },
+    load: function(query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+            url: 'https://api.github.com/legacy/repos/search/' + encodeURIComponent(query),
+            type: 'GET',
+            error: function() {
+                callback();
+            },
+            success: function(res) {
+                callback(res.repositories.slice(0, 20));
+            }
+        });
     }
 });
 
