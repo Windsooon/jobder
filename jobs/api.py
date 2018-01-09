@@ -1,6 +1,5 @@
 from common.models import Settings
-from popular.models import Popular
-from post.models import Post, Repo
+from post.models import Post, Repo, Popular
 from rest_framework import serializers, viewsets
 from rest_framework import permissions as rf_permissions
 from .permissions import IsOwnerOrReadOnly, IsAdminUserOrReadOnly
@@ -56,20 +55,27 @@ class RepoSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    repo = serializers.CharField()
+    repos = serializers.ListField(
+        child=serializers.JSONField(), write_only=True
+    )
 
     class Meta:
         model = Post
         fields = (
-            'id', 'user', 'title', 'job_des', 'repo', 'onsite', 'salary',
+            'id', 'user', 'title', 'job_des', 'repos', 'repo', 'onsite', 'salary',
             'company_name', 'location', 'company_des', 'apply',
         )
+        extra_kwargs = {
+            'repo': {'read_only': True}
+        }
 
-    def bulk_update_or_create_repo(self, repo):
-        return [Repo.objects.get_or_create(name=r)[0] for r in repo.split(',')]
+    def bulk_update_or_create_repo(self, repos):
+        return [Repo.objects.get_or_create(
+            repo_id=r['id'], repo_name=r['name'],
+            owner_name=r['owner_name'], html_url=r['html_url'])[0] for r in repos]
 
     def create(self, validated_data):
-        repo_data = validated_data.pop('repo')
+        repo_data = validated_data.pop('repos')
         repo_list = self.bulk_update_or_create_repo(repo_data)
         post = Post.objects.create(**validated_data)
         post.repo.add(*repo_list)

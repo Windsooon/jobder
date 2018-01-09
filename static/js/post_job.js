@@ -1,53 +1,71 @@
+var repos = [];
+
+function removeFunction(Objects,prop,valu){
+    return Objects.filter(function (val){
+        return val[prop] !== valu;
+    });
+}
+
 $('#select-open-source').selectize({
-    valueField: 'url',
+    valueField: 'id',
     labelField: 'name',
     searchField: 'name',
-    persist: false,
+    sortField: [
+        {
+            field: 'stargazers_count',
+            direction: 'desc'
+        },
+        {
+            field: '$score'
+        },
+    ],
     options: [],
     create: false,
     render: {
         item: function(item, escape) {
             return '<div>' +
                 (item.name ? '<span class="repo-name">' + escape(item.name) + '</span>' : '') + 
-                (item.username ? '<span class="author">' + "  by " + escape(item.username) + '</span>' : '') +
+                (item.owner.login ? '<span class="author">' + '</span>' : '') +
             '</div>';
         },
         option: function(item, escape) {
             return '<div>' +
                 '<span class="title">' +
                     '<span class="repo-name"><i class="icon ' + (item.fork ? 'fork' : 'source') + '"></i>' + escape(item.name) + ' ' + '</span>' +
-                    '<span class="by">' + escape(item.username) + '</span>' +
+                    '<span class="by">' + escape(item.owner.login) + '</span>' +
                 '</span>' +
                 '<span class="description">' + escape(item.description) + '</span>' +
                 '<ul class="meta">' +
                     (item.language ? '<li class="language">' + escape(item.language) + '</li>' : '') +
-                    '<li class="watchers"><span>' + escape(item.watchers) + '</span> stars</li>' +
-                    '<li class="forks"><span>' + escape(item.forks) + '</span> forks</li>' +
+                    '<li class="watchers"><span>' + escape(item.stargazers_count) + '</span> stars</li>' +
                 '</ul>' +
             '</div>';
         }
     },
-    score: function(search) {
-        var score = this.getScoreFunction(search);
-        return function(item) {
-            return score(item) * (1 + Math.min(item.watchers / 100, 1));
-        };
-    },
     onItemAdd: function (value, item) {
-        // var repo_name = value.split("https://github.com/");
-        // $("#front-btn-w").attr("href", host + "/thanks/" + repo_name[1] + "/");
-        // $("#front-btn-b").attr("href", host + "/list/" + repo_name[1] + "/");
+        var data = this.options[value];
+        repos.push({
+            "id": data.id,
+            "name": data.name,
+            "owner_name": data.owner.login,
+            "html_url": data.html_url,
+            }
+        );
+    },
+    onItemRemove: function (value) {
+        var data = this.options[value];
+        repos = removeFunction(repos, 'id', data.id);
     },
     load: function(query, callback) {
         if (!query.length) return callback();
         $.ajax({
-            url: 'https://api.github.com/legacy/repos/search/' + encodeURIComponent(query),
+            url: 'https://api.github.com/search/repositories?q=' + encodeURIComponent(query),
             type: 'GET',
             error: function() {
                 callback();
             },
             success: function(res) {
-                callback(res.repositories.slice(0, 20));
+                callback(res.items.slice(0, 20));
             }
         });
     }
@@ -136,7 +154,7 @@ $( document ).ready(function() {
                 data:  JSON.stringify({
                     "user": $("#user-id").val(),
                     "title": $("#job_title").val(),"job_des": $("#job-looking").val(), 
-                    "repo": $('#select-open-source').selectize()[0].selectize.getValue(),
+                    "repos": repos,
                     "onsite": $("#location-select option:selected").val(), 
                     "salary": $("#salary-select").val(),
                     "company_name": $("#company").val(),
@@ -150,7 +168,6 @@ $( document ).ready(function() {
                     } 
                 },
                 success: function(data) {
-                    console.log(data);  
                 },
                 error: function() {
                     alert("Something went wrong, please email to contact@jobder.net");
