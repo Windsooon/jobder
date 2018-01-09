@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'rest_framework',
     'common',
-    'popular',
     'post',
 ]
 
