@@ -19,7 +19,7 @@ class PageTestCase(TestCase):
 	    'company_name': 'Built For Me Inc.',
 	    'company_des': 'We are a small company loathe to use the word “startup”. The phrase that most aptly describes us is “boutique consulting firm” as we are currently working on select software consulting projects and have a long term vision to build a stand-alone product in about a year. The future product will focus on enabling business workflows and growing workplace productivity. We are being smart in our approach balancing software consulting with our own product. We balance both to pay ourselves well and support our vision for the future.',
 	    'location': 'Seattle, New York, San Francisco',
-	    'repo': 'django,vue',
+            'repos': [{'id': 4164482, 'name': 'django', 'owner_name': 'django', 'html_url': 'https://github.com/django/django'}],
 	    'salary': '$150k',
             'apply': 'https://angel.co/builtforme/jobs/',
 	    'user': self.user.id
