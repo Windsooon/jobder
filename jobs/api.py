@@ -62,8 +62,9 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = (
-            'id', 'user', 'title', 'job_des', 'repos', 'repo', 'onsite', 'salary',
-            'company_name', 'location', 'company_des', 'apply',
+            'id', 'user', 'title', 'job_des', 'repos', 'repo',
+            'onsite', 'salary', 'company_name', 'location',
+            'company_des', 'apply',
         )
         extra_kwargs = {
             'repo': {'read_only': True}
@@ -72,7 +73,9 @@ class PostSerializer(serializers.ModelSerializer):
     def bulk_update_or_create_repo(self, repos):
         return [Repo.objects.get_or_create(
             repo_id=r['id'], repo_name=r['name'],
-            owner_name=r['owner_name'], html_url=r['html_url'])[0] for r in repos]
+            owner_name=r['owner_name'], html_url=r['html_url'],
+            stargazers_count=r['stargazers_count'], language=r['language']
+        )[0] for r in repos]
 
     def create(self, validated_data):
         repo_data = validated_data.pop('repos')

@@ -49,6 +49,8 @@ $('#select-open-source').selectize({
             "name": data.name,
             "owner_name": data.owner.login,
             "html_url": data.html_url,
+            "language": data.language,
+            "stargazers_count": data.stargazers_count,
             }
         );
     },
@@ -168,6 +170,7 @@ $( document ).ready(function() {
                     } 
                 },
                 success: function(data) {
+                    window.location = base_url + "job/" + data.id + "/";
                 },
                 error: function() {
                     alert("Something went wrong, please email to contact@jobder.net");

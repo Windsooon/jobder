@@ -20,6 +20,8 @@ class Repo(models.Model):
     repo_id = models.IntegerField()
     repo_name = models.CharField(max_length=256)
     owner_name = models.CharField(max_length=256)
+    stargazers_count = models.IntegerField()
+    language = models.CharField(max_length=256)
     html_url = models.URLField(blank=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
