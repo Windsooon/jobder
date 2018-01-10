@@ -30,3 +30,10 @@ class PageTestCase(TestCase):
         response = self.client.get(
             reverse('profile', kwargs={'name': user.username}))
         self.assertEqual(response.status_code, 200)
+
+    def test_post_job(self):
+        user = create_one_account()
+        self.client.force_login(user)
+        response = self.client.get(
+            reverse('post_job'))
+        self.assertEqual(response.status_code, 200)
