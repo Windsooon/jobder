@@ -1,5 +1,7 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth import get_user_model
+
 
 class Popular(models.Model):
     globle_id = models.CharField(max_length=256, unique=True)
@@ -15,6 +17,7 @@ class Popular(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Repo(models.Model):
     repo_id = models.IntegerField()
@@ -51,7 +54,7 @@ class Post(models.Model):
     location = models.CharField(max_length=50)
     apply = models.CharField(max_length=256)
     pay = models.BooleanField(default=False)
-    pay_time = models.DateTimeField(auto_now_add=True)
+    pay_time = models.DateTimeField(default=timezone.now())
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
