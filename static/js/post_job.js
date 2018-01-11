@@ -88,7 +88,6 @@ $( document ).ready(function() {
                 required: true,
                 minlength: 5,
                 maxlength: 50,
-                regex_name: /^((?!<|>).)*$/
             },
             job_looking: {
                 required: true,
@@ -99,19 +98,16 @@ $( document ).ready(function() {
                 required: true,
                 minlength: 3,
                 maxlength: 50,
-                regex_name: /^((?!<|>).)*$/
             },
             location: {
                 required: true,
                 minlength: 3,
                 maxlength: 50,
-                regex_name: /^((?!<|>).)*$/
             },
             company_des: {
                 required: true,
                 minlength: 3,
                 maxlength: 600,
-                regex_name: /^((?!<|>).)*$/
             }
         },
         messages: {
@@ -154,14 +150,15 @@ $( document ).ready(function() {
                 datatype: "json",
                 data:  JSON.stringify({
                     "user": $("#user-id").val(),
-                    "title": $("#job_title").val(),"job_des": $("#job-looking").val(), 
+                    "title": $("#job_title").val().trim(),
+                    "job_des": $("#job-looking").val().trim(), 
                     "repos": repos,
                     "onsite": $("#location-select option:selected").val(), 
                     "salary": $("#salary-select").val(),
-                    "company_name": $("#company").val(),
+                    "company_name": $("#company").val().trim(),
                     "location": $("#location").val(),
-                    "company_des": $("#company-des").val(),
-                    "apply": $("#apply").val(),
+                    "company_des": $("#company-des").val().trim(),
+                    "apply": $("#apply").val().trim(),
                 }),
                 beforeSend:function(xhr, settings) {
                     if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {

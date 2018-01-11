@@ -25,7 +25,7 @@
             <p>Linkedin: <a href="{{ user.settings.linkedin }}" target="_blank">{{ user.settings.linkedin }}</a></p>
           </div>
           <br>
-          <a href="#" class="btn btn-default btn-lg" title="">Find most match</a>
+          <a href="#" class="btn btn-default btn-lg" title="">Find a job</a>
         </div> <!-- end col-xs-12 -->
       </div> <!-- end row -->
     </div> <!-- end container -->
@@ -35,12 +35,24 @@
   <div class="profile-container">
     <div class="container">
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-8">
           <canvas id="commit-canvas"></canvas>
-        </div> <!-- end col-xs-12 -->
+        </div> <!-- end col-xs-8 -->
+        <div class="col-xs-4">
+          <p id="total-star-p">1000</p>
+          <p id="total-start-p-text">Total received stars</p>
+        </div> <!-- end col-xs-4 -->
+      </div> <!-- end row -->
+    </div> <!-- end container -->
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6">
+          <p id="total-star-p">1000</p>
+          <p id="total-start-p-text">Total received stars</p>
+        </div> <!-- end col-xs-4 -->
         <div class="col-xs-6">
           <canvas id="state-canvas"></canvas>
-        </div> <!-- end col-xs-12 -->
+        </div> <!-- end col-xs-6 -->
       </div> <!-- end row -->
     </div> <!-- end container -->
   </div> <!-- end section-container -->
@@ -49,7 +61,7 @@
     <div class="container">
       <div class="row">
         <div class="page-header">
-          <h2>Repo created<small>Subtext for header</small></h2>
+          <h2>Repos Created    <small>repos created by user</small></h2>
         </div>
         <div class="repo-class">
         </div>
@@ -61,7 +73,7 @@
     <div class="container">
       <div class="row">
         <div class="page-header">
-          <h2>Repo contributed<small>Subtext for header</small></h2>
+          <h2>Repos Contributed    <small>repos contributed by user</small></h2>
         </div>
         <div class="contributed-class">
         </div>

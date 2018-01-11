@@ -28,3 +28,17 @@
 .content-p {
     margin-top: 10px;
 }
+
+#total-star-p {
+    text-align: center;
+    font-size: 8rem;
+}
+
+#total-start-p-text {
+    text-align: center;
+    font-size: 3rem;
+}
+
+.content-lan {
+    margin-right: 20px;
+}

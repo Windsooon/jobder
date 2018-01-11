@@ -105,11 +105,30 @@ function update_repo(container, data) {
             "class": "content-p",
             "text": item.node.description || "None"
         });
+        var $content_star = $("<span />", {
+            "class": "content-star",
+            "text": "     " + item.node.stargazers.totalCount,
+        });
+        var $star_icon = $("<i />", {
+            "class": "fa fa-star star-icon",
+            "aria-hidden": "true",
+        });
+
         $wrapper_div.append($wrapper_border);
         $wrapper_border.append($wrapper_span);
         $wrapper_span.append($inside_span);
         $inside_span.append($inside_a);
         $wrapper_span.append($content_p);
+
+        if (item.node.primaryLanguage) {
+            var $content_language = $("<span />", {
+                "class": "content-lan",
+                "text": item.node.primaryLanguage.name
+            });
+            $wrapper_span.append($content_language);
+        }
+        $star_icon.append($content_star);
+        $wrapper_span.append($star_icon);
         container.append($wrapper_div);
     });    
 }
@@ -125,16 +144,16 @@ function update_chart(data) {
     // first sta
     var languages_sta = get_repo_create(data);
     // second sta
-    var fork_sta = get_fork_count(data);
+    var fork_sta = get_stars_count(data);
     window.myLine = new Chart(ctx, get_h_chart_config(languages_sta, 
-        "horizontalBar", [0, 30]));
+        "horizontalBar", [0, 30], "Most Fluent Language"));
     window.myLine = new Chart(state, get_h_chart_config(fork_sta,
-        "bar", [0, 30]));
+        "bar", [0, 30], "Star Count"));
 };
 
 
-function get_fork_count(data) {
-    var fork_array = ["<100", "100-500", ">1000"];
+function get_stars_count(data) {
+    var fork_array = ["<100 stars", "100-500 stars", ">1000 stars"];
     var own_array = [0, 0, 0];
     var contribute_array = [0, 0, 0];
     $.each(data.repositories.edges, function(i, item) {
@@ -210,23 +229,21 @@ function addMonths(index) {
 }
 
 // Chart.js
-function get_h_chart_config(data_list, type, suggest, color) {
+function get_h_chart_config(data_list, type, suggest, title) {
     return {
         type: type,
         data: {
             labels: data_list[0],
             datasets: [
                 {
-                    label: "count",
+                    label: "created",
                     backgroundColor: window.chartColors.red,
-                    borderColor: color,
                     data: data_list[1],
                     fill: false,
                 },
                 {
-                    label: "count",
+                    label: "contributed_to",
                     backgroundColor: window.chartColors.blue,
-                    borderColor: color,
                     data: data_list[2],
                     fill: false,
                 }
@@ -239,7 +256,11 @@ function get_h_chart_config(data_list, type, suggest, color) {
             },
             title:{
                 display:true,
-                text:"Top 50 Starred Repos's Language"
+                text: title,
+                fontSize: 20,
+                fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+                fontColor: '#555',
+                fontStyle: 'normal',
             },
             scales: {
                 yAxes: [{
@@ -257,7 +278,7 @@ function update_slider(container) {
     container.slick({
         dots: true,
         slidesPerRow: 3,
-        rows: 3,
+        rows: 2,
         responsive: [
           {
             breakpoint: 1024,
