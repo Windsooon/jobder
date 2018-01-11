@@ -25,7 +25,7 @@
             <p>Linkedin: <a href="{{ user.settings.linkedin }}" target="_blank">{{ user.settings.linkedin }}</a></p>
           </div>
           <br>
-          <a href="#" class="btn btn-default btn-lg" title="">Find a job</a>
+          <a href="{% url 'match' %}" class="btn btn-default btn-lg" title="">Find a job</a>
         </div> <!-- end col-xs-12 -->
       </div> <!-- end row -->
     </div> <!-- end container -->
@@ -33,47 +33,53 @@
 
   <!-- start sta -->
   <div class="profile-container">
-    <div class="container">
+    <div class="container fluent-div">
       <div class="row">
         <div class="col-xs-8">
           <canvas id="commit-canvas"></canvas>
         </div> <!-- end col-xs-8 -->
         <div class="col-xs-4">
-          <p id="total-star-p">1000</p>
-          <p id="total-start-p-text">Total received stars</p>
+          <div class="total-contributed-div">
+            <p id="total-contributed-p">0</p>
+            <p id="total-contributed-text">Contributed Repos</p>
+          </div> <!-- end total-contributed-div -->
         </div> <!-- end col-xs-4 -->
       </div> <!-- end row -->
     </div> <!-- end container -->
-    <div class="container">
+    <hr>
+    <div class="container star-div">
       <div class="row">
-        <div class="col-xs-6">
-          <p id="total-star-p">1000</p>
-          <p id="total-start-p-text">Total received stars</p>
+        <div class="col-xs-5">
+          <div class="total-star-div">
+          <p id="total-star-p">0</p>
+          <p id="total-stars-text">Received Stars</p>
+          </div> <!-- end total-star-div -->
         </div> <!-- end col-xs-4 -->
-        <div class="col-xs-6">
+        <div class="col-xs-7">
           <canvas id="state-canvas"></canvas>
         </div> <!-- end col-xs-6 -->
       </div> <!-- end row -->
     </div> <!-- end container -->
+    <hr>
   </div> <!-- end section-container -->
 
   <div class="profile-container">
     <div class="container">
       <div class="row">
         <div class="page-header">
-          <h2>Repos Created    <small>repos created by user</small></h2>
+          <h2 class="page-h2">Repos Created        <small>repos created by user</small></h2>
         </div>
         <div class="repo-class">
         </div>
       </div> <!-- end row -->
     </div> <!-- end container -->
   </div> <!-- end section-container -->
-
+  <hr>
   <div class="profile-container">
     <div class="container">
       <div class="row">
         <div class="page-header">
-          <h2>Repos Contributed    <small>repos contributed by user</small></h2>
+          <h2 class="page-h2">Repos Contributed        <small>repos contributed by user</small></h2>
         </div>
         <div class="contributed-class">
         </div>

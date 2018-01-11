@@ -138,7 +138,19 @@ function update_profile(data) {
     $("#user-bio").text(data.bio);
 }
 
+
+
 function update_chart(data) {
+    // count stars
+    var star_count = 0;
+    $.each(data.repositories.edges, function(i, item) {
+        star_count += item.node.stargazers.totalCount;
+    });
+    $("#total-star-p").text(star_count);
+
+    // count contributed repos
+    $("#total-contributed-p").text((data.repositoriesContributedTo.edges).length);
+
     var ctx = document.getElementById("commit-canvas").getContext("2d");
     var state = document.getElementById("state-canvas").getContext("2d");
     // first sta
