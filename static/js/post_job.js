@@ -94,7 +94,6 @@ $( document ).ready(function() {
                 required: true,
                 minlength: 20,
                 maxlength: 600,
-                regex_name: /^((?!<|>).)*$/
             },
             company: {
                 required: true,
