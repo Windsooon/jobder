@@ -2,11 +2,12 @@ import json
 import base64
 import datetime
 import requests
+from operator import itemgetter
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from allauth.socialaccount.models import SocialToken
-from post.models import Post, Repo
+from post.models import Post
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
 
@@ -81,29 +82,40 @@ def match(request):
     # Get user created/contributed repos
     query = get_repos_query(request.user.username, 2)
     headers = {'Authorization': 'bearer ' + social_token.token}
-    r = requests.post(
+    response = requests.post(
         'https://api.github.com/graphql',
         json.dumps({"query": query}), headers=headers)
-    repo = [repo['node']['id'] for repo in r.json()['data']['user']['repositories']['edges']]
-    repo_contributedto = [repo['node']['id'] for repo in r.json()['data']['user']['repositoriesContributedTo']['edges']]
-    # repo contains a list of repo ids [14400303, 1404040]
+    repo = [
+        r['node']['id'] for r in
+        response.json()['data']['user']['repositories']['edges']]
+    repo_contributedto = [
+        r['node']['id'] for r in
+        response.json()['data']['user']['repositoriesContributedTo']['edges']]
     repo.extend(repo_contributedto)
+    # repo contains a list of repo ids [14400303, 1404040]
+    repo = [int(base64.b64decode(r)[14:]) for r in repo]
 
     post_set = Post.objects.filter(pay=1).filter(
         pay_time__gte=datetime.datetime.now()
-        -datetime.timedelta(days=60))
+        - datetime.timedelta(days=60))
 
+    # lst contain every valid post
+    # and its repo id [{'id': 9: 'repos_lst': [621, 1058, 325198]},...]
     lst = []
     for post in post_set:
-        dic = {'id': post.id, 'repos_lst': []}
+        dic = {post.id: []}
         for r in post.repo.all():
-            dic['repos_lst'].append(r.repo_id)
+            dic[post.id].append(r.repo_id)
         lst.append(dic)
 
-    finally_lst = []
+    # Repos_len means how many repos match
     for l in lst:
-        dic = {'id': l['id'], 'repos_len': 0}
-        dic['repos_len'] = len(set(repo) & set(l['repos_lst']))
-        finally_lst.append(dic) 
+        l['repos_len'] = len(set(repo) & set(list(l.values())[0]))
 
-    logger.debug(finally_lst)
+    lst = sorted(
+        lst, key=itemgetter('repos_len'), reverse=True)
+
+    # Post id sorted [16, 9, 10]
+    posts_id = [list(l.keys())[0] for l in lst]
+    posts = Post.objects.filter(id__in=posts_id)
+    return render(request, 'match.html', {'posts': posts})

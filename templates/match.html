@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load socialaccount %}
+{% block extra_styles %}
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
+        <h2 id="user-settings">Job List</h2>
+        <input id="user-id" type="hidden" value="{{ user.id }}" />
+        {% for post in posts %}
+        <a href="/">
+          <div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.job_des }}</p>
+          </div>
+        </a>
+        {% endfor %}
+      </div> <!-- end col-xs -->
+    </div> <!-- end row -->
+  </div> <!-- end container -->
+{% endblock %}
+{% block extra_scripts %}
+{% endblock %}
