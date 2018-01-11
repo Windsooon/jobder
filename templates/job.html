@@ -7,26 +7,34 @@
 {% block content %}
   <div class="container">
     <div class="row">
-      <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
+      <div class="col-xs-10 col-xs-offset-1 col-md-10 col-md-offset-1">
         <div class="alert alert-danger" role="alert">
           This job has not been post. Click bottom button to pay.
         </div>
-        <div class="job-div"> <!-- job -->
-          <h2 id="title">{{ job.title }}</h2>
-          <h4 id="job-title">Job Des</h4>
-          <span id="job-des">{{ job.job_des }}</span>
-          <div>
-            <span id="salary">{{ salary }}</span>
-            <span id="onsite">{{ onsite }}</span>
+        <div class="job-container-div">
+          <div class="job-div"> <!-- job -->
+            <h2 id="title">{{ job.title }}</h2>
+            <div class="job-repos">
+              {% for repo in repos %}
+              <span class="repo-span">{{ repo }}</span> 
+              {% endfor %}
+            </div>
+            <div class="job-wrapper">
+              <h4 id="job-title">Job Des</h4>
+              <span id="job-des">{{ job.job_des }}</span>
+              <div>
+                <p id="salary">{{ salary }}</p>
+                <p id="onsite">{{ onsite }}</p>
+              </div>
+            </div> <!-- end job wrapper -->
           </div>
-        </div>
-        <hr>
-        <div class="company-div"> <!-- company -->
-          <h2 id="company">{{ job.company_name }}</h2>
-          <h4 id="company-des-h4">Company Des</h4>
-          <p id="company-des">{{ job.company_des }}</p>
-          <span id="location">{{ job.location }}</span>
-        </div> <!-- end company -->
+          <div class="company-div"> <!-- company -->
+            <h2 id="company">{{ job.company_name }}</h2>
+            <h4 id="company-des-h4">Company Des</h4>
+            <p id="company-des">{{ job.company_des }}</p>
+            <span id="location">{{ job.location }}</span>
+          </div> <!-- end company -->
+        </div> <!-- end job-container-div -->
         <hr>
         <div>
           <button type="submit" class="btn-width btn btn-primary">Confirm and Pay $129 per month</button>

@@ -44,13 +44,13 @@ class Post(models.Model):
         related_name='post')
     # job
     title = models.CharField(max_length=50)
-    job_des = models.CharField(max_length=600)
+    job_des = models.CharField(max_length=1024)
     repo = models.ManyToManyField(Repo)
     onsite = models.SmallIntegerField(default=Both)
     salary = models.CharField(max_length=50)
     # company
     company_name = models.CharField(max_length=50)
-    company_des = models.CharField(max_length=600)
+    company_des = models.CharField(max_length=1024)
     location = models.CharField(max_length=50)
     apply = models.CharField(max_length=256)
     pay = models.BooleanField(default=False)

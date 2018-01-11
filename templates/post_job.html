@@ -21,7 +21,7 @@
           <div class="form-group">
             <label for="job_looking">* What people you are looking for</label>
             <div>
-              <textarea maxlength="600" name="job_looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We're looking for the most tenacious designers, software engineers, product managers. (up to 600 characters)"></textarea>
+              <textarea maxlength="1024" name="job_looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We're looking for the most tenacious designers, software engineers, product managers. (up to 1024 characters)"></textarea>
             </div> <!-- end job-looking -->
           </div> <!-- end form-group -->
           <div class="form-group">
@@ -40,11 +40,9 @@
           </div> <!-- end form-group -->
           <div class="form-group">
             <label for="salary">Salary Range</label>
-              <select id="salary-select" class="form-control">
-                <option value="0">$50-$100k</option>
-                <option value="1">$100k-$150k</option>
-                <option value="2">More than $150k</option>
-              </select>
+            <div>
+                <input name="salary" type="text" class="form-control" id="salary"  placeholder="$100k-$150k" maxlength="50">
+            </div>
           </div> <!-- end form-group -->
           <h2 id="user-settings">Tell me about your company</h2>
           <div class="form-group">
@@ -62,7 +60,7 @@
           <div class="form-group">
             <label for="company_des">* What are your company doing?</label>
             <div>
-              <textarea maxlength="600" name="company_des" id="company-des" rows="5" cols="35" wrap="soft" placeholder="We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers."></textarea>
+              <textarea maxlength="1024" name="company_des" id="company-des" rows="5" cols="35" wrap="soft" placeholder="We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers. (up to 1024 characters)"></textarea>
             </div> <!-- end job-des -->
           </div> <!-- end form-group -->
           <div class="form-group">

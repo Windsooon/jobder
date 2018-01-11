@@ -1,6 +1,51 @@
 #title, #company {
     text-align:center;
+    /* color: #fff; */
+    color: #555;
+}
+
+#job-title, #job-des, #company-des {
+    /* color: #fff; */
+}
+
+.job-div, .company-div {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+.job-div {
+    /* background: #3a5ac9; */
+}
+
+.job-repos {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+#job-des {
+    font-size: 2.2rem;
 }
 
 .company-div {
+    /* background: #ff3c7d; */
+}
+
+.repo-span {
+    padding: 7px 10px 7px 10px;
+    margin-right: 7px;
+    color: #fff;
+    font-size: 2rem;
+    text-shadow: 0 1px 0 rgba(0, 51, 83, 0.3);
+    background-color: #1b9dec;
+    background-image: -moz-linear-gradient(top, #1da7ee, #178ee9);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1da7ee), to(#178ee9));
+    background-image: -webkit-linear-gradient(top, #1da7ee, #178ee9);
+    background-image: -o-linear-gradient(top, #1da7ee, #178ee9);
+    background-repeat: repeat-x;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, 0.03);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, 0.03); 
 }

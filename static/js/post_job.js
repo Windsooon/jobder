@@ -92,7 +92,12 @@ $( document ).ready(function() {
             job_looking: {
                 required: true,
                 minlength: 20,
-                maxlength: 600,
+                maxlength: 1024,
+            },
+            salary: {
+                required: true,
+                minlength: 5,
+                maxlength: 50,
             },
             company: {
                 required: true,
@@ -107,7 +112,7 @@ $( document ).ready(function() {
             company_des: {
                 required: true,
                 minlength: 3,
-                maxlength: 600,
+                maxlength: 1024,
             }
         },
         messages: {
@@ -118,6 +123,11 @@ $( document ).ready(function() {
             },
             job_looking: {
                 required: "Please enter the job details.",
+                minlength: jQuery.validator.format("Please Enter at least {0} characters."),
+                maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
+            },
+            salary: {
+                required: "Please enter the salary range.",
                 minlength: jQuery.validator.format("Please Enter at least {0} characters."),
                 maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
             },
@@ -154,7 +164,7 @@ $( document ).ready(function() {
                     "job_des": $("#job-looking").val().trim(), 
                     "repos": repos,
                     "onsite": $("#location-select option:selected").val(), 
-                    "salary": $("#salary-select").val(),
+                    "salary": $("#salary").val(),
                     "company_name": $("#company").val().trim(),
                     "location": $("#location").val(),
                     "company_des": $("#company-des").val().trim(),

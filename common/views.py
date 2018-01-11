@@ -47,7 +47,8 @@ def post_job(request):
 
 def job(request, id):
     '''job page'''
-    onsite = ['Both', 'Remote', 'Onsite']
+    onsite = ['Onsite And Remote', 'Remote', 'Onsite']
+    salary = ['Onsite And Remote', 'Remote', 'Onsite']
 
     try:
         job = Post.objects.get(id=id)
@@ -65,6 +66,7 @@ def job(request, id):
     return render(
         request, 'job.html',
         {
+            'repos': [r.repo_name for r in job.repo.all()],
             'job': job,
             'onsite': onsite[job.onsite],
             'salary': job.salary})
