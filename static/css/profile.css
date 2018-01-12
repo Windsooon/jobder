@@ -1,3 +1,7 @@
+.repos-created {
+    text-align: center;
+}
+
 #avatar-div {
     padding: 10%;
 }
@@ -13,9 +17,9 @@
 
 .content-p {
     line-height: 2rem;
-    height: 6rem;       /* height is 2x line-height, so two lines will display */
+    height: 4rem;
     color: #586069;
-    overflow: hidden;  /* prevents extra lines from being visible */
+    overflow: hidden;
 }
 
 .wrapper-border {

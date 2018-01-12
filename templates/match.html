@@ -8,7 +8,7 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1 col-md-10 col-md-offset-1">
-        <h2 id="job-list">Job Recommended For You</h2>
+        <h2 id="job-list">{{ title }}</h2>
         <input id="user-id" type="hidden" value="{{ user.id }}" />
         {% for post in posts %}
         <a class="post-a" target="_blank" href="/job/{{ post.id }}/">

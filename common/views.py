@@ -49,8 +49,9 @@ def post_job(request):
 
 @login_required
 def posted_jobs(request):
-    '''Posted jobs page'''
-    return render(request, 'posted_jobs.html')
+    posts = Post.objects.filter(user_id=request.user.id)
+    title = "Job You Posted"
+    return render(request, 'match.html', {'posts': posts, 'title': title})
 
 
 def job(request, id):
@@ -83,6 +84,7 @@ def match(request):
     '''
     Find the most match jobs
     '''
+    title = "Job You Posted"
     try:
         social_token = SocialToken.objects.get(
             account__user__id=request.user.id)
@@ -130,4 +132,4 @@ def match(request):
     preserved = Case(
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(id__in=posts_id).order_by(preserved)
-    return render(request, 'match.html', {'posts': posts})
+    return render(request, 'match.html', {'posts': posts, 'title': title})
