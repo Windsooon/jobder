@@ -158,9 +158,9 @@ function update_chart(data) {
     // second sta
     var fork_sta = get_stars_count(data);
     window.myLine = new Chart(ctx, get_h_chart_config(languages_sta, 
-        "horizontalBar", [0, 30], "Most Fluent Language"));
+        "horizontalBar", [0, 50], "Most Fluent Language"));
     window.myLine = new Chart(state, get_h_chart_config(fork_sta,
-        "bar", [0, 30], "Star Count"));
+        "bar", [0, 50], "Star Count"));
 };
 
 
