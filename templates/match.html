@@ -2,18 +2,25 @@
 {% load staticfiles %}
 {% load socialaccount %}
 {% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/jobs_list.css' %}" />
 {% endblock %}
 {% block content %}
   <div class="container">
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1 col-md-10 col-md-offset-1">
-        <h2 id="user-settings">Job List</h2>
+        <h2 id="job-list">Job Recommended For You</h2>
         <input id="user-id" type="hidden" value="{{ user.id }}" />
         {% for post in posts %}
-        <a href="/">
+        <a class="post-a" target="_blank" href="/job/{{ post.id }}/">
           <div>
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.job_des }}</p>
+            <span class="job-title">{{ post.title }}</span>
+            <i class="fa fa-building briefcase" aria-hidden="true"><span class="company-name">&nbsp;{{ post.company_name }}</span></i>
+            <div class="repo-div">
+              {% for repo in post.repo.all %}
+              <span class="repo-span">{{ repo.repo_name }}</span> 
+              {% endfor %}
+            </div>
+            <p class="job-des">{{ post.job_des }}</p>
           </div>
         </a>
         {% endfor %}

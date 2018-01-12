@@ -5,6 +5,8 @@ import requests
 from operator import itemgetter
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.db.models import Case, When
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from allauth.socialaccount.models import SocialToken
@@ -63,7 +65,7 @@ def job(request, id):
     else:
         # not pay yet or expired
         if not job.pay or \
-            ((datetime.datetime.now() -
+            ((timezone.now() -
                 datetime.timedelta(days=30)) > job.pay_time):
             logger.info('job id %s hasn\'t pay or it\'s expired.' % id)
             if request.user != job.user:
@@ -123,6 +125,9 @@ def match(request):
         lst, key=itemgetter('repos_len'), reverse=True)
 
     # Post id sorted [16, 9, 10]
+    # https://stackoverflow.com/questions/4916851/django-get-a-queryset-from-array-of-ids-in-specific-order
     posts_id = [list(l.keys())[0] for l in lst]
-    posts = Post.objects.filter(id__in=posts_id)
+    preserved = Case(
+        *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
+    posts = Post.objects.filter(id__in=posts_id).order_by(preserved)
     return render(request, 'match.html', {'posts': posts})

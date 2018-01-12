@@ -1,0 +1,62 @@
+.company-name {
+    font-size: 1.8rem;
+}
+
+.briefcase {
+    color: gray;
+    margin-right: 4px;
+}
+
+#job-list {
+    text-align: center;
+}
+
+.job-title {
+    font-size: 2.4rem;
+    color: #555;
+    margin-right: 6px;
+}
+
+.job-des {
+    color: gray;
+    font-size: 1.6rem;
+}
+
+.post-a {
+    display: block;
+    padding-top: 20px;
+    margin-bottom: 25px;
+    border-top: 1px solid #e8e8e8;
+}
+
+.post-a:hover {
+    text-decoration: none;
+}
+
+.repo-div {
+    padding: 7px 10px 7px 0px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.repo-span {
+    padding: 7px 10px 7px 10px;
+    margin-right: 7px;
+    color: #fff;
+    font-size: 1.5rem;
+    text-shadow: 0 1px 0 rgba(0, 51, 83, 0.3);
+    background-repeat: repeat-x;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, 0.03);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, 0.03); 
+}
+
+.repo-span {
+    background-color: #1b9dec;
+    background-image: -moz-linear-gradient(top, #1da7ee, #178ee9);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1da7ee), to(#178ee9));
+    background-image: -webkit-linear-gradient(top, #1da7ee, #178ee9);
+    background-image: -o-linear-gradient(top, #1da7ee, #178ee9);
+}
