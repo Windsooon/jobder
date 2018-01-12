@@ -1,13 +1,14 @@
 import json
 from django.test import TestCase
 from django.urls import reverse
-from tests.accounts import create_one_account
+from tests.base import create_one_account, create_one_job
 
 
 class PageTestCase(TestCase):
 
     def setUp(self):
         self.user = create_one_account()
+        self.user2 = create_one_account('2testaccouont', '2@example.com')
         self.client.force_login(self.user)
         # create job post
 
@@ -46,3 +47,14 @@ class PageTestCase(TestCase):
     def test_posted_jobs_show_up_after_created(self):
         response = self.client.get(reverse('front_page'))
         self.assertNotContains(response, 'Posted jobs')
+
+    def test_posted_job_show_up(self):
+        create_one_job(self.user.id)
+        response = self.client.get(reverse('posted_jobs'))
+        self.assertContains(response, 'Senior Software Engineer')
+
+    def test_posted_job_not_show_up(self):
+        self.client.logout()
+        self.client.force_login(self.user2)
+        response = self.client.get(reverse('posted_jobs'))
+        self.assertNotContains(response, 'Senior Software Engineer')

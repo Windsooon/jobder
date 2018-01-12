@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from tests.accounts import create_one_account, FIND
+from tests.base import create_one_account, FIND
 
 
 class PageTestCase(TestCase):
