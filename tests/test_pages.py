@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from tests.accounts import create_one_account
+from tests.accounts import create_one_account, FIND
 
 
 class PageTestCase(TestCase):
@@ -31,7 +31,7 @@ class PageTestCase(TestCase):
         self.client.force_login(user)
         response = self.client.get(reverse('front_page'))
         self.assertNotContains(response, 'Log in with Github')
-        self.assertContains(response, 'Find a Job')
+        self.assertContains(response, FIND)
         response = self.client.get(reverse('settings'))
         self.assertContains(response, '1testoneaccount')
 
@@ -54,3 +54,4 @@ class PageTestCase(TestCase):
         response = self.client.get(
             reverse('post_job'))
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Job Details')

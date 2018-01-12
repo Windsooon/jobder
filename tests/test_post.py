@@ -1,5 +1,6 @@
 import json
 from django.test import TestCase
+from django.urls import reverse
 from tests.accounts import create_one_account
 
 
@@ -28,3 +29,20 @@ class PageTestCase(TestCase):
             json.dumps(job_details), content_type='application/json'
         )
         self.assertEqual(response.status_code, 201)
+        id = response.json()['id']
+        # Posted jobs list on navbar
+        response = self.client.get(reverse('front_page'))
+        self.assertContains(response, 'Posted jobs')
+        # Access job detail
+        response = self.client.get(
+            reverse('job', kwargs={'id': id}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response, 'This job has not been post. ' +
+            'Click bottom button to pay.')
+        self.assertContains(
+            response, 'Senior Software Engineer')
+
+    def test_posted_jobs_show_up_after_created(self):
+        response = self.client.get(reverse('front_page'))
+        self.assertNotContains(response, 'Posted jobs')

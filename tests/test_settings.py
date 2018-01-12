@@ -29,6 +29,3 @@ class SettingsTestCase(TestCase):
         response = self.client.get(reverse('settings'))
         self.assertContains(response, 'https://www.testblog.com')
         self.assertContains(response, 'https://www.linkedin.com')
-
-    def test_settings_patch_blog(self):
-        pass
