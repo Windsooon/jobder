@@ -5,6 +5,7 @@ import requests
 from operator import itemgetter
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from allauth.socialaccount.models import SocialToken
 from post.models import Post
@@ -32,23 +33,27 @@ def profile(request, name):
     return render(request, 'profile.html')
 
 
+@login_required
 def settings(request):
     '''Settings page'''
-    if request.user.is_authenticated:
-        return render(request, 'settings.html')
-    else:
-        return render(request, '404.html')
+    return render(request, 'settings.html')
 
 
+@login_required
 def post_job(request):
     '''Post job page'''
     return render(request, 'post_job.html')
 
 
+@login_required
+def posted_jobs(request):
+    '''Posted jobs page'''
+    return render(request, 'posted_jobs.html')
+
+
 def job(request, id):
     '''job page'''
     onsite = ['Onsite And Remote', 'Remote', 'Onsite']
-    salary = ['Onsite And Remote', 'Remote', 'Onsite']
 
     try:
         job = Post.objects.get(id=id)
@@ -72,6 +77,7 @@ def job(request, id):
             'salary': job.salary})
 
 
+@login_required
 def match(request):
     '''
     Find the most match jobs
