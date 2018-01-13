@@ -14,7 +14,7 @@
         <a class="post-a" target="_blank" href="/job/{{ post.id }}/">
           <div>
             <span class="job-title">{{ post.title }}</span>
-            <i class="fa fa-building briefcase" aria-hidden="true"><span class="company-name">&nbsp;{{ post.company_name }}</span></i>
+            <i class="fa fa-building building" aria-hidden="true"><span class="company-name">&nbsp;{{ post.company_name }}</span></i>
             <div class="repo-div">
               {% for repo in post.repo.all %}
               <span class="repo-span">{{ repo.repo_name }}</span> 

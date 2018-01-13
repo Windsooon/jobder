@@ -19,10 +19,12 @@
               <span class="repo-span">{{ repo }}</span> 
               {% endfor %}
             </div>
-            <div class="job-button-wrapper">
-              <span id="salary">{{ salary }}</span>
-              <span id="onsite">{{ onsite }}</span>
-              <span id="location">{{ job.location }}</span>
+            <div>
+              <div class="job-button-wrapper">
+                <span id="salary">{{ salary }}</span>
+                <span id="onsite">{{ onsite }}</span>
+                <span id="location">{{ job.location }}</span>
+              </div>
             </div>
             <div class="job-wrapper">
               <h4 id="job-title">Job Des</h4>
@@ -33,7 +35,7 @@
             <h2 id="company">{{ job.company_name }}</h2>
             <h4 id="company-des-h4">Company Des</h4>
             <p id="company-des">{{ job.company_des }}</p>
-            <span id="apply">{{ job.apply }}</span>
+            <span id="apply">Apply: {{ job.apply }}</span>
           </div> <!-- end company -->
         </div> <!-- end job-container-div -->
         <hr>
