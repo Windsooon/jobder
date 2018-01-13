@@ -40,7 +40,7 @@
             <ul class="nav navbar-nav navbar-right">
               <li>
                 <p id="post-job">
-                  <a href="{% url 'post_job' %}" class="btn btn-default navbar-btn" title="">Post a Job</a>
+                <a href="{% url 'post_job' %}" class="btn btn-default navbar-btn" title="">Browser Jobs</a>
                 </p>
               </li>
               <li>
@@ -55,10 +55,6 @@
                   <li role="separator" class="divider"></li>
                   <li><a href="{% url 'settings' %}">Settings</a></li>
                 </ul>
-              {% else %}
-                <p>
-                  <a class="btn btn-default navbar-btn" href="{% provider_login_url 'github' %}">Login with Github</a>
-                </p>
               {% endif %}
               </li>
             </ul>

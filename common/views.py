@@ -13,6 +13,7 @@ from allauth.socialaccount.models import SocialToken
 from post.models import Post
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
+from .const import FIND, LOGIN, TITLE, POSTED
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
@@ -20,7 +21,7 @@ logger = init_logging.getLogger(__name__)
 
 def index(request):
     '''Front page'''
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'FIND': FIND, 'LOGIN': LOGIN})
 
 
 def profile(request, name):
@@ -50,8 +51,7 @@ def post_job(request):
 @login_required
 def posted_jobs(request):
     posts = Post.objects.filter(user_id=request.user.id)
-    title = "Job You Posted"
-    return render(request, 'match.html', {'posts': posts, 'title': title})
+    return render(request, 'match.html', {'posts': posts, 'title': POSTED})
 
 
 def job(request, id):
@@ -84,7 +84,6 @@ def match(request):
     '''
     Find the most match jobs
     '''
-    title = "Job You Posted"
     try:
         social_token = SocialToken.objects.get(
             account__user__id=request.user.id)
@@ -132,4 +131,4 @@ def match(request):
     preserved = Case(
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(id__in=posts_id).order_by(preserved)
-    return render(request, 'match.html', {'posts': posts, 'title': title})
+    return render(request, 'match.html', {'posts': posts, 'title': POSTED})
