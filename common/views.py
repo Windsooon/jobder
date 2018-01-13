@@ -1,6 +1,7 @@
 import json
 import base64
 import datetime
+import random
 import requests
 from operator import itemgetter
 from django.shortcuts import render
@@ -46,6 +47,16 @@ def settings(request):
 def post_job(request):
     '''Post job page'''
     return render(request, 'post_job.html')
+
+
+def browser(request):
+    '''Browser job page'''
+    ori_posts = Post.objects.all().order_by('id')
+    count = ori_posts.count()
+    first_id = ori_posts.first().id
+    lst = random.sample(range(first_id, first_id + count), 2)
+    posts = Post.objects.filter(id__in=lst)
+    return render(request, 'match.html', {'posts': posts, 'title': POSTED})
 
 
 @login_required
