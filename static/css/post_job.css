@@ -2,6 +2,15 @@
     border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
+.job-label {
+    font-size: 1.8rem;
+    color: #365bcd;
+}
+
+.job-special {
+    color: #ff3c7d;
+}
+
 .selectize-control.repositories .selectize-dropdown .by {
     font-size: 11px;
     opacity: 0.8;

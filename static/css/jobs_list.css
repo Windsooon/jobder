@@ -2,19 +2,24 @@
     font-size: 1.8rem;
 }
 
-.briefcase {
+.building {
     color: gray;
     margin-right: 4px;
 }
 
+.laptop {
+    color: #555 
+}
+
 #job-list {
     text-align: center;
+    color: #555;
 }
 
 .job-title {
-    font-size: 2.4rem;
+    font-size: 3rem;
     color: #555;
-    margin-right: 6px;
+    margin-right: 8px;
 }
 
 .job-des {

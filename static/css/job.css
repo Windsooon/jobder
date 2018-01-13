@@ -20,6 +20,7 @@
 
 .job-repos {
     display: inline-block;
+    padding-bottom: 6px;
 }
 
 #job-des, #company-des {
@@ -27,7 +28,9 @@
 }
 
 .job-button-wrapper {
-    padding: 7px 10px 7px 0px;
+    display: inline-block;
+    padding: 6px 10px 6px 0px;
+    border-bottom: 1px solid #e8e8e8;
 }
 
 #salary {
