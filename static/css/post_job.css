@@ -2,6 +2,16 @@
     border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
+.warning-div {
+    background: #555;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#warning-p, #warning-span {
+    color: #fff;
+}
+
 .job-label {
     font-size: 1.8rem;
     color: #365bcd;
@@ -9,6 +19,10 @@
 
 .job-special {
     color: #ff3c7d;
+}
+
+#agreed-span {
+    color: #fff;
 }
 
 .selectize-control.repositories .selectize-dropdown .by {
