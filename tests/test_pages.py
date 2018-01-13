@@ -1,15 +1,29 @@
+import json
 from django.test import TestCase
 from django.urls import reverse
 from tests.base import create_one_account, FIND
+from common.const import FIND, LOGIN, BROWSER
 
 
 class PageTestCase(TestCase):
 
-    def test_front_page_200(self):
+    def test_front_page_200_without_login(self):
         # frontpage
         response = self.client.get(reverse('front_page'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Log in with Github')
+        self.assertNotContains(response, FIND)
+        self.assertContains(response, LOGIN)
+        self.assertContains(response, BROWSER)
+
+    def test_front_page_200_with_login(self):
+        # frontpage
+        user = create_one_account()
+        self.client.force_login(user)
+        response = self.client.get(reverse('front_page'))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, LOGIN)
+        self.assertContains(response, FIND)
+        self.assertContains(response, BROWSER)
 
     def test_pages_not_login_redirect(self):
         expected_url = '/accounts/login/?next=/settings/'
@@ -29,24 +43,32 @@ class PageTestCase(TestCase):
     def test_user_login_frontpage_settings(self):
         user = create_one_account()
         self.client.force_login(user)
-        response = self.client.get(reverse('front_page'))
-        self.assertNotContains(response, 'Log in with Github')
-        self.assertContains(response, FIND)
         response = self.client.get(reverse('settings'))
         self.assertContains(response, '1testoneaccount')
 
-    def test_user_profile_without_login(self):
+    def test_user_profile_visiable_without_login(self):
         user = create_one_account()
         response = self.client.get(
             reverse('profile', kwargs={'name': user.username}))
         self.assertEqual(response.status_code, 200)
 
-    def test_user_profile_login(self):
+    def test_user_profile_visiable_by_owner(self):
         user = create_one_account()
         self.client.force_login(user)
+        details = {'visiable': 0}
+        response = self.client.patch(
+            '/api/settings/' + str(user.id) + '/',
+            json.dumps(details), content_type='application/json'
+        )
+        # Visiable by owner
         response = self.client.get(
             reverse('profile', kwargs={'name': user.username}))
         self.assertEqual(response.status_code, 200)
+        self.client.logout()
+        # Non visiable by other users
+        response = self.client.get(
+            reverse('profile', kwargs={'name': user.username}))
+        self.assertTemplateUsed('404.html')
 
     def test_post_job(self):
         user = create_one_account()
