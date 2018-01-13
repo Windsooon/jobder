@@ -48,7 +48,7 @@ $( document ).ready(function() {
                     } 
                 },
                 success: function(xhr) {
-                    console.log("Successed");
+                    $(".save-setting").text("Saved");
                 },
             });
         },
