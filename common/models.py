@@ -19,6 +19,7 @@ class Settings(models.Model):
     linkedin = models.URLField(blank=True)
     visiable = models.BooleanField(default=True)
     onsite = models.SmallIntegerField(default=Both)
+    # repo_update_time = models.DateTimeField(auto_now_add=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 

@@ -9,8 +9,10 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Case, When
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 from allauth.socialaccount.models import SocialToken
+from allauth.account.signals import user_logged_in
 from post.models import Post
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
@@ -48,6 +50,10 @@ def post_job(request):
     '''Post job page'''
     return render(request, 'post_job.html')
 
+@login_required
+def contributers(request):
+    '''Find contributers'''
+    return render(request, 'contributers.html')
 
 def browser(request):
     '''Browser job page'''
@@ -145,3 +151,8 @@ def match(request):
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(id__in=posts_id).order_by(preserved)
     return render(request, 'match.html', {'posts': posts, 'title': POSTED})
+
+
+@receiver(user_logged_in)
+def after_user_logged_in(sender, **kwargs):
+    logger.debug('user log in') 
