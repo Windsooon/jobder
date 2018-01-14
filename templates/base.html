@@ -41,7 +41,7 @@
               <li>
                 <p id="post-job">
                 <a href="{% url 'browser' %}" class="btn btn-default navbar-btn browser-job" title="">Browser Jobs</a>
-                <a href="{% url 'post_job' %}" class="btn btn-default navbar-btn" title="">Post A Job</a>
+                <a href="{% url 'post_job' %}" class="btn btn-default navbar-btn post-job-nav" title="">Post A Job</a>
                 </p>
               </li>
               <li>
@@ -49,12 +49,15 @@
               <input type="hidden" id="api-token" value="{{ user.socialaccount_set.first.socialtoken_set.first.token}}" />
               <a id="nav-user-name" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username }}<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'profile' name=''|add:user.username %}">Profile</a></li>
+                    <li><a href="{% url 'contributers' %}">Find Contributers</a></li>
                     {% if request.user.post.count > 0 %}
-                    <li><a href="{% url 'posted_jobs' %}">Posted jobs</a></li>
+                    <li><a href="{% url 'posted_jobs' %}">Jobs created</a></li>
                     {% endif %}
                   <li role="separator" class="divider"></li>
+                  <li><a href="{% url 'profile' name=''|add:user.username %}">Profile</a></li>
                   <li><a href="{% url 'settings' %}">Settings</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="{% url 'account_logout' %}">Log Out</a></li>
                 </ul>
               {% endif %}
               </li>

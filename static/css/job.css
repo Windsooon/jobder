@@ -1,6 +1,5 @@
 #title, #company {
     text-align:center;
-    /* color: #fff; */
     color: #555;
 }
 
@@ -8,8 +7,12 @@
     background-image: url(../imgs/repo-source.png);
 }
 
-#job-title, #job-des, #company-des {
-    /* color: #fff; */
+#company {
+    margin-top: 50px;
+}
+
+.job-wrapper, #company-des {
+    margin-bottom: 15px;
 }
 
 .job-div, .company-div {
@@ -40,10 +43,6 @@
 
 #onsite, #location, #apply {
     font-size: 2.2rem;
-}
-
-.company-div {
-    /* background: #ff3c7d; */
 }
 
 .repo-span, #salary, #onsite, #location, #apply {
