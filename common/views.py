@@ -51,10 +51,12 @@ def post_job(request):
 
 def browser(request):
     '''Browser job page'''
-    ori_posts = Post.objects.all().order_by('id')
+    ori_posts = Post.objects.filter(pay=1).filter(
+        pay_time__gte=timezone.now()
+        - datetime.timedelta(days=60)).order_by('id')
     count = ori_posts.count()
     first_id = ori_posts.first().id
-    lst = random.sample(range(first_id, first_id + count), 2)
+    lst = random.sample(range(first_id, first_id + count), count//2)
     posts = Post.objects.filter(id__in=lst)
     return render(request, 'match.html', {'posts': posts, 'title': POSTED})
 
@@ -117,7 +119,7 @@ def match(request):
     repo = [int(base64.b64decode(r)[14:]) for r in repo]
 
     post_set = Post.objects.filter(pay=1).filter(
-        pay_time__gte=datetime.datetime.now()
+        pay_time__gte=timezone.now()
         - datetime.timedelta(days=60))
 
     # lst contain every valid post

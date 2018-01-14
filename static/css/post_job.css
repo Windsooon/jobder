@@ -2,6 +2,10 @@
     border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
+.job-form-wrapper {
+    margin-bottom: 60px;
+}
+
 .warning-div {
     background: #555;
     padding: 15px;
@@ -14,11 +18,7 @@
 
 .job-label {
     font-size: 1.8rem;
-    color: #365bcd;
-}
-
-.job-special {
-    color: #ff3c7d;
+    font-weight: bold;
 }
 
 #agreed-span {
@@ -144,4 +144,8 @@
 .public-checkbox {
     margin-top: 10px;
     margin-bottom: 20px;
+}
+
+.error {
+    color: #ff3c7d;
 }

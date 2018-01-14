@@ -12,59 +12,61 @@
         <h2 id="user-settings">Job Details</h2>
         <input id="user-id" type="hidden" value="{{ user.id }}" />
         <form id="job-form" class="form-horizontal">
-          <div class="form-group">
-            <label class="job-label" for="job_title">* Job Title</label>
-            <div>
-                <input name="job_title" type="text" class="form-control" id="job_title"  placeholder="Senior Back End Engineer" maxlength="50">
+          <div class="job-form-wrapper">
+            <div class="form-group">
+              <label class="job-label" for="job_title">Job Title *</label>
+              <div>
+                  <input name="job_title" type="text" class="form-control" id="job_title"  placeholder="Senior Back End Engineer" maxlength="50">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="job-label" for="job_looking">* What people you are looking for</label>
-            <div>
-              <textarea maxlength="1024" name="job_looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We're looking for the most tenacious designers, software engineers, product managers. (up to 1024 characters)"></textarea>
-            </div> <!-- end job-looking -->
-          </div> <!-- end form-group -->
-          <div class="form-group">
-            <div class="control-group">
-              <label class="job-label job-special" for="select-open-source">* What contribulers you are looking for, now we only support open source projects on Github. Please search the correct project name. For example, search cpython instead of python.</label>
-              <input type="text" id="select-open-source" class="demo-default" placeholder="Django, Vue">
-            </div>
-          </div> <!-- end form-group -->
-          <div class="form-group">
-            <label class="job-label" for="remote">Onsite?</label>
-            <select id="onsite-select" class="form-control">
-              <option value="0">Both</option>
-              <option value="2">Onsite</option>
-              <option value="1">Remote</option>
-            </select>
-          </div> <!-- end form-group -->
-          <div class="form-group">
-            <label class="job-label" for="salary">* Salary Range</label>
-            <div>
-                <input name="salary" type="text" class="form-control" id="salary"  placeholder="$100k-$150k" maxlength="50">
-            </div>
-          </div> <!-- end form-group -->
+            <div class="form-group">
+              <label class="job-label" for="job_looking">What people you are looking for *</label>
+              <div>
+                <textarea maxlength="1024" name="job_looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We're looking for the most tenacious designers, software engineers, product managers. (up to 1024 characters)"></textarea>
+              </div> <!-- end job-looking -->
+            </div> <!-- end form-group -->
+            <div class="form-group">
+              <div class="control-group">
+                <label class="job-label job-special" for="select-open-source">What contribulers you are looking for, now we only support open source projects on Github. Please search the correct project name. For example, search cpython instead of python. *</label>
+                <input type="text" id="select-open-source" class="demo-default" placeholder="Django, Vue">
+              </div>
+            </div> <!-- end form-group -->
+            <div class="form-group">
+              <label class="job-label" for="remote">Onsite?</label>
+              <select id="onsite-select" class="form-control">
+                <option value="0">Both</option>
+                <option value="2">Onsite</option>
+                <option value="1">Remote</option>
+              </select>
+            </div> <!-- end form-group -->
+            <div class="form-group">
+              <label class="job-label" for="salary">Salary Range *</label>
+              <div>
+                  <input name="salary" type="text" class="form-control" id="salary"  placeholder="$100k-$150k" maxlength="50">
+              </div>
+            </div> <!-- end form-group -->
+          </div> <!-- end job-form-wrapper -->
           <h2 id="user-settings">Company Details</h2>
           <div class="form-group">
-            <label class="job-label" for="company">* Company Name</label>
+            <label class="job-label" for="company">Company Name *</label>
             <div>
                 <input name="company" type="text" class="form-control" id="company"  placeholder="Google" maxlength="50">
             </div>
           </div>
           <div class="form-group">
-            <label class="job-label" for="location">* Location</label>
+            <label class="job-label" for="location">Location *</label>
             <div>
                 <input name="location" type="text" class="form-control" id="location"  placeholder="Los Angeles" maxlength="50">
             </div>
           </div>
           <div class="form-group">
-            <label class="job-label" for="company_des">* What are your company doing?</label>
+            <label class="job-label" for="company_des">What are your company doing? *</label>
             <div>
               <textarea maxlength="1024" name="company_des" id="company-des" rows="5" cols="35" wrap="soft" placeholder="We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers. (up to 1024 characters)"></textarea>
             </div> <!-- end job-des -->
           </div> <!-- end form-group -->
           <div class="form-group">
-            <label class="job-label" for="open_source">* How to apply this job</label>
+            <label class="job-label" for="open_source">How to apply this job *</label>
             <div>
               <input name="apply" type="text" class="form-control" id="apply" placeholder="Email address or URL" maxlength="200" />
             </div> <!-- end col-sm-12 -->
