@@ -109,6 +109,11 @@ $( document ).ready(function() {
                 minlength: 3,
                 maxlength: 50,
             },
+            website: {
+                required: true,
+                minlength: 8,
+                maxlength: 256,
+            },
             company_des: {
                 required: true,
                 minlength: 3,
@@ -141,6 +146,11 @@ $( document ).ready(function() {
                 minlength: jQuery.validator.format("Please Enter at least {0} characters."),
                 maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
             },
+            website: {
+                required: "Please enter your company's website.",
+                minlength: jQuery.validator.format("Please Enter at least {0} characters."),
+                maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
+            },
             company_des: {
                 required: "Please enter your company's details.",
                 minlength: jQuery.validator.format("Please Enter at least {0} characters."),
@@ -149,8 +159,8 @@ $( document ).ready(function() {
         },
         submitHandler: function(form) {
             var csrftoken = getCookie("csrftoken");
-            if (!$('#select-open-source').selectize()[0].selectize.getValue()) {
-                alert("Please enter which project's contributer you are looking for"); 
+            if (!$("#select-open-source").selectize()[0].selectize.getValue()) {
+                alert("Please add tech stack your are using"); 
                 return false;
             }
             $.ajax({
@@ -167,6 +177,7 @@ $( document ).ready(function() {
                     "salary": $("#salary").val(),
                     "company_name": $("#company").val().trim(),
                     "location": $("#location").val(),
+                    "website": $("#website").val(),
                     "company_des": $("#company-des").val().trim(),
                     "apply": $("#apply").val().trim(),
                 }),

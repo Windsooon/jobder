@@ -20,21 +20,21 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="job-label" for="job_looking">What people you are looking for *</label>
+              <label class="job-label" for="job_looking">Details *</label>
               <div>
-                <textarea maxlength="1024" name="job_looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We're looking for the most tenacious designers, software engineers, product managers. (up to 1024 characters)"></textarea>
+                <textarea maxlength="1024" name="job_looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We're looking for both a back-end as well as a front-end engineer. Need to have a strong background in being able to write scalable software, preferably multi-paradigm, disciplined. (up to 1024 characters)"></textarea>
               </div> <!-- end job-looking -->
             </div> <!-- end form-group -->
             <div class="form-group">
               <div class="control-group">
-                <label class="job-label job-special" for="select-open-source">What contribulers you are looking for, now we only support open source projects on Github. Please search the correct project name. For example, search cpython instead of python. *</label>
+                <label class="job-label job-special" for="select-open-source">Which project's contribulers you are looking for, now we only support open source projects on Github. Please search the correct project name. For example, search cpython instead of python. moby instead of docker *</label>
                 <input type="text" id="select-open-source" class="demo-default" placeholder="Django, Vue">
               </div>
             </div> <!-- end form-group -->
             <div class="form-group">
-              <label class="job-label" for="remote">Onsite?</label>
+              <label class="job-label" for="remote">Remote?</label>
               <select id="onsite-select" class="form-control">
-                <option value="0">Both</option>
+                <option value="0">Onsite and Remote</option>
                 <option value="2">Onsite</option>
                 <option value="1">Remote</option>
               </select>
@@ -66,6 +66,12 @@
             </div> <!-- end job-des -->
           </div> <!-- end form-group -->
           <div class="form-group">
+            <label class="job-label" for="website">Website *</label>
+            <div>
+                <input name="website" type="url" class="form-control" id="website"  placeholder="https://jobder.net" maxlength="256">
+            </div>
+          </div>
+          <div class="form-group">
             <label class="job-label" for="open_source">How to apply this job *</label>
             <div>
               <input name="apply" type="text" class="form-control" id="apply" placeholder="Email address or URL" maxlength="200" />
@@ -77,11 +83,6 @@
 I am a p    art of / I represent the hiring company. Details provided above refer to the actual hiring entity.
 I unders    tand that my listing may be removed if it involves adult content, illegitimate work opportunity, incorrect job type, or contains inappropriate language.
             </span>
-            <div class="agreed-checkbox">
-              <label>
-                <input id="agreed-input" type="checkbox" ><span id="agreed-span">&nbsp;&nbsp;I agreed</span>
-              </label>
-            </div>
           </div>
           <div class="form-group">
             <div>

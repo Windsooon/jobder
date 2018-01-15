@@ -25,7 +25,9 @@
             <p>Linkedin: <a href="{{ user.settings.linkedin }}" target="_blank">{{ user.settings.linkedin }}</a></p>
           </div>
           <br>
+          {% if request.user == user %}}
           <a href="{% url 'match' %}" class="btn btn-default btn-lg" title="">Find a job</a>
+          {% endif %}
         </div> <!-- end col-xs-12 -->
       </div> <!-- end row -->
     </div> <!-- end container -->

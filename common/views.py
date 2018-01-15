@@ -11,15 +11,24 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
-from allauth.socialaccount.models import SocialToken
 from allauth.account.signals import user_logged_in
-from post.models import Post
+from post.models import Post, Repo
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
-from .const import FIND, LOGIN, TITLE, POSTED
+from .const import FIND, LOGIN, POSTED
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
+
+
+def _get_user_repos(user):
+    social_token = (
+        user.socialaccount_set.first().socialtoken_set.first())
+    query = get_repos_query(user.username, 100)
+    headers = {'Authorization': 'bearer ' + social_token.token}
+    return requests.post(
+        'https://api.github.com/graphql',
+        json.dumps({"query": query}), headers=headers)
 
 
 def index(request):
@@ -50,10 +59,12 @@ def post_job(request):
     '''Post job page'''
     return render(request, 'post_job.html')
 
+
 @login_required
 def contributers(request):
     '''Find contributers'''
     return render(request, 'contributers.html')
+
 
 def browser(request):
     '''Browser job page'''
@@ -103,17 +114,8 @@ def match(request):
     '''
     Find the most match jobs
     '''
-    try:
-        social_token = SocialToken.objects.get(
-            account__user__id=request.user.id)
-    except SocialToken.DoesNotExist:
-        logger.error('Can\'t find token mathc user %s' % request.username)
     # Get user created/contributed repos
-    query = get_repos_query(request.user.username, 2)
-    headers = {'Authorization': 'bearer ' + social_token.token}
-    response = requests.post(
-        'https://api.github.com/graphql',
-        json.dumps({"query": query}), headers=headers)
+    response = _get_user_repos(request.user)
     repo = [
         r['node']['id'] for r in
         response.json()['data']['user']['repositories']['edges']]
@@ -155,4 +157,15 @@ def match(request):
 
 @receiver(user_logged_in)
 def after_user_logged_in(sender, **kwargs):
-    logger.debug('user log in') 
+    user = kwargs['user']
+    response = _get_user_repos(user)
+    repos = response.json()['data']['user']['repositories']['edges']
+    repos_contributed = (
+        response.json()['data']['user']['repositoriesContributedTo']['edges'])
+    repos.extend(repos_contributed)
+    for repo in repos:
+        # obj, created = Repo.objects.update_or_create(
+        #     repo_id=int(base64.b64decode(repo['node']['id'])[14:])
+        #     defaults={'first_name': 'Bob'},
+        #     )
+        pass
