@@ -1,7 +1,7 @@
 import json
 from django.test import TestCase
 from django.urls import reverse
-from tests.base import create_one_account, FIND
+from tests.base import create_one_account
 from common.const import FIND, LOGIN, BROWSER
 
 
