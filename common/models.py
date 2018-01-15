@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 import allauth
+from post.models import Repo
 
 
 class Settings(models.Model):
@@ -19,6 +20,7 @@ class Settings(models.Model):
     linkedin = models.URLField(blank=True)
     visiable = models.BooleanField(default=True)
     onsite = models.SmallIntegerField(default=Both)
+    repo = models.ManyToManyField(Repo)
     # repo_update_time = models.DateTimeField(auto_now_add=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)

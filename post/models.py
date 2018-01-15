@@ -52,6 +52,7 @@ class Post(models.Model):
     company_name = models.CharField(max_length=50)
     company_des = models.CharField(max_length=1024)
     location = models.CharField(max_length=50)
+    website = models.URLField(blank=True)
     apply = models.CharField(max_length=256)
     pay = models.BooleanField(default=False)
     pay_time = models.DateTimeField(default=timezone.now())
