@@ -15,7 +15,7 @@ from allauth.account.signals import user_logged_in
 from post.models import Post, Repo
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
-from .const import FIND, LOGIN, POSTED
+from .const import FIND, LOGIN, POSTED, TITLE
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
@@ -152,7 +152,7 @@ def match(request):
     preserved = Case(
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(id__in=posts_id).order_by(preserved)
-    return render(request, 'match.html', {'posts': posts, 'title': POSTED})
+    return render(request, 'match.html', {'posts': posts, 'title': TITLE})
 
 
 @receiver(user_logged_in)
