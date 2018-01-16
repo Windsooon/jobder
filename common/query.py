@@ -28,6 +28,14 @@ def get_repos_query(user_name, num):
                   node {
                       id
                       name
+                      nameWithOwner
+                      url
+                      stargazers {
+                        totalCount
+                      }
+                      primaryLanguage {
+                          name
+                      }
                   }
               }
           }
