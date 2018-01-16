@@ -77,3 +77,8 @@ class PageTestCase(TestCase):
             reverse('post_job'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Job Details')
+
+    def test_browser_job(self):
+        response = self.client.get(
+            reverse('browser'))
+        self.assertEqual(response.status_code, 200)
