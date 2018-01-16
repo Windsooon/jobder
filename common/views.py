@@ -72,10 +72,13 @@ def browser(request):
         pay_time__gte=timezone.now()
         - datetime.timedelta(days=60)).order_by('id')
     count = ori_posts.count()
-    first_id = ori_posts.first().id
-    lst = random.sample(range(first_id, first_id + count), count//2)
-    posts = Post.objects.filter(id__in=lst)
-    return render(request, 'match.html', {'posts': posts, 'title': POSTED})
+    if count:
+        first_id = ori_posts.first().id
+        lst = random.sample(range(first_id, first_id + count), count//2)
+        posts = Post.objects.filter(id__in=lst)
+        return render(request, 'match.html', {'posts': posts, 'title': POSTED})
+    else:
+        return render(request, '404.html')
 
 
 @login_required
