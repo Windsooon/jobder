@@ -163,9 +163,23 @@ def after_user_logged_in(sender, **kwargs):
     repos_contributed = (
         response.json()['data']['user']['repositoriesContributedTo']['edges'])
     repos.extend(repos_contributed)
+    repo_lst = []
     for repo in repos:
-        # obj, created = Repo.objects.update_or_create(
-        #     repo_id=int(base64.b64decode(repo['node']['id'])[14:])
-        #     defaults={'first_name': 'Bob'},
-        #     )
-        pass
+        repo_name = repo['node']['name']
+        owner_name = repo['node']['nameWithOwner'].split('/')[0]
+        if repo['node']['primaryLanguage']:
+            language = repo['node']['primaryLanguage']['name']
+        else:
+            language = ""
+        obj, created = Repo.objects.update_or_create(
+            repo_id=int(base64.b64decode(repo['node']['id'])[14:]),
+            defaults={
+                'repo_name': repo_name,
+                'owner_name': owner_name,
+                'stargazers_count': repo['node']['stargazers']['totalCount'],
+                'language': language,
+                'html_url': repo['node']['url'],
+            },
+        )
+        repo_lst.append(obj.id)
+    user.settings.repo.add(*repo_lst)
