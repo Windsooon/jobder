@@ -1,5 +1,6 @@
-FIND = 'Find a Job'
+FIND = 'Find A Job'
 LOGIN = 'Log in with Github'
 BROWSER = 'Browse Jobs'
 TITLE = 'Job Recommended For You'
 POSTED = 'Job You Created'
+RANDOM = 'Random Job List'

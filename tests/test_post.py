@@ -33,7 +33,7 @@ class PageTestCase(TestCase):
         id = response.json()['id']
         # Posted jobs list on navbar
         response = self.client.get(reverse('front_page'))
-        self.assertContains(response, 'Jobs created')
+        self.assertContains(response, 'Jobs Created')
         # Access job detail
         response = self.client.get(
             reverse('job', kwargs={'id': id}))
