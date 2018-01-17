@@ -66,8 +66,8 @@ def contributers(request):
     return render(request, 'contributers.html')
 
 
-def browser(request):
-    '''Browser job page'''
+def browse(request):
+    '''Browse job page'''
     ori_posts = Post.objects.filter(pay=1).filter(
         pay_time__gte=timezone.now()
         - datetime.timedelta(days=60)).order_by('id')
@@ -101,7 +101,7 @@ def job(request, id):
         # not pay yet or expired
         if not job.pay or \
             ((timezone.now() -
-                datetime.timedelta(days=30)) > job.pay_time):
+                datetime.timedelta(days=60)) > job.pay_time):
             logger.info('job id %s hasn\'t pay or it\'s expired.' % id)
             if request.user != job.user:
                 return render(request, '404.html')

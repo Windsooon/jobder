@@ -1,5 +1,5 @@
 FIND = 'Find a Job'
 LOGIN = 'Log in with Github'
-BROWSER = 'Browser Jobs'
+BROWSER = 'Browse Jobs'
 TITLE = 'Job Recommended For You'
 POSTED = 'Job You Created'

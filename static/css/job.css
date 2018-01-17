@@ -10,6 +10,10 @@
     margin-bottom: 15px;
 }
 
+#from-jobder {
+    font-weight: bold;
+}
+
 .job-div, .company-div {
     padding-left: 20px;
     padding-right: 20px;
