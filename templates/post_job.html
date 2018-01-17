@@ -9,7 +9,7 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
-        <h2 id="user-settings">Job Details</h2>
+        <h2 id="job-details">Job Details</h2>
         <input id="user-id" type="hidden" value="{{ user.id }}" />
         <form id="job-form" class="form-horizontal">
           <div class="job-form-wrapper">
@@ -27,16 +27,23 @@
             </div> <!-- end form-group -->
             <div class="form-group">
               <div class="control-group">
-                <label class="job-label job-special" for="select-open-source">Which project's contribulers you are looking for, now we only support open source projects on Github. Please search the correct project name. For example, search cpython instead of python. moby instead of docker *</label>
-                <input type="text" id="select-open-source" class="demo-default" placeholder="Django, Vue">
+                  <label class="job-label job-special" for="select-open-source">1. Add the open source project tags your company are using or willing to try. <br> 2. Your job will recommend to the contributers who also contributed to these projects. <br> 3. Please search the Github project name. For example, search cpython instead of python. moby instead of docker *</label>
+                <input type="text" id="select-open-source" class="demo-default" placeholder="django, cpython, moby">
               </div>
             </div> <!-- end form-group -->
             <div class="form-group">
-              <label class="job-label" for="remote">Remote?</label>
+              <label class="job-label" for="remote">Remote</label>
               <select id="onsite-select" class="form-control">
                 <option value="0">Onsite and Remote</option>
                 <option value="2">Onsite</option>
                 <option value="1">Remote</option>
+              </select>
+            </div> <!-- end form-group -->
+            <div class="form-group">
+              <label class="job-label" for="visa">Visa Support</label>
+              <select id="visa-select" class="form-control">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
               </select>
             </div> <!-- end form-group -->
             <div class="form-group">
@@ -46,7 +53,7 @@
               </div>
             </div> <!-- end form-group -->
           </div> <!-- end job-form-wrapper -->
-          <h2 id="user-settings">Company Details</h2>
+          <h2 id="company-details">Company Details</h2>
           <div class="form-group">
             <label class="job-label" for="company">Company Name *</label>
             <div>

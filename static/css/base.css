@@ -37,3 +37,7 @@ pre {
     width: 100%;
 }
 
+#title, #job-company, #job-list, #job-details, #company-details{
+    text-align:center;
+    color: #555;
+}

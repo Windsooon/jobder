@@ -1,8 +1,3 @@
-#title, #company {
-    text-align:center;
-    color: #555;
-}
-
 .icon.source {
     background-image: url(../imgs/repo-source.png);
 }
@@ -45,7 +40,7 @@
     font-size: 2.2rem;
 }
 
-.repo-span, #salary, #onsite, #location, #apply {
+.repo-span, #salary, #onsite, #location, #apply, #visa {
     display: inline-block;
     padding: 7px 10px 7px 10px;
     margin-right: 7px;
@@ -61,7 +56,7 @@
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, 0.03); 
 }
 
-.repo-span {
+.repo-span, #location {
     background-color: #1b9dec;
     background-image: -moz-linear-gradient(top, #1da7ee, #178ee9);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1da7ee), to(#178ee9));
@@ -77,10 +72,18 @@
     background-image: -o-linear-gradient(top, #fc588f, #ff3c7d);
 }
 
-#location, #onsite, #apply {
+#onsite, #apply {
     background-color: #385acb;
     background-image: -moz-linear-gradient(top, #4463cb, #385acb);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4463cb), to(#385acb));
     background-image: -webkit-linear-gradient(top, #4463cb, #385acb);
     background-image: -o-linear-gradient(top, #4463cb, #385acb);
+}
+
+#visa{
+    background-color: #555;
+    background-image: -moz-linear-gradient(top, #6e6e6e, #555);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6e6e6e), to(#555));
+    background-image: -webkit-linear-gradient(top, #6e6e6e, #555);
+    background-image: -o-linear-gradient(top, #6e6e6e, #555);
 }

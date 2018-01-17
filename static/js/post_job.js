@@ -174,6 +174,7 @@ $( document ).ready(function() {
                     "job_des": $("#job-looking").val().trim(), 
                     "repos": repos,
                     "onsite": $("#location-select option:selected").val(), 
+                    "visa": $("#visa-select option:selected").val(), 
                     "salary": $("#salary").val(),
                     "company_name": $("#company").val().trim(),
                     "location": $("#location").val(),

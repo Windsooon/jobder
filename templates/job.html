@@ -29,16 +29,18 @@
               <div class="job-button-wrapper">
                 <span id="salary">{{ salary }}</span>
                 <span id="onsite">{{ onsite }}</span>
-                <span id="location">{{ job.location }}</span>
               </div>
             </div>
           </div>
           <hr>
           <div class="company-div"> <!-- company -->
-            <h2 id="company">{{ job.company_name }}</h2>
+            <h2 id="job-company">{{ job.company_name }}</h2>
+            <span id="location">{{ job.location }}</span>
+            <span id="visa">{{ visa }}</span>
             <h4 id="company-des-h4">Company Des</h4>
             <p id="company-des">{{ job.company_des }}</p>
-            <span id="apply">Apply: {{ job.apply }}</span>
+            <span id="apply">{{ job.apply }}</span>
+            <p id="from-jobder">* We will really appreciate if you mention you apply this job from jobder.</p>
           </div> <!-- end company -->
         </div> <!-- end job-container-div -->
         <hr>
