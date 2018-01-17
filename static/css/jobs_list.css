@@ -22,7 +22,12 @@
     font-size: 1.6rem;
 }
 
-.post-a {
+.post-create-time {
+    margin-top: 14px;
+    color: gray;
+}
+
+.post-div {
     display: block;
     padding-top: 20px;
     margin-bottom: 25px;
