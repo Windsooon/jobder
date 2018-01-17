@@ -63,7 +63,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = (
             'id', 'user', 'title', 'job_des', 'repos', 'repo',
-            'onsite', 'salary', 'company_name', 'location',
+            'onsite', 'salary', 'company_name', 'location', 'visa',
             'company_des', 'apply',
         )
         extra_kwargs = {

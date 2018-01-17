@@ -76,7 +76,7 @@ def browser(request):
         first_id = ori_posts.first().id
         lst = random.sample(range(first_id, first_id + count), count//2)
         posts = Post.objects.filter(id__in=lst)
-        return render(request, 'match.html', {'posts': posts, 'title': POSTED})
+        return render(request, 'match.html', {'posts': posts, 'title': TITLE})
     else:
         return render(request, '404.html')
 
@@ -90,6 +90,7 @@ def posted_jobs(request):
 def job(request, id):
     '''job page'''
     onsite = ['Onsite And Remote', 'Remote', 'Onsite']
+    visa = ['Visa Support', 'No Visa Support']
 
     try:
         job = Post.objects.get(id=id)
@@ -109,6 +110,7 @@ def job(request, id):
         {
             'repos': [r.repo_name for r in job.repo.all()], 'job': job,
             'onsite': onsite[job.onsite],
+            'visa': visa[job.visa],
             'salary': job.salary})
 
 
@@ -132,7 +134,7 @@ def match(request):
     post_set = Post.objects.filter(pay=1).filter(
         pay_time__gte=timezone.now()
         - datetime.timedelta(days=60))
-
+    count = post_set.count()
     # lst contain every valid post
     # and its repo id [{'id': 9: 'repos_lst': [621, 1058, 325198]},...]
     lst = []
@@ -141,20 +143,18 @@ def match(request):
         for r in post.repo.all():
             dic[post.id].append(r.repo_id)
         lst.append(dic)
-
     # Repos_len means how many repos match
     for l in lst:
         l['repos_len'] = len(set(repo) & set(list(l.values())[0]))
-
     lst = sorted(
         lst, key=itemgetter('repos_len'), reverse=True)
-
     # Post id sorted [16, 9, 10]
     # https://stackoverflow.com/questions/4916851/django-get-a-queryset-from-array-of-ids-in-specific-order
     posts_id = [list(l.keys())[0] for l in lst]
     preserved = Case(
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
-    posts = Post.objects.filter(id__in=posts_id).order_by(preserved)
+    posts = Post.objects.filter(
+        id__in=posts_id).order_by(preserved)[:(count*2//3)]
     return render(request, 'match.html', {'posts': posts, 'title': TITLE})
 
 
@@ -168,21 +168,22 @@ def after_user_logged_in(sender, **kwargs):
     repos.extend(repos_contributed)
     repo_lst = []
     for repo in repos:
-        repo_name = repo['node']['name']
-        owner_name = repo['node']['nameWithOwner'].split('/')[0]
-        if repo['node']['primaryLanguage']:
-            language = repo['node']['primaryLanguage']['name']
-        else:
-            language = ""
-        obj, created = Repo.objects.update_or_create(
-            repo_id=int(base64.b64decode(repo['node']['id'])[14:]),
-            defaults={
-                'repo_name': repo_name,
-                'owner_name': owner_name,
-                'stargazers_count': repo['node']['stargazers']['totalCount'],
-                'language': language,
-                'html_url': repo['node']['url'],
-            },
-        )
-        repo_lst.append(obj.id)
+        if repo['node']['stargazers']['totalCount'] > 200:
+            repo_name = repo['node']['name']
+            owner_name = repo['node']['nameWithOwner'].split('/')[0]
+            if repo['node']['primaryLanguage']:
+                language = repo['node']['primaryLanguage']['name']
+            else:
+                language = ""
+            obj, created = Repo.objects.update_or_create(
+                repo_id=int(base64.b64decode(repo['node']['id'])[14:]),
+                defaults={
+                    'repo_name': repo_name,
+                    'owner_name': owner_name,
+                    'stargazers_count': repo['node']['stargazers']['totalCount'],
+                    'language': language,
+                    'html_url': repo['node']['url'],
+                },
+            )
+            repo_lst.append(obj.id)
     user.settings.repo.add(*repo_lst)

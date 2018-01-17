@@ -37,6 +37,8 @@ class Post(models.Model):
     Both = 0
     Remote = 1
     OnSite = 2
+    Yes = 1
+    No = 0
 
     user = models.ForeignKey(
         get_user_model(),
@@ -47,6 +49,7 @@ class Post(models.Model):
     job_des = models.CharField(max_length=1024)
     repo = models.ManyToManyField(Repo)
     onsite = models.SmallIntegerField(default=Both)
+    visa = models.SmallIntegerField(default=No)
     salary = models.CharField(max_length=50)
     # company
     company_name = models.CharField(max_length=50)
@@ -55,7 +58,7 @@ class Post(models.Model):
     website = models.URLField(blank=True)
     apply = models.CharField(max_length=256)
     pay = models.BooleanField(default=False)
-    pay_time = models.DateTimeField(default=timezone.now())
+    pay_time = models.DateTimeField(default=timezone.now)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
