@@ -6,6 +6,15 @@
     margin-top: 50px;
 }
 
+.powered-div {
+    margin-bottom: 20px !important;
+}
+.powered-stripe {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 500;
+}
+
 .job-wrapper, #company-des {
     margin-bottom: 15px;
 }
