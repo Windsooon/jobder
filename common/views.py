@@ -6,6 +6,7 @@ import requests
 from operator import itemgetter
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Case, When
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -46,6 +47,26 @@ def profile(request, name):
         else:
             return render(request, '404.html')
     return render(request, 'profile.html')
+
+
+@csrf_exempt
+def token(request):
+    import stripe
+    stripe.api_key = 'sk_test_Mrp9fWK53zgna3gSbGGUy60W'
+    data = json.loads(request.body)
+    customer = stripe.Customer.create(
+        description='Customer for ' + data['name'],
+        email=data['email'],
+        source=data['token'],
+    )
+    stripe.Subscription.create(
+        customer=customer['default_source'],
+        items=[
+          {
+            "plan": "month-plan",
+          },
+        ],
+    )
 
 
 @login_required
@@ -180,7 +201,8 @@ def after_user_logged_in(sender, **kwargs):
                 defaults={
                     'repo_name': repo_name,
                     'owner_name': owner_name,
-                    'stargazers_count': repo['node']['stargazers']['totalCount'],
+                    'stargazers_count':
+                        repo['node']['stargazers']['totalCount'],
                     'language': language,
                     'html_url': repo['node']['url'],
                 },
