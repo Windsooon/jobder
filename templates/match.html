@@ -11,10 +11,10 @@
         <h2 id="job-list">{{ title }}</h2>
         <input id="user-id" type="hidden" value="{{ user.id }}" />
         {% for post in posts %}
-        <a class="post-a" target="_blank" href="/job/{{ post.id }}/">
-          <div>
-            <span class="job-title">{{ post.title }}</span>
+          <div class="post-div">
+            <a class="job-title" target="_blank" href="/job/{{ post.id }}/">{{ post.title }}</a>
             <i class="fa fa-building building" aria-hidden="true"><span class="company-name">&nbsp;{{ post.company_name }}</span></i>
+            <i class="post-create-time pull-right">{{ post.create_time|timesince }} ago </i>
             <div class="repo-div">
               {% for repo in post.repo.all %}
               <span class="repo-span">{{ repo.repo_name }}</span> 

@@ -7,7 +7,7 @@ from common import views
 urlpatterns = [
     url(r'^settings/$', views.settings, name='settings'),
     url(r'^post-job/$', views.post_job, name='post_job'),
-    url(r'^browser/$', views.browser, name='browser'),
+    url(r'^browse/$', views.browse, name='browse'),
     url(r'^contributers/$', views.contributers, name='contributers'),
     url(r'^posted-jobs/$', views.posted_jobs, name='posted_jobs'),
     url(r'^match/$', views.match, name='match'),

@@ -15,7 +15,7 @@ from allauth.account.signals import user_logged_in
 from post.models import Post, Repo
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
-from .const import FIND, LOGIN, POSTED, TITLE
+from .const import FIND, LOGIN, POSTED, TITLE, RANDOM
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
@@ -66,8 +66,8 @@ def contributers(request):
     return render(request, 'contributers.html')
 
 
-def browser(request):
-    '''Browser job page'''
+def browse(request):
+    '''Browse job page'''
     ori_posts = Post.objects.filter(pay=1).filter(
         pay_time__gte=timezone.now()
         - datetime.timedelta(days=60)).order_by('id')
@@ -76,7 +76,7 @@ def browser(request):
         first_id = ori_posts.first().id
         lst = random.sample(range(first_id, first_id + count), count//2)
         posts = Post.objects.filter(id__in=lst)
-        return render(request, 'match.html', {'posts': posts, 'title': TITLE})
+        return render(request, 'match.html', {'posts': posts, 'title': RANDOM})
     else:
         return render(request, '404.html')
 
@@ -101,7 +101,7 @@ def job(request, id):
         # not pay yet or expired
         if not job.pay or \
             ((timezone.now() -
-                datetime.timedelta(days=30)) > job.pay_time):
+                datetime.timedelta(days=60)) > job.pay_time):
             logger.info('job id %s hasn\'t pay or it\'s expired.' % id)
             if request.user != job.user:
                 return render(request, '404.html')

@@ -40,6 +40,10 @@ class PageTestCase(TestCase):
         response = self.client.get(reverse('match'))
         self.assertEqual(response.status_code, 302)
 
+    def test_pages_not_login_browse_job(self):
+        response = self.client.get(reverse('browse'))
+        self.assertEqual(response.status_code, 200)
+
     def test_user_login_frontpage_settings(self):
         user = create_one_account()
         self.client.force_login(user)
@@ -70,7 +74,7 @@ class PageTestCase(TestCase):
             reverse('profile', kwargs={'name': user.username}))
         self.assertTemplateUsed('404.html')
 
-    def test_post_job(self):
+    def test_post_job_pages(self):
         user = create_one_account()
         self.client.force_login(user)
         response = self.client.get(
@@ -78,7 +82,7 @@ class PageTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Job Details')
 
-    def test_browser_job(self):
+    def test_browse_job_pages(self):
         response = self.client.get(
-            reverse('browser'))
+            reverse('browse'))
         self.assertEqual(response.status_code, 200)
