@@ -59,14 +59,22 @@ def token(request):
         email=data['email'],
         source=data['token'],
     )
-    stripe.Subscription.create(
-        customer=customer['default_source'],
+    logger.debug(request.user)
+    request.user.settings.stripe_id = data['token']
+    request.user.settings.stripe_name = data['name']
+    request.user.settings.stripe_email = data['email']
+    request.user.settings.save()
+
+    subscription = stripe.Subscription.create(
+        customer=customer['id'],
         items=[
           {
-            "plan": "month-plan",
+            "plan": "onthly-plan",
           },
         ],
     )
+    logger.error(subscription)
+
 
 
 @login_required
