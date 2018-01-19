@@ -25,6 +25,10 @@ class PageTestCase(TestCase):
         self.assertContains(response, FIND)
         self.assertContains(response, BROWSER)
 
+    def test_footer_details(self):
+        response = self.client.get(reverse('front_page'))
+        self.assertContains(response, 'Created This Awesome Template')
+
     def test_pages_not_login_redirect(self):
         expected_url = '/accounts/login/?next=/settings/'
         response = self.client.get(reverse('settings'))

@@ -1,8 +1,6 @@
 from django.contrib.auth import get_user_model
 from post.models import Post, Repo
 
-FIND = 'Find a Job'
-
 
 def create_one_account(username='1testoneaccount', email='1@onexample.com'):
     return get_user_model().objects.create_user(
