@@ -6,6 +6,7 @@ import requests
 from operator import itemgetter
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Case, When
 from django.utils import timezone
@@ -59,7 +60,6 @@ def token(request):
         email=data['email'],
         source=data['token'],
     )
-    logger.debug(request.user)
     request.user.settings.stripe_id = data['token']
     request.user.settings.stripe_name = data['name']
     request.user.settings.stripe_email = data['email']
@@ -74,7 +74,7 @@ def token(request):
         ],
     )
     logger.error(subscription)
-
+    return HttpResponse(200)
 
 
 @login_required

@@ -116,7 +116,7 @@
 
 .selectize-dropdown, .selectize-input, .selectize-input input {
     min-height: 51px;
-    padding-top: 12px;
+    padding-top: 14px;
     font-size: 1.8rem;
 }
 
