@@ -4,9 +4,10 @@ import datetime
 import random
 import requests
 from operator import itemgetter
+from collections import defaultdict
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Case, When
 from django.utils import timezone
@@ -90,9 +91,29 @@ def post_job(request):
 
 
 @login_required
-def contributers(request):
-    '''Find contributers'''
-    return render(request, 'contributers.html')
+def contributors(request):
+    '''Find contributors'''
+    return render(request, 'contributors.html')
+
+
+@login_required
+def repo_search(request):
+    '''Search contributors'''
+    repo_id = request.GET.get('repo_id', '')
+    if repo_id:
+        res_lst = []
+        # Select user create or contributed to this repo
+        user_lst = get_user_model().objects.filter(
+            settings__visiable=1).filter(settings__repo__repo_id=repo_id).all()
+        for user in user_lst:
+            u = defaultdict(dict)
+            extra_data = user.socialaccount_set.first().extra_data
+            u['username'] = extra_data['login']
+            u['avatar_url'] = extra_data['avatar_url']
+            res_lst.append(u)
+        return JsonResponse({'data': res_lst})
+    else:
+        return HttpResponse(status_code=400)
 
 
 def browse(request):
