@@ -114,6 +114,11 @@ $( document ).ready(function() {
                 minlength: 8,
                 maxlength: 256,
             },
+            apply: {
+                required: true,
+                minlength: 3,
+                maxlength: 1024,
+            },
             company_des: {
                 required: true,
                 minlength: 3,
@@ -143,6 +148,11 @@ $( document ).ready(function() {
             },
             location: {
                 required: "Please enter your company location.",
+                minlength: jQuery.validator.format("Please Enter at least {0} characters."),
+                maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
+            },
+            apply: {
+                required: "Please enter apply url or email.",
                 minlength: jQuery.validator.format("Please Enter at least {0} characters."),
                 maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
             },

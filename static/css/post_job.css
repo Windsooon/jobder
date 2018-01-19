@@ -1,13 +1,9 @@
-.selectize-control.repositories .selectize-dropdown > div {
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-
 .job-form-wrapper {
     margin-bottom: 60px;
 }
 
 .warning-div {
-    background: #555;
+    background: #455abd;
     padding: 15px;
     margin-bottom: 20px;
 }
@@ -23,6 +19,32 @@
 
 #agreed-span {
     color: #fff;
+}
+
+#company-des, #job-looking {
+    width: 100%;
+}
+
+#user-settings {
+    text-align:center;
+}
+
+.public-checkbox {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: #ff3c7d;
+}
+
+/* selectize.css */
+
+#select-open-source-selectized {
+}
+
+.selectize-control.repositories .selectize-dropdown > div {
+	border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 .selectize-control.repositories .selectize-dropdown .by {
@@ -79,7 +101,7 @@
     z-index: 2;
     position: absolute;
     display: block;
-    top: 12px;
+    top: 18px;
     right: 34px;
     width: 16px;
     height: 16px;
@@ -90,6 +112,16 @@
 
 .selectize-control.repositories.loading::before {
     opacity: 0.4;
+}
+
+.selectize-dropdown, .selectize-input, .selectize-input input {
+    min-height: 51px;
+    padding-top: 12px;
+    font-size: 1.8rem;
+}
+
+.selectize-control.multi .selectize-input > div {
+    padding: 9px 8px;
 }
 
 .icon {
@@ -107,45 +139,4 @@
 
 .icon.source {
     background-image: url(../imgs/repo-source.png);
-}
-
-.selectize-dropdown-content {
-    max-height: 400px;    
-}
-
-.search-col {
-    margin-top: 3em;
-}
-
-.selectize-control.multi .selectize-input > div {
-    padding: 7px 10px;
-}
-
-.selectize-dropdown, .selectize-input, .selectize-input input {
-    font-size: 16px;
-}
-
-.selectize-input {
-    min-height: 51px;
-}
-
-.selectize-input > input {
-    margin-top: 10px !important;
-}
-
-#company-des, #job-looking {
-    width: 100%;
-}
-
-#user-settings {
-    text-align:center;
-}
-
-.public-checkbox {
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-.error {
-    color: #ff3c7d;
 }
