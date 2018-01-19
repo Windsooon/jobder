@@ -18,10 +18,12 @@ class Settings(models.Model):
     )
     blog = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
+    stripe_id = models.CharField(max_length=256, blank=True)
+    stripe_name = models.CharField(max_length=256, blank=True)
+    stripe_email = models.EmailField(blank=True)
     visiable = models.BooleanField(default=True)
     onsite = models.SmallIntegerField(default=Both)
     repo = models.ManyToManyField(Repo)
-    # repo_update_time = models.DateTimeField(auto_now_add=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 

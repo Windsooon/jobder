@@ -612,12 +612,6 @@ main > .container-lg .example .success .reset svg {
   background-color: #385acb;
 }
 
-.example.example1 * {
-  font-family: Roboto, Open Sans, Segoe UI, sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-}
-
 .example.example1 fieldset {
   margin: 0 15px 20px;
   padding: 0;
