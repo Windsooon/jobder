@@ -28,7 +28,7 @@ class Settings(models.Model):
     update_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user__username
+        return self.user.username
 
 
 @receiver(post_save, sender=allauth.app_settings.USER_MODEL)
