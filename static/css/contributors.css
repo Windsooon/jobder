@@ -103,10 +103,24 @@
     text-align: center;
 }
 
-.contri-div {
+.contri-col {
     min-height: 500px;
+}
+
+.contri-div {
+    padding: 30px;
 }
 
 .find-row {
     margin-bottom: 50px;
+}
+
+.contri-img {
+    max-width: 100%;
+    border-radius: 50%;
+    padding: 30px;
+}
+
+.contri-span {
+    font-size: 3rem;
 }

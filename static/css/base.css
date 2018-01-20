@@ -37,7 +37,8 @@ pre {
     width: 100%;
 }
 
-#title, #job-company, #job-list, #job-details, #company-details{
+#title, #job-company, #job-list, #job-details,
+#company-details, #find-details, #contri-h2{
     text-align:center;
     color: #555;
 }
