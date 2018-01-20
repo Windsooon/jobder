@@ -66,27 +66,27 @@ function check_repo(btn, repo) {
 }
 
 function set_up_contributors(container, data) {
-
-    <div class="contri-row row">
-      <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
-        <h2 id="job-details">Contributors List</h2>
-      </div>
-    </div>
-    var $contri_row_div = $("<div />", {
-        "class": "contri-row row"
-    });
-    var $contri_col = $("<div />", {
-        "class": "col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2"
-    });
     var $contri_h2 = $("<h2 />", {
+        "id": "contri-h2",
         "text": "Contributors List",
     });
-    container.append($contri_row_div);
-    $contri_row_div.append($contri_col);
-    $contri_col.append($contri_h2);
+    container.append($contri_h2);
 
     $.each(data, function(key, value) {
-        console.log(key, value);
+        var $contri_div = $("<div />", {
+            "class": "contri-div col-xs-3",
+        });
+        var $contri_img = $("<img />", {
+            "class": "contri-img",
+            "src": value["avatar_url"]
+        });
+        var $contri_span = $("<span />", {
+            "class": "contri-span",
+            "text": value["username"]
+        });
+        $contri_div.append($contri_img);
+        $contri_div.append($contri_span);
+        container.append($contri_div);
     });
 }
 
@@ -107,7 +107,7 @@ $(document).ready(function(){
             },
             success: function(res) {
                 if (res.data.length > 0) {
-                    set_up_contributors(res.data);
+                    set_up_contributors($(".contri-col"), res.data);
                 }
                 else {
                     set_up_empty(); 
