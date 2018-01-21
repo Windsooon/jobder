@@ -78,7 +78,7 @@ function set_up_number(container, length, repo) {
         var text = "We found one " + repo + " contributor looking for job.";
     }
     else {
-        var text = "We found " + length + " " + repo + " contributors looking for job";
+        var text = "We found " + length + " " + repo + " contributors here.";
     }
     var $contri_h2 = $("<h2 />", {
         "id": "contri-h2",
@@ -90,11 +90,12 @@ function set_up_number(container, length, repo) {
 function set_up_contributors(container, data) {
     $.each(data, function(key, value) {
         var $contri_a = $("<a />", {
-            "class": "contri-a col-xs-3",
-            "href": "/",
+            "class": "contri-a col-sm-4 col-xs-6",
+            "target": "_blank",
+            "href": base_url + value["username"] + "/"
         });
         var $contri_div = $("<div />", {
-            "class": "contri-div",
+            "class": "contri-inner-div",
         });
         var $contri_img = $("<img />", {
             "class": "contri-img",
