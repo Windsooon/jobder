@@ -16,7 +16,7 @@ $('#select-open-source').selectize({
     render: {
         item: function(item, escape) {
             return '<div>' +
-                (item.name ? '<span class="repo-name">' + escape(item.name) + '</span>' : '') + 
+                (item.name ? '<span id="repo-name">' + escape(item.name) + '</span>' : '') + 
                 (item.owner.login ? '<span class="author">' + '</span>' : '') +
             '</div>';
         },
@@ -65,28 +65,53 @@ function check_repo(btn, repo) {
     });
 }
 
-function set_up_contributors(container, data) {
+function set_up_empty() {
+    var $contri_h3 = $("<h3 />", {
+        "class": "contri-empty-h3 col-xs-12",
+        "text": "You have to have a valid job post to see contributers"
+    });
+    $(".contri-col").append($contri_h3);
+}
+
+function set_up_number(container, length, repo) {
+    if (length == 1) {
+        var text = "We found one " + repo + " contributor looking for job.";
+    }
+    else {
+        var text = "We found " + length + " " + repo + " contributors looking for job";
+    }
     var $contri_h2 = $("<h2 />", {
         "id": "contri-h2",
-        "text": "Contributors List",
+        "text": text,
     });
     container.append($contri_h2);
+}
 
+function set_up_contributors(container, data) {
     $.each(data, function(key, value) {
+        var $contri_a = $("<a />", {
+            "class": "contri-a col-xs-3",
+            "href": "/",
+        });
         var $contri_div = $("<div />", {
-            "class": "contri-div col-xs-3",
+            "class": "contri-div",
         });
         var $contri_img = $("<img />", {
             "class": "contri-img",
             "src": value["avatar_url"]
         });
+        var $contri_wrapper_div = $("<div />", {
+            "class": "contri-wrapper-div",
+        });
         var $contri_span = $("<span />", {
             "class": "contri-span",
             "text": value["username"]
         });
+        $contri_a.append($contri_div);
         $contri_div.append($contri_img);
-        $contri_div.append($contri_span);
-        container.append($contri_div);
+        $contri_div.append($contri_wrapper_div);
+        $contri_wrapper_div.append($contri_span);
+        container.append($contri_a);
     });
 }
 
@@ -106,6 +131,8 @@ $(document).ready(function(){
             error: function() {
             },
             success: function(res) {
+                $(".contri-col").empty(); 
+                set_up_number($(".contri-col"), res.length, $("#repo-name").text());
                 if (res.data.length > 0) {
                     set_up_contributors($(".contri-col"), res.data);
                 }
