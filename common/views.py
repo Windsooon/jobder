@@ -33,6 +33,11 @@ def _get_user_repos(user):
         'https://api.github.com/graphql',
         json.dumps({"query": query}), headers=headers)
 
+def _get_valid_post():
+    return Post.objects.filter(pay=1).filter(
+        pay_time__gte=timezone.now()
+        - datetime.timedelta(days=30))
+
 
 def index(request):
     '''Front page'''
@@ -105,22 +110,25 @@ def repo_search(request):
         # Select user create or contributed to this repo
         user_lst = get_user_model().objects.filter(
             settings__visiable=1).filter(settings__repo__repo_id=repo_id).all()
-        for user in user_lst:
-            u = defaultdict(dict)
-            extra_data = user.socialaccount_set.first().extra_data
-            u['username'] = extra_data['login']
-            u['avatar_url'] = extra_data['avatar_url']
-            res_lst.append(u)
-        return JsonResponse({'data': res_lst})
+        length = user_lst.count()
+        posts = _get_valid_post()
+        if any(post.user_id == request.user.id for post in posts):
+            for user in user_lst:
+                u = defaultdict(dict)
+                extra_data = user.socialaccount_set.first().extra_data
+                u['username'] = extra_data['login']
+                u['avatar_url'] = extra_data['avatar_url']
+                res_lst.append(u)
+        else:
+            res_lst = []
+        return JsonResponse({'length': length, 'data': res_lst})
     else:
         return HttpResponse(status_code=400)
 
 
 def browse(request):
     '''Browse job page'''
-    ori_posts = Post.objects.filter(pay=1).filter(
-        pay_time__gte=timezone.now()
-        - datetime.timedelta(days=60)).order_by('id')
+    ori_posts = _get_valid_post().order_by('id')
     count = ori_posts.count()
     if count:
         first_id = ori_posts.first().id
@@ -151,7 +159,7 @@ def job(request, id):
         # not pay yet or expired
         if not job.pay or \
             ((timezone.now() -
-                datetime.timedelta(days=60)) > job.pay_time):
+                datetime.timedelta(days=30)) > job.pay_time):
             logger.info('job id %s hasn\'t pay or it\'s expired.' % id)
             if request.user != job.user:
                 return render(request, '404.html')
@@ -181,9 +189,7 @@ def match(request):
     # repo contains a list of repo ids [14400303, 1404040]
     repo = [int(base64.b64decode(r)[14:]) for r in repo]
 
-    post_set = Post.objects.filter(pay=1).filter(
-        pay_time__gte=timezone.now()
-        - datetime.timedelta(days=60))
+    post_set = _get_valid_post()
     count = post_set.count()
     # lst contain every valid post
     # and its repo id [{'id': 9: 'repos_lst': [621, 1058, 325198]},...]

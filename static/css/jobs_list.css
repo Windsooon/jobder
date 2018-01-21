@@ -39,8 +39,7 @@
 }
 
 .repo-div {
-    padding: 7px 10px 7px 0px;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
@@ -49,6 +48,8 @@
     margin-right: 7px;
     color: #fff;
     font-size: 1.5rem;
+    display: inline-block;
+    margin-bottom: 10px;
     text-shadow: 0 1px 0 rgba(0, 51, 83, 0.3);
     background-repeat: repeat-x;
     -webkit-border-radius: 3px;

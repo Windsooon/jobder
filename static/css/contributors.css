@@ -111,6 +111,10 @@
     padding: 30px;
 }
 
+.contri-a {
+    display: block;
+}
+
 .find-row {
     margin-bottom: 50px;
 }
@@ -122,5 +126,13 @@
 }
 
 .contri-span {
-    font-size: 3rem;
+    font-size: 2.2rem;
+}
+
+.contri-wrapper-div {
+    text-align: center;
+}
+
+.find-repo-div {
+    text-align: center;
 }
