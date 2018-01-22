@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^post-job/$', views.post_job, name='post_job'),
     url(r'^browse/$', views.browse, name='browse'),
     url(r'^token/$', views.token, name='token'),
+    url(r'^pay/$', views.pay, name='pay'),
     url(r'^repo-search/$', views.repo_search, name='repo_search'),
     url(r'^search/$', views.contributors, name='contributors'),
     url(r'^posted-jobs/$', views.posted_jobs, name='posted_jobs'),

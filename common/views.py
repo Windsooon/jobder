@@ -33,6 +33,7 @@ def _get_user_repos(user):
         'https://api.github.com/graphql',
         json.dumps({"query": query}), headers=headers)
 
+
 def _get_valid_post():
     return Post.objects.filter(pay=1).filter(
         pay_time__gte=timezone.now()
@@ -75,7 +76,7 @@ def token(request):
         customer=customer['id'],
         items=[
           {
-            "plan": "onthly-plan",
+            "plan": "monthly-plan",
           },
         ],
     )
@@ -124,6 +125,13 @@ def repo_search(request):
         return JsonResponse({'length': length, 'data': res_lst})
     else:
         return HttpResponse(status_code=400)
+
+
+@csrf_exempt
+def pay(request):
+    event_json = json.loads(request.body)
+    logger.debug(event_json)
+    return HttpResponse(status=200)
 
 
 def browse(request):
