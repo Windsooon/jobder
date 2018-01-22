@@ -107,8 +107,8 @@ else:
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
         'SCOPE': [
-            'user',
-            'repo',
+            'read:user',
+            'user:email',
             'public_repo',
             'read:org',
         ],
