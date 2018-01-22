@@ -19,12 +19,16 @@
               </div>
               <div class="col-sm-4 col-xs-12">
                 <i class="post-create-time pull-right">{{ post.create_time|timesince }} ago </i>
+                {% if title == 'Jobs You Created' %}
+                <i class="post-pay-status pull-right">{{ post.pay | yesno:"payed,non-payed" }}</i>
+                {% endif %}
               </div>
             </div>
             <div class="repo-div">
               {% for repo in post.repo.all %}
               <span class="repo-span">{{ repo.repo_name }}</span> 
               {% endfor %}
+              <span id="onsite" class="repo-span">{{ post.onsite | yesno:"Remove,Onsite" }}</span>
             </div>
             <p class="job-des">{{ post.job_des }}</p>
           </div>
