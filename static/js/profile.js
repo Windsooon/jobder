@@ -70,7 +70,7 @@ function get_user_data(url, token, user_name) {
             update_slider($('.contributed-class'));
         },
         error: function() {
-            alert("You may reach rate limit, please try again later");
+            alert("Please try again");
         }
     }); 
 }

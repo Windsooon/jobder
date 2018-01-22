@@ -47,3 +47,14 @@ pre {
     text-align:center;
     color: gray;
 }
+
+.profile-img {
+    max-width: 100%;
+}
+
+.profile-p {
+    margin-top: 40%;
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
+}
