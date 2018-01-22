@@ -28,7 +28,7 @@
               {% for repo in post.repo.all %}
               <span class="repo-span">{{ repo.repo_name }}</span> 
               {% endfor %}
-              <span id="onsite" class="repo-span">{{ post.onsite | yesno:"Remove,Onsite" }}</span>
+              <span id="onsite" class="repo-span">{{ post.onsite | yesno:"Remove,Onsite And Remote" }}</span>
             </div>
             <p class="job-des">{{ post.job_des }}</p>
           </div>

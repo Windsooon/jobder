@@ -100,3 +100,7 @@
     background-image: -webkit-linear-gradient(top, #6e6e6e, #555);
     background-image: -o-linear-gradient(top, #6e6e6e, #555);
 }
+
+.post-create-time {
+    font-size: 2rem;
+}

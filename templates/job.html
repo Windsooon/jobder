@@ -21,17 +21,13 @@
               {% for repo in repos %}
               <span class="repo-span">{{ repo }}</span> 
               {% endfor %}
+              <span id="salary">{{ salary }}</span>
+              <span id="onsite">{{ onsite }}</span>
             </div>
             <div class="job-wrapper">
               <h4 id="job-title">Job Details</h4>
               <span id="job-des">{{ job.job_des }}</span>
             </div> <!-- end job wrapper -->
-            <div>
-              <div class="job-button-wrapper">
-                <span id="salary">{{ salary }}</span>
-                <span id="onsite">{{ onsite }}</span>
-              </div>
-            </div>
           </div>
           <hr>
           <div class="company-div"> <!-- company -->
@@ -40,8 +36,10 @@
             <span id="visa">{{ visa }}</span>
             <h4 id="company-des-h4">Company Details</h4>
             <p id="company-des">{{ job.company_des }}</p>
+            <span id="apply">How To Apply :</span>
             <span id="apply">{{ job.apply }}</span>
             <p id="from-jobder">* We will really appreciate if you mention you apply this job from jobder.</p>
+            <i class="post-create-time pull-right">{{ job.create_time|timesince }} ago </i>
           </div> <!-- end company -->
         </div> <!-- end job-container-div -->
         <hr>
