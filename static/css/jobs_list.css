@@ -27,6 +27,12 @@
     color: gray;
 }
 
+.post-pay-status {
+    margin-right: 10px;
+    margin-top: 14px;
+    color: #ff3c7d;
+}
+
 .post-div {
     display: block;
     padding-top: 20px;
@@ -43,7 +49,7 @@
     margin-bottom: 10px;
 }
 
-.repo-span {
+.repo-span, #onsite {
     padding: 7px 10px 7px 10px;
     margin-right: 7px;
     color: #fff;
@@ -65,4 +71,12 @@
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1da7ee), to(#178ee9));
     background-image: -webkit-linear-gradient(top, #1da7ee, #178ee9);
     background-image: -o-linear-gradient(top, #1da7ee, #178ee9);
+}
+
+#onsite{
+    background-color: #385acb;
+    background-image: -moz-linear-gradient(top, #4463cb, #385acb);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4463cb), to(#385acb));
+    background-image: -webkit-linear-gradient(top, #4463cb, #385acb);
+    background-image: -o-linear-gradient(top, #4463cb, #385acb);
 }

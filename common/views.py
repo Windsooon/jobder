@@ -140,7 +140,7 @@ def browse(request):
     count = ori_posts.count()
     if count:
         first_id = ori_posts.first().id
-        lst = random.sample(range(first_id, first_id + count), count//2)
+        lst = random.sample(range(first_id, first_id + count), count*2//3)
         posts = Post.objects.filter(id__in=lst)
         return render(request, 'match.html', {'posts': posts, 'title': RANDOM})
     else:
