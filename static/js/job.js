@@ -1,4 +1,3 @@
-
 'use strict';
 
 var stripe = Stripe('pk_test_fEJG3FbEEKCGhriUfqjWJZG5');
