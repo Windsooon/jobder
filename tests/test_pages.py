@@ -1,29 +1,38 @@
 import json
 from django.test import TestCase
 from django.urls import reverse
-from tests.base import create_one_account
-from common.const import FIND, LOGIN, BROWSER
+from tests.base import create_one_account, create_one_job
+from common.const import FIND, LOGIN, BROWSE, RANDOM
 
 
 class PageTestCase(TestCase):
 
     def test_front_page_200_without_login(self):
-        # frontpage
         response = self.client.get(reverse('front_page'))
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, FIND)
         self.assertContains(response, LOGIN)
-        self.assertContains(response, BROWSER)
-
-    def test_front_page_200_with_login(self):
-        # frontpage
+        self.assertContains(response, BROWSE)
         user = create_one_account()
         self.client.force_login(user)
         response = self.client.get(reverse('front_page'))
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, LOGIN)
         self.assertContains(response, FIND)
-        self.assertContains(response, BROWSER)
+        self.assertContains(response, BROWSE)
+
+    def test_browse_page_200_with_without_login(self):
+        user = create_one_account()
+        self.client.force_login(user)
+        create_one_job(user.id)
+        create_one_job(
+            user.id,
+            title='Frontend Engineer',
+            job_des='Just base test his job, you can apply at example.com/job')
+        self.client.logout()
+        response = self.client.get(reverse('browse'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, RANDOM)
 
     def test_footer_details(self):
         response = self.client.get(reverse('front_page'))

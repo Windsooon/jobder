@@ -16,7 +16,9 @@ def create_multi_accounts(number):
             email=str(num) + '@example.com') for num in range(1, number+1)]
 
 
-def create_one_job(user_id):
+def create_one_job(
+        user_id, title='Senior Software Engineer',
+        job_des='You are a self-starter who can work with everything.'):
     repo = Repo.objects.create(
             repo_id=459599,
             repo_name='django',
