@@ -47,6 +47,9 @@ class PageTestCase(TestCase):
         response = self.client.get(reverse('post_job'))
         self.assertEqual(response.status_code, 302)
 
+        response = self.client.get(reverse('contributors'))
+        self.assertEqual(response.status_code, 302)
+
         response = self.client.get(reverse('posted_jobs'))
         self.assertEqual(response.status_code, 302)
 
