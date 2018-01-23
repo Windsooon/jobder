@@ -1,15 +1,16 @@
 import os
+import base64
 import json
 import requests
 import django
 os.environ['DJANGO_SETTINGS_MODULE'] = 'jobs.settings'
 django.setup()
-from popular.models import Popular
+from post.models import Repo
 
 
 def index():
     query_begin = (
-        '{ search(query: "stars:>3000", type: REPOSITORY, first: 100, ')
+        '{ search(query: "stars:5000..8122", type: REPOSITORY, first: 100, ')
     query_middle = 'after:) {'
     query = '''repositoryCount
         edges {
@@ -38,7 +39,7 @@ def index():
       }
     }'''
 
-    token = '0e7c6c5a3e6e935292af91c33b1d773fd0375293'
+    token = '358eab55cf28b2ac7c5a66d3bf3fab0411060e86'
     headers = {'Authorization': 'bearer ' + token}
     next_page = True
     last_cursor = 'Y3Vyc29yOjE'
@@ -58,18 +59,18 @@ def index():
         last_cursor = data[-1]["cursor"]
         # insert data to database
         for d in data:
-            Popular.objects.update_or_create(
-                globle_id=d['node']['id'],
+            Repo.objects.update_or_create(
+                repo_id=int(base64.b64decode(d['node']['id'])[14:]),
                 defaults={
-                    'name': d['node']['name'],
-                    'name_with_owner': d['node']['nameWithOwner'],
+                    'repo_name': d['node']['name'],
+                    'owner_name': d['node']['nameWithOwner'],
                     'description': d['node']['description'],
                     'url': d['node']['url'],
-                    'homepage_url': d['node']['homepageUrl'],
-                    'primary_language': (
+                    'html_url': d['node']['homepageUrl'],
+                    'language': (
                         d['node']['primaryLanguage']['name']
                         if d['node']['primaryLanguage'] else ""),
-                    'star_count': d['node']['stargazers']['totalCount']
+                    'stargazers_count': d['node']['stargazers']['totalCount']
                 }
             )
 index()

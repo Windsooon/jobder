@@ -18,7 +18,7 @@ from allauth.account.signals import user_logged_in
 from post.models import Post, Repo
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
-from .const import FIND, LOGIN, POSTED, TITLE, RANDOM
+from .const import FIND, LOGIN, POSTED, TITLE, RANDOM, STRIPE_API_KEY
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
@@ -57,10 +57,11 @@ def profile(request, name):
     return render(request, 'profile.html')
 
 
+@login_required
 @csrf_exempt
 def token(request):
     import stripe
-    stripe.api_key = 'sk_test_Mrp9fWK53zgna3gSbGGUy60W'
+    stripe.api_key = STRIPE_API_KEY
     data = json.loads(request.body)
     customer = stripe.Customer.create(
         description='Customer for ' + data['name'],
@@ -127,6 +128,7 @@ def repo_search(request):
         return HttpResponse(status_code=400)
 
 
+@login_required
 @csrf_exempt
 def pay(request):
     event_json = json.loads(request.body)
@@ -252,3 +254,4 @@ def after_user_logged_in(sender, **kwargs):
             )
             repo_lst.append(obj.id)
     user.settings.repo.add(*repo_lst)
+    logger.info('%s log in' % user.username)
