@@ -27,6 +27,7 @@
             <div class="job-wrapper">
               <h4 id="job-title">Job Details</h4>
               <span id="job-des">{{ job.job_des }}</span>
+              <i class="post-create-time pull-right">{{ job.create_time|timesince }} ago </i>
             </div> <!-- end job wrapper -->
           </div>
           <hr>
@@ -39,7 +40,6 @@
             <span id="apply">How To Apply :</span>
             <span id="apply">{{ job.apply }}</span>
             <p id="from-jobder">* We will really appreciate if you mention you apply this job from jobder.</p>
-            <i class="post-create-time pull-right">{{ job.create_time|timesince }} ago </i>
           </div> <!-- end company -->
         </div> <!-- end job-container-div -->
         <hr>
