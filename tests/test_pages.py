@@ -1,8 +1,10 @@
 import json
 from django.test import TestCase
+from django.utils import timezone
 from django.urls import reverse
 from tests.base import create_one_account, create_one_job
 from common.const import FIND, LOGIN, BROWSE, RANDOM
+from post.models import Post
 
 
 class PageTestCase(TestCase):
@@ -24,11 +26,20 @@ class PageTestCase(TestCase):
     def test_browse_page_200_with_without_login(self):
         user = create_one_account()
         self.client.force_login(user)
-        create_one_job(user.id)
-        create_one_job(
-            user.id,
-            title='Frontend Engineer',
-            job_des='Just base test his job, you can apply at example.com/job')
+        Post.objects.create(
+            user=user,
+            title='Senior Software Engineer',
+            job_des='You are a self-starter who can work with little',
+            onsite=0,
+            visa=0,
+            salary='$100k', 
+            company_name='Built For Me Inc.',
+            company_des='We are a small company loathe to use the word.',
+            location='LA',
+            website='https://www.example.com',
+            apply='https://job.example.com',
+            pay=1,
+            pay_time=timezone.now())
         self.client.logout()
         response = self.client.get(reverse('browse'))
         self.assertEqual(response.status_code, 200)
