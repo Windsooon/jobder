@@ -15,8 +15,12 @@
     border-radius: 50%;
 }
 
+#user-blog-a, #user-linkedin {
+    word-wrap:break-word;
+}
+
 #user-bio {
-    text-align: left;
+    word-wrap:break-word;
 }
 
 .content-p {

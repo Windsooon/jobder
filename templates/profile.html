@@ -17,12 +17,12 @@
             <img id="avatar-img" src="" />
           </div> <!-- end avatar-div -->
         </div> <!-- end col-xs -->
-        <div class="col-xs-6 col-xs-offset-3">
+        <div class="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
           <h3 id="user-name">{{ user.username }}</h3>
           <p id="user-bio"></p>
           <div>
             <p>Blog: <a id="user-blog-a" href="{{ user.settings.blog }}" target="_blank" >{{ user.settings.blog }}</a></p>
-            <p>Linkedin: <a href="{{ user.settings.linkedin }}" target="_blank">{{ user.settings.linkedin }}</a></p>
+            <p>Linkedin: <a id="user-linkedin" href="{{ user.settings.linkedin }}" target="_blank">{{ user.settings.linkedin }}</a></p>
           </div>
           <br>
           {% if request.user == user %}}
@@ -37,10 +37,10 @@
   <div class="profile-container">
     <div class="container fluent-div">
       <div class="row">
-        <div class="col-xs-8">
+        <div class="col-sm-8 col-xs-12">
           <canvas id="commit-canvas"></canvas>
         </div> <!-- end col-xs-8 -->
-        <div class="col-xs-4">
+        <div class="col-sm-4 col-xs-12">
           <div class="total-contributed-div">
             <p id="total-contributed-p">0</p>
             <p id="total-contributed-text">Contributed Repos</p>
@@ -51,13 +51,13 @@
     <hr>
     <div class="container star-div">
       <div class="row">
-        <div class="col-xs-5">
+        <div class="col-sm-5 col-xs-12">
           <div class="total-star-div">
           <p id="total-star-p">0</p>
           <p id="total-stars-text">Received Stars</p>
           </div> <!-- end total-star-div -->
         </div> <!-- end col-xs-4 -->
-        <div class="col-xs-7">
+        <div class="col-sm-7 col-xs-12">
           <canvas id="state-canvas"></canvas>
         </div> <!-- end col-xs-6 -->
       </div> <!-- end row -->
