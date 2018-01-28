@@ -2,6 +2,10 @@
     margin-bottom: 60px;
 }
 
+.ql-container {
+    font-size: 1.8rem;
+}
+
 .warning-div {
     background: #455abd;
     padding: 15px;

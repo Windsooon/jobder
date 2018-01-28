@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load socialaccount %}
 {% block extra_styles %}
+<link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/css_lib/selectize_default.css' %}" />
 <link rel="stylesheet" href="{% static 'css/post_job.css' %}" />
 {% endblock %}
@@ -21,18 +22,18 @@
             </div>
             <div class="form-group">
               <label class="job-label" for="job_looking">Details *</label>
-              <div>
-                <textarea maxlength="1024" name="job_looking" id="job-looking" rows="5" cols="35" wrap="soft" placeholder="We're looking for both a back-end as well as a front-end engineer. Need to have a strong background in being able to write scalable software, preferably multi-paradigm, disciplined. (up to 1024 characters)"></textarea>
-              </div> <!-- end job-looking -->
+              <div id="job-editor">
+                <p>We're looking for both a back-end as well as a front-end engineer. Need to have a strong background in being able to write scalable software, preferably multi-paradigm, disciplined. (up to 1024 characters)</p>
+              </div>
             </div> <!-- end form-group -->
             <div class="form-group">
               <div class="control-group">
-                  <label class="job-label job-special" for="select-open-source">1. Add the open source project tags your company are using or willing to try. <br> 2. Please search the Github project name. For example, search cpython instead of python. moby instead of docker.<br> 3. Your job will recommend to the contributers who also contributed to these projects. *</label>
+                  <label class="job-label job-special" for="select-open-source">Tech Stack *<br>1. Add the open source project tags your company are using or willing to try. <br> 2. Please search the Github project name. For example, search cpython instead of python. moby instead of docker.<br> 3. Your job will recommend to the contributers who also contributed to these projects. *</label>
                 <input type="text" id="select-open-source" class="repositories demo-default" placeholder="django, cpython, moby">
               </div>
             </div> <!-- end form-group -->
             <div class="form-group">
-              <label class="job-label" for="remote">Remote</label>
+              <label class="job-label" for="remote">Remote *</label>
               <select id="onsite-select" class="form-control">
                 <option value="0">Onsite and Remote</option>
                 <option value="1">Remote</option>
@@ -40,7 +41,7 @@
               </select>
             </div> <!-- end form-group -->
             <div class="form-group">
-              <label class="job-label" for="visa">Visa Support</label>
+              <label class="job-label" for="visa">Visa Support *</label>
               <select id="visa-select" class="form-control">
                 <option value="0">No</option>
                 <option value="1">Yes</option>
@@ -68,9 +69,9 @@
           </div>
           <div class="form-group">
             <label class="job-label" for="company_des">Details *</label>
-            <div>
-              <textarea maxlength="1024" name="company_des" id="company-des" rows="5" cols="35" wrap="soft" placeholder="We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers. (up to 1024 characters)"></textarea>
-            </div> <!-- end job-des -->
+            <div id="company-editor">
+              <p>We are building a live streaming product and several functionalities around it. Our backend/streaming team uses several custom and open source media and streaming servers. (up to 1024 characters)</p>
+            </div>
           </div> <!-- end form-group -->
           <div class="form-group">
             <label class="job-label" for="website">Website *</label>
@@ -104,5 +105,9 @@ I unders    tand that my listing may be removed if it involves adult content, il
 {% block extra_scripts %}
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 <script src="{% static 'js/js_lib/selectize.min.js' %}"></script>
+<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+<script>
+
+</script>
 <script src="{% static 'js/post_job.js' %}"></script>
 {% endblock %}

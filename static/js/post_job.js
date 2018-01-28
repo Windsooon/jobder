@@ -1,5 +1,21 @@
-var repos = [];
+var toolbarOptions = [
+      [{ 'list': 'ordered'}, 'code-block'],
+  ];
+var editor = new Quill('#job-editor', {
+    modules: {
+        toolbar: toolbarOptions
+    },
+    theme: 'snow'
+});
 
+var editor = new Quill('#company-editor', {
+    modules: {
+        toolbar: toolbarOptions
+    },
+    theme: 'snow'
+});
+
+var repos = [];
 function removeFunction(Objects,prop,valu){
     return Objects.filter(function (val){
         return val[prop] !== valu;
