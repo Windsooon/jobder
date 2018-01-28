@@ -105,11 +105,6 @@ $( document ).ready(function() {
                 minlength: 5,
                 maxlength: 50,
             },
-            job_looking: {
-                required: true,
-                minlength: 20,
-                maxlength: 1024,
-            },
             salary: {
                 required: true,
                 minlength: 5,
@@ -135,20 +130,10 @@ $( document ).ready(function() {
                 minlength: 3,
                 maxlength: 1024,
             },
-            company_des: {
-                required: true,
-                minlength: 3,
-                maxlength: 1024,
-            }
         },
         messages: {
             job_title: {
                 required: "Please enter a job title.",
-                minlength: jQuery.validator.format("Please Enter at least {0} characters."),
-                maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
-            },
-            job_looking: {
-                required: "Please enter the job details.",
                 minlength: jQuery.validator.format("Please Enter at least {0} characters."),
                 maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
             },
@@ -177,11 +162,6 @@ $( document ).ready(function() {
                 minlength: jQuery.validator.format("Please Enter at least {0} characters."),
                 maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
             },
-            company_des: {
-                required: "Please enter your company's details.",
-                minlength: jQuery.validator.format("Please Enter at least {0} characters."),
-                maxlength: jQuery.validator.format("Please Enter up to {0} characters."),
-            },
         },
         submitHandler: function(form) {
             var csrftoken = getCookie("csrftoken");
@@ -197,7 +177,7 @@ $( document ).ready(function() {
                 data:  JSON.stringify({
                     "user": $("#user-id").val(),
                     "title": $("#job_title").val().trim(),
-                    "job_des": $("#job-looking").val().trim(), 
+                    // "job_des": $("#job-looking").val().trim(), 
                     "repos": repos,
                     "onsite": $("#location-select option:selected").val(), 
                     "visa": $("#visa-select option:selected").val(), 
@@ -205,7 +185,7 @@ $( document ).ready(function() {
                     "company_name": $("#company").val().trim(),
                     "location": $("#location").val(),
                     "website": $("#website").val(),
-                    "company_des": $("#company-des").val().trim(),
+                    // "company_des": $("#company-des").val().trim(),
                     "apply": $("#apply").val().trim(),
                 }),
                 beforeSend:function(xhr, settings) {
@@ -214,7 +194,7 @@ $( document ).ready(function() {
                     } 
                 },
                 success: function(data) {
-                    window.location = base_url + "job/" + data.id + "/";
+                    // window.location = base_url + "job/" + data.id + "/";
                 },
                 error: function() {
                     alert("Something went wrong, please email to contact@jobder.net");
