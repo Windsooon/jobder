@@ -25,6 +25,9 @@ logger = init_logging.getLogger(__name__)
 
 
 def _get_user_repos(user):
+    '''
+    Get user all repos through Github graphql api
+    '''
     social_token = (
         user.socialaccount_set.first().socialtoken_set.first())
     query = get_repos_query(user.username, 100)
@@ -35,6 +38,9 @@ def _get_user_repos(user):
 
 
 def _get_valid_post():
+    '''
+    Get paid post and valid post
+    '''
     return Post.objects.filter(pay=1).filter(
         pay_time__gte=timezone.now()
         - datetime.timedelta(days=30))
@@ -121,9 +127,9 @@ def repo_search(request):
                 u['username'] = extra_data['login']
                 u['avatar_url'] = extra_data['avatar_url']
                 res_lst.append(u)
+            return JsonResponse({'length': length, 'data': res_lst})
         else:
-            res_lst = []
-        return JsonResponse({'length': length, 'data': res_lst})
+            return JsonResponse({'length': -1, 'data': []})
     else:
         return HttpResponse(status_code=400)
 
@@ -142,7 +148,7 @@ def browse(request):
     count = ori_posts.count()
     if count:
         first_id = ori_posts.first().id
-        lst = random.sample(range(first_id, first_id + count), count*2//3)
+        lst = random.sample(range(first_id, first_id + count), count*1//3)
         posts = Post.objects.filter(id__in=lst)
         return render(request, 'match.html', {'posts': posts, 'title': RANDOM})
     else:
@@ -220,7 +226,7 @@ def match(request):
     preserved = Case(
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(
-        id__in=posts_id).order_by(preserved)[:(count*2//3)]
+        id__in=posts_id).order_by(preserved)[:(count*1//3)]
     return render(request, 'match.html', {'posts': posts, 'title': TITLE})
 
 
