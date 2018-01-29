@@ -1,3 +1,21 @@
+.ql-container.ql-snow {
+   border: 0px; 
+}
+
+.ql-toolbar {
+    display: none;
+}
+
+.ql-editor {
+    padding: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.ql-container {
+    font-size: 2.5rem;
+}
+
 .icon.source {
     background-image: url(../imgs/repo-source.png);
 }

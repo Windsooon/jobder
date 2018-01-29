@@ -72,9 +72,9 @@ $('#select-open-source').selectize({
     }
 });
 
-$( document ).ready(function() {
+$(document).ready(function() {
     var toolbarOptions = [
-          [{ 'list': 'ordered'}, 'code-block'],
+          [{ 'list': 'bullet'}, 'code-block'],
       ];
     var job_editor = new Quill('#job-editor', {
         modules: {
