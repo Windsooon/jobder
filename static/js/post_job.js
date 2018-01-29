@@ -1,20 +1,3 @@
-var toolbarOptions = [
-      [{ 'list': 'ordered'}, 'code-block'],
-  ];
-var editor = new Quill('#job-editor', {
-    modules: {
-        toolbar: toolbarOptions
-    },
-    theme: 'snow'
-});
-
-var editor = new Quill('#company-editor', {
-    modules: {
-        toolbar: toolbarOptions
-    },
-    theme: 'snow'
-});
-
 var repos = [];
 function removeFunction(Objects,prop,valu){
     return Objects.filter(function (val){
@@ -90,6 +73,21 @@ $('#select-open-source').selectize({
 });
 
 $( document ).ready(function() {
+    var toolbarOptions = [
+          [{ 'list': 'ordered'}, 'code-block'],
+      ];
+    var job_editor = new Quill('#job-editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
+    var company_editor = new Quill('#company-editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
     $.validator.addMethod(
         "regex_name",
         function(value, element, regexp) {
@@ -164,6 +162,14 @@ $( document ).ready(function() {
             },
         },
         submitHandler: function(form) {
+            if (job_editor.getLength() < 21) {
+                alert("Please tell us more about your job.");
+                return false;
+            }
+            if (company_editor.getLength() < 21) {
+                alert("Please tell us more about your company.");
+                return false;
+            }
             var csrftoken = getCookie("csrftoken");
             if (!$("#select-open-source").selectize()[0].selectize.getValue()) {
                 alert("Please add tech stack your are using"); 
@@ -177,7 +183,7 @@ $( document ).ready(function() {
                 data:  JSON.stringify({
                     "user": $("#user-id").val(),
                     "title": $("#job_title").val().trim(),
-                    // "job_des": $("#job-looking").val().trim(), 
+                    "job_des": JSON.stringify(job_editor.getContents()),
                     "repos": repos,
                     "onsite": $("#location-select option:selected").val(), 
                     "visa": $("#visa-select option:selected").val(), 
@@ -185,7 +191,7 @@ $( document ).ready(function() {
                     "company_name": $("#company").val().trim(),
                     "location": $("#location").val(),
                     "website": $("#website").val(),
-                    // "company_des": $("#company-des").val().trim(),
+                    "company_des": JSON.stringify(company_editor.getContents()),
                     "apply": $("#apply").val().trim(),
                 }),
                 beforeSend:function(xhr, settings) {
