@@ -2,7 +2,7 @@ import json
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
-from tests.base import create_one_account, create_one_job
+from tests.base import create_one_account
 from common.const import FIND, LOGIN, BROWSE, RANDOM
 from post.models import Post
 
@@ -32,7 +32,7 @@ class PageTestCase(TestCase):
             job_des='You are a self-starter who can work with little',
             onsite=0,
             visa=0,
-            salary='$100k', 
+            salary='$100k',
             company_name='Built For Me Inc.',
             company_des='We are a small company loathe to use the word.',
             location='LA',

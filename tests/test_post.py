@@ -58,7 +58,7 @@ class PageTestCase(TestCase):
         response = self.client.get(reverse('posted_jobs'))
         self.assertContains(response, 'Senior Software Engineer')
 
-    def test_posted_job_not_show_up(self):
+    def test_posted_job_other_user_not_show_up(self):
         self.client.logout()
         self.client.force_login(self.user2)
         response = self.client.get(reverse('posted_jobs'))
