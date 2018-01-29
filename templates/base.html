@@ -54,7 +54,7 @@
               <a id="nav-user-name" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username }}<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'contributors' %}">Find Contributors</a></li>
-                    <li><a href="{% url 'match' %}">Find A Job</a></li>
+                    <li><a href="{% url 'match' %}">Find Your Match</a></li>
                     {% if request.user.post.count > 0 %}
                     <li><a href="{% url 'posted_jobs' %}">Jobs Created</a></li>
                     {% endif %}

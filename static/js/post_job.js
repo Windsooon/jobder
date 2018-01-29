@@ -200,7 +200,7 @@ $( document ).ready(function() {
                     } 
                 },
                 success: function(data) {
-                    // window.location = base_url + "job/" + data.id + "/";
+                    window.location = base_url + "job/" + data.id + "/";
                 },
                 error: function() {
                     alert("Something went wrong, please email to contact@jobder.net");
