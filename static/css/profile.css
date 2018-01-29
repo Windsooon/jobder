@@ -41,22 +41,8 @@
     margin-top: 10px;
 }
 
-#total-star-p, #total-contributed-p {
-    text-align: center;
-    font-size: 10rem;
-}
-
-#total-stars-text, #total-contributed-text {
-    text-align: center;
-    font-size: 3rem;
-}
-
 .content-lan {
     margin-right: 20px;
-}
-
-.total-contributed-div, .total-star-div {
-    padding-top: 80px;
 }
 
 .fluent-div {
@@ -71,3 +57,50 @@
 .page-h2 {
     padding-top: 0;
 }
+
+.total-star-div, .total-contributed-div{
+    margin-top: 22%;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+}
+
+#total-contributed-p, #total-star-p {
+    text-align: center;
+    font-weight: bold;
+    font-size: 8rem;
+}
+
+#total-stars-text, #total-contributed-text {
+    text-align: center;
+    font-size: 3rem;
+}
+
+@media screen and (max-width: 768px) { 
+    #total-contributed-p, #total-star-p {
+        text-align: center;
+        font-weight: bold;
+        font-size: 6rem;
+    }
+
+    .total-star-div, .total-contributed-div{
+        margin-top: 20%;
+    }
+}
+
+@media screen and (max-width: 414px) { 
+    #total-contributed-p, #total-star-p {
+        text-align: center;
+        font-weight: bold;
+        font-size: 4rem;
+    }
+
+    #total-stars-text, #total-contributed-text {
+        font-size: 2rem;
+    }
+    
+    .total-star-div, .total-contributed-div{
+        margin-top: 0%;
+    }
+}
+
+

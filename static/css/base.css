@@ -52,16 +52,16 @@ pre {
     max-width: 100%;
 }
 
-@media screen and (min-width: 992px) { 
-    .profile-p {
-        font-size: 4rem !important;
-        margin-top: 40%;
-    }
-}
-
 @media screen and (min-width: 768px) { 
     .profile-p {
         font-size: 3rem !important;
+        margin-top: 30%;
+    }
+}
+
+@media screen and (min-width: 992px) { 
+    .profile-p {
+        font-size: 4rem !important;
         margin-top: 35%;
     }
 }
@@ -70,6 +70,10 @@ pre {
     font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
 }
 
 .repe-btn {
