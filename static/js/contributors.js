@@ -68,17 +68,17 @@ function check_repo(btn, repo) {
 function set_up_empty() {
     var $contri_h3 = $("<h3 />", {
         "class": "contri-empty-h3 col-xs-12",
-        "text": "You have to have a valid job post to see contributers"
+        "text": "One valid job post is required to view contributers."
     });
     $(".contri-col").append($contri_h3);
 }
 
 function set_up_number(container, length, repo) {
     if (length == 1) {
-        var text = "We found one " + repo + " contributor looking for job.";
+        var text = "One " + repo + " contributor looking for job.";
     }
     else {
-        var text = "We found " + length + " " + repo + " contributors here.";
+        var text = length + " " + repo + " contributors looking for job.";
     }
     var $contri_h2 = $("<h2 />", {
         "id": "contri-h2",
