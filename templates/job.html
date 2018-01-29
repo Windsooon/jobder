@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load socialaccount %}
 {% block extra_styles %}
+<link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/job.css' %}" />
 <link rel="stylesheet" href="{% static 'css/example1.css' %}" />
 {% endblock %}
@@ -26,7 +27,8 @@
             </div>
             <div class="job-wrapper">
               <h4 id="job-title">Job Details</h4>
-              <span id="job-des">{{ job.job_des }}</span>
+              <div id="job-editor">
+              </div>
               <i class="post-create-time pull-right">{{ job.create_time|timesince }} ago </i>
             </div> <!-- end job wrapper -->
           </div>
@@ -36,7 +38,8 @@
             <span id="location">{{ job.location }}</span>
             <span id="visa">{{ visa }}</span>
             <h4 id="company-des-h4">Company Details</h4>
-            <p id="company-des">{{ job.company_des }}</p>
+            <div id="company-editor">
+            </div>
             <span id="apply">How To Apply :</span>
             <span id="apply">{{ job.apply }}</span>
             <p id="from-jobder">* We will really appreciate if you mention you apply this job from jobder.</p>
@@ -105,5 +108,13 @@
 {% endblock %}
 {% block extra_scripts %}
 <script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'js/js_lib/quill.min.js' %}"></script>
 <script src="{% static 'js/job.js' %}"></script>
+<script>
+$(document).ready(function() {
+    var job_des = {{ job.job_des|safe }};
+    var company_des = {{ job.company_des|safe }};
+    set_editor_content(job_des, company_des);
+});
+</script>
 {% endblock %}
