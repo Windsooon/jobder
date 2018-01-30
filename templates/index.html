@@ -8,7 +8,7 @@
       <div class="row">
         <div class="col-xs-12">
           <h1>Jobder</h1>
-          <p>FIND THE JOB THAT MATCH YOU MOST.</p>
+          <p>FIND THE JOB MATCH YOU OPEN SOURCE CONTRIBUTIONS.</p>
           <br>
           {% if user.is_authenticated %}
           <a href="{% url 'match' %}" class="btn btn-default btn-lg" title="">{{ FIND }}</a>
@@ -39,13 +39,10 @@
                       <i class="fa fa-chevron-right" aria-hidden="true"></i>
                       <span class="sr-only">Next</span>
                     </a>
-                    <p>Find the company value your contributions to open source projects. 
-                    </p>
-                    <p>
-                       We will recommend companys for you depend on your stack and open source contributions.
-                    </p>
-                    <a href="./project.html" class="btn btn-primary" title="">
-                      Discover
+                    <p>Find the company value your tech stack.</p>
+                    <p>We will recommend companys for you depend on your stack and open source contributions.</p>
+                    <a href="{% url 'match' %}" class="btn btn-primary" title="">
+                      Find Your Match
                     </a>
                   </div> <!-- end carousel-caption -->
                 </div> <!-- end item active -->
@@ -62,15 +59,10 @@
                         <i class="fa fa-chevron-right" aria-hidden="true"></i>
                         <span class="sr-only">Next</span>
                       </a>
-                    <p>
-                      If you are looking for engineering employees who are patient, consistent and have great interpersonal skills. You are looking for open source contributors :D. Jobder is a platform that let you search contributors who are looking for jobs. As well as displays your job lists to contributors who match your company's tech stacks.
-                    </p>
-                    
-                    <p>
-                      Find the company that values your contribution to open source projects. We will recommend companies for you based on your tech stacks and open source contribution.
-                    </p>
-                    <a href="./project.html" class="btn btn-primary" title="">
-                      Discover
+                    <p>If you are looking for engineering employees who are patient, consistent and have great interpersonal skills. You are looking for open source contributors :D.</p>
+                    <p>Jobder is a platform that let you search contributors who are looking for jobs. We will also displays your job lists to contributors who match your company's tech stacks.</p>
+                    <a href="{% url 'post_job' %}" class="btn btn-primary" title="">
+                      Post A Job
                     </a>
                   </div> <!-- end carousel-caption -->
                 </div> <!-- end item -->
@@ -89,7 +81,7 @@
           <img src="{% static 'imgs/stars.png' %}" alt="" class="profile-img"/>
         </div>
         <div class="col-sm-4 col-xs-12">
-          <p class="profile-p">Calculate how many stars you received</p>
+          <p class="profile-p">GitHub contributions statistics</p>
         </div>
       </div>
       <hr>
@@ -103,7 +95,7 @@
       </div> <!-- end row -->
       <div class="repe-btn">
       {% if user.is_authenticated %}
-        <a href="{% url 'profile' name=''|add:user.username %}" class="btn btn-primary btn-lg">Show your profile</a>
+        <a href="{% url 'profile' name=''|add:user.username %}" class="btn btn-primary btn-lg">Profile</a>
         {% else %}
         <a href="{% provider_login_url 'github' %}" class="btn btn-primary btn-lg" title="">Login to Search</a>
         {% endif %}

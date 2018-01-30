@@ -12,7 +12,6 @@ class PageTestCase(TestCase):
     def test_front_page_200_without_login(self):
         response = self.client.get(reverse('front_page'))
         self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, FIND)
         self.assertContains(response, LOGIN)
         self.assertContains(response, BROWSE)
         user = create_one_account()
@@ -81,7 +80,18 @@ class PageTestCase(TestCase):
         user = create_one_account()
         response = self.client.get(
             reverse('profile', kwargs={'name': user.username}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_user_profile_visiable_with_login(self):
+        user = create_one_account()
+        response = self.client.get(
+            reverse('profile', kwargs={'name': user.username}))
+        self.assertEqual(response.status_code, 302)
+        self.client.force_login(user)
+        response = self.client.get(
+            reverse('profile', kwargs={'name': user.username}))
         self.assertEqual(response.status_code, 200)
+
 
     def test_user_profile_visiable_by_owner(self):
         user = create_one_account()
