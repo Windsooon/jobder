@@ -165,7 +165,7 @@ def posted_jobs(request):
 def job(request, id):
     '''job page'''
     onsite = ['Onsite And Remote', 'Remote', 'Onsite']
-    visa = ['Visa Support', 'No Visa Support']
+    visa = ['No Visa Support', 'Visa Support']
 
     try:
         job = Post.objects.get(id=id)
