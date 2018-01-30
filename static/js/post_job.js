@@ -88,15 +88,7 @@ $(document).ready(function() {
         },
         theme: 'snow'
     });
-    $.validator.addMethod(
-        "regex_name",
-        function(value, element, regexp) {
-            var re = new RegExp(regexp);
-            return this.optional(element) || re.test(value);
-        },
-        "Project name can't contain <, >"
-    );
-    var validator = $("#job-form").validate({
+    var validator = $(".job-form").validate({
         rules: {
             job_title: {
                 required: true,
