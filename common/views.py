@@ -51,6 +51,7 @@ def index(request):
     return render(request, 'index.html', {'FIND': FIND, 'LOGIN': LOGIN})
 
 
+@login_required
 def profile(request, name):
     '''Profile page'''
     user = get_object_or_404(get_user_model(), username=name)
