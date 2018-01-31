@@ -58,6 +58,7 @@
               <form>
                 <fieldset>
                   <div class="row">
+                    <input type="hidden" id="post-id" value="{{ job.id }}">
                     <label for="example1-name" data-tid="elements_examples.form.name_label">Name</label>
                     <input id="example1-name" data-tid="elements_examples.form.name_placeholder" type="text" placeholder="Jane Doe" required="">
                   </div>
@@ -66,8 +67,8 @@
                     <input id="example1-email" data-tid="elements_examples.form.email_placeholder" type="email" placeholder="hr@jobder.com" required="">
                   </div>
                   <div class="row">
-                    <label for="example1-phone" data-tid="elements_examples.form.phone_label">Phone</label>
-                    <input id="example1-phone" data-tid="elements_examples.form.phone_placeholder" type="tel" placeholder="(941) 555-8888" required="">
+                    <label for="address-phone" data-tid="elements_examples.form.address_label">Address</label>
+                    <input id="example1-address" data-tid="elements_examples.form.address_placeholder" type="text" placeholder="Los Angeles" required="">
                   </div>
                 </fieldset>
                 <fieldset>
