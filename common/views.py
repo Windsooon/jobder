@@ -5,8 +5,7 @@ import random
 import requests
 from operator import itemgetter
 from collections import defaultdict
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Case, When
