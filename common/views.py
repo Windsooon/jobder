@@ -70,13 +70,21 @@ def token(request):
     stripe.api_key = STRIPE_API_KEY
     data = json.loads(request.body)
     customer = stripe.Customer.create(
-        description='Customer for ' + data['name'],
+        description='Customer for ' + data['name']['name'],
         email=data['email'],
+        metadata={
+            'username': data['name']['name'],
+            'address_line1': data['name']['address_line1']
+        },
         source=data['token'],
     )
-    request.user.settings.stripe_id = data['token']
-    request.user.settings.stripe_name = data['name']
-    request.user.settings.stripe_email = data['email']
+    request.user.settings.stripe_customer_id = customer['id']
+    request.user.settings.stripe_email = customer['email']
+    request.user.settings.stripe_name = customer['metadata']['username']
+    request.user.settings.stripe_last4 = customer['sources']['data']['last4']
+    request.user.settings.stripe_exp_year = customer['sources']['data']['exp_year']
+    request.user.settings.stripe_exp_month = customer['sources']['data']['exp_month']
+    request.user.settings.stripe_zip = customer['sources']['data']['address_zip']
     request.user.settings.save()
 
     subscription = stripe.Subscription.create(
@@ -87,7 +95,6 @@ def token(request):
           },
         ],
     )
-    logger.error(subscription)
     return HttpResponse(200)
 
 

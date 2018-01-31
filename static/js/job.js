@@ -112,7 +112,7 @@ function registerElements(elements, exampleName) {
           // If we received a token, show the token ID.
           submit_token(
               result.token.id, result.token.card, $("#example1-email").val());
-          // example.classList.add('submitted');
+          example.classList.add('submitted');
         } else {
           // Otherwise, un-disable inputs.
           enableInputs();
