@@ -1,12 +1,23 @@
 from django.contrib.auth import get_user_model
+from allauth.socialaccount.models import SocialToken, SocialAccount
 from post.models import Post, Repo
 
 
 def create_one_account(username='1testoneaccount', email='1@onexample.com'):
-    return get_user_model().objects.create_user(
+    user = get_user_model().objects.create_user(
             username=username,
             password='1testonepassword',
             email=email)
+    SocialToken.objects.create(
+        token='96a4b09869718ce8d6e46a3488402353ef63c656',
+        account_id=user.id,
+        app_id=1)
+    SocialAccount.objects.create(
+        user_id=user.id,
+        provider='github',
+        uid=184843 + user.id,
+        extra_data='{"login": "Windsooon", "id": 14333046, "avatar_url": "https://avatars2.githubusercontent.com/u/14333046?v=4", "gravatar_id": "", "url": "https://api.github.com/users/Windsooon", "html_url": "https://github.com/Windsooon", "name": "Windson yang", "company": "unicooo", "blog": "https://unicooo.com/Windson/act_create/", "location": "China", "email": "wiwindson@outlook.com", "bio": "Hello, If you wanna know more about me", "public_repos": 54, "public_gists": 2, "created_at": "2015-09-17T15:15:16Z", "updated_at": "2018-01-18T04:14:36Z"}')
+    return user
 
 
 def create_multi_accounts(number):
