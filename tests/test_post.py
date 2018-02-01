@@ -62,3 +62,25 @@ class PostTestCase(TestCase):
         self.post = create_one_job(self.user.id, pay=True)
         response = self.client.get(reverse('front_page'))
         self.assertContains(response, 'Jobs Created')
+
+    def test_browse_show_up_one_third_job(self):
+        self.post = create_one_job(self.user.id, pay=True)
+        self.post2 = create_one_job(
+            self.user.id, title='Backend Engineer', pay=True)
+        self.post3 = create_one_job(
+            self.user.id, title='Data Scientist', pay=True)
+        response = self.client.get(reverse('browse'))
+        self.assertContains(response, '<a class="job-title" target="_blank"')
+        self.assertContains(
+            response, '<i class="fa fa-building building" aria-hidden="true">')
+
+    def test_find_your_match(self):
+        self.post = create_one_job(self.user.id, pay=True)
+        self.post2 = create_one_job(
+            self.user.id, title='Backend Engineer', pay=True)
+        self.post3 = create_one_job(
+            self.user.id, title='Data Scientist', pay=True)
+        # response = self.client.get(reverse('match'))
+        # self.assertContains(response, '<a class="job-title" target="_blank"')
+        # self.assertContains(
+        #     response, '<i class="fa fa-building building"')
