@@ -17,7 +17,8 @@ def create_multi_accounts(number):
 
 
 def create_one_job(
-        user_id, title='Senior Software Engineer',
+        user_id, pay=None,
+        title='Senior Software Engineer',
         job_des='You are a self-starter who can work with everything.'):
     repo = Repo.objects.create(
             repo_id=459599,
@@ -35,6 +36,7 @@ def create_one_job(
             location='Seattle, New York, San Francisco',
             salary='$150k',
             apply='https://angel.co/builtforme/jobs/',
+            pay=pay if pay else False,
             user_id=user_id)
     post.repo.add(repo)
     return post

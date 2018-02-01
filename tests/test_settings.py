@@ -8,10 +8,12 @@ class SettingsTestCase(TestCase):
 
     def setUp(self):
         self.user = create_one_account()
+        self.user2 = create_one_account('2testaccouont', '2@example.com')
         self.client.force_login(self.user)
 
     def test_settings_default_empty(self):
         response = self.client.get(reverse('settings'))
+        self.assertContains(response, '1testoneaccount')
         self.assertNotContains(response, 'https://www.testblog.com')
 
     def test_settings_put_change(self):
