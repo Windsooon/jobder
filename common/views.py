@@ -57,10 +57,10 @@ def profile(request, name):
     # other users can see the profile if not visiable
     if not user.settings.visiable:
         if request.user.username == name:
-            return render(request, 'profile.html')
+            return render(request, 'profile.html', {'user': user})
         else:
-            return render(request, '404.html')
-    return render(request, 'profile.html')
+            return render(request, '404.html', status=404)
+    return render(request, 'profile.html', {'user': user})
 
 
 @login_required
@@ -159,7 +159,7 @@ def browse(request):
         posts = Post.objects.filter(id__in=lst)
         return render(request, 'match.html', {'posts': posts, 'title': RANDOM})
     else:
-        return render(request, '404.html')
+        return render(request, '404.html', status=404)
 
 
 @login_required
@@ -177,7 +177,7 @@ def job(request, id):
         job = Post.objects.get(id=id)
     except Post.DoesNotExist:
         logger.info('job id %s not found' % id)
-        return render(request, '404.html')
+        return render(request, '404.html', status=404)
     else:
         # not pay yet or expired
         if not job.pay or \
@@ -185,7 +185,7 @@ def job(request, id):
                 datetime.timedelta(days=30)) > job.pay_time):
             logger.info('job id %s hasn\'t pay or it\'s expired.' % id)
             if request.user != job.user:
-                return render(request, '404.html')
+                return render(request, '404.html', status=404)
     return render(
         request, 'job.html',
         {
