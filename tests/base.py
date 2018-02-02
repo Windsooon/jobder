@@ -1,3 +1,4 @@
+from collections import namedtuple
 from django.contrib.auth import get_user_model
 from allauth.socialaccount.models import SocialToken, SocialAccount
 from post.models import Post, Repo
@@ -28,15 +29,23 @@ def create_multi_accounts(number):
 
 
 def create_one_job(
-        user_id, pay=None,
+        user_id, pay=None, repo_id=0,
         title='Senior Software Engineer',
         job_des='You are a self-starter who can work with everything.'):
-    repo = Repo.objects.create(
-            repo_id=459599,
-            repo_name='django',
+
+    def create_repo(n):
+        Repos = namedtuple('Repo', 'id, name, language')
+        r1 = Repos(4164482, 'django', 'python')
+        r2 = Repos(460078, 'angular.js', 'javascript')
+        r3 = Repos(2325298, 'linux', 'c')
+        repos = [r1, r2, r3]
+
+        return Repo.objects.create(
+            repo_id=repos[n].id,
+            repo_name=repos[n].name,
             owner_name='django',
-            stargazers_count=10000,
-            language='python',
+            stargazers_count=31000,
+            language=repos[n].language,
             html_url='https://github.com/django/django')
 
     post = Post.objects.create(
@@ -49,8 +58,10 @@ def create_one_job(
             apply='https://angel.co/builtforme/jobs/',
             pay=pay if pay else False,
             user_id=user_id)
+    repo = create_repo(repo_id)
     post.repo.add(repo)
     return post
+
 
 GITHUB_REPO_RETURN = '''
 {
@@ -83,7 +94,15 @@ GITHUB_REPO_RETURN = '''
           {
             "node": {
               "id": "MDEwOlJlcG9zaXRvcnk0MTY0NDgy",
-              "name": "django"
+              "name": "django",
+              "nameWithOwner": "django/django",
+              "url": "https://github.com/django/django",
+              "stargazers": {
+                "totalCount": 31490
+              },
+              "primaryLanguage": {
+                "name": "Python"
+              }
             }
           }
         ]

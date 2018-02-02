@@ -87,12 +87,13 @@ class PageTestCase(TestCase):
         self.client.force_login(self.user)
         self.post = create_one_job(self.user.id, pay=True)
         self.post2 = create_one_job(
-            self.user.id, title='Backend Engineer', pay=True)
+            self.user.id, title='Backend Engineer', pay=True, repo_id=1)
         self.post3 = create_one_job(
-            self.user.id, title='Data Scientist', pay=True)
+            self.user.id, title='Data Scientist', pay=True, repo_id=2)
         repos.return_value = Repo
         response = self.client.get(
             reverse('match'))
         self.assertContains(response, '<a class="job-title" target="_blank"')
+        self.assertContains(response, 'Senior Software Engineer')
         self.assertContains(
             response, '<i class="fa fa-building building"')

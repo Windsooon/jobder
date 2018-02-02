@@ -4,7 +4,7 @@ import datetime
 import random
 import requests
 from operator import itemgetter
-from collections import defaultdict
+from collections import defaultdict, Counter
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -82,9 +82,12 @@ def token(request):
     request.user.settings.stripe_email = customer['email']
     request.user.settings.stripe_name = customer['metadata']['username']
     request.user.settings.stripe_last4 = customer['sources']['data']['last4']
-    request.user.settings.stripe_exp_year = customer['sources']['data']['exp_year']
-    request.user.settings.stripe_exp_month = customer['sources']['data']['exp_month']
-    request.user.settings.stripe_zip = customer['sources']['data']['address_zip']
+    request.user.settings.stripe_exp_year = \
+        customer['sources']['data']['exp_year']
+    request.user.settings.stripe_exp_month = \
+        customer['sources']['data']['exp_month']
+    request.user.settings.stripe_zip = \
+        customer['sources']['data']['address_zip']
     request.user.settings.save()
 
     subscription = stripe.Subscription.create(
@@ -208,19 +211,31 @@ def match(request):
     repo_contributedto = [
         r['node']['id'] for r in
         response.json()['data']['user']['repositoriesContributedTo']['edges']]
+    repo_languages = [
+        r['node']['primaryLanguage']['name'] for r in
+        response.json()['data']['user']['repositories']['edges']
+        if (r['node']['primaryLanguage'] and
+            r['node']['primaryLanguage']['name'] != 'HTML')]
+    repo_contributedto_languages = [
+        r['node']['primaryLanguage']['name'] for r in
+        response.json()['data']['user']['repositoriesContributedTo']['edges']
+        if (r['node']['primaryLanguage'] and
+            r['node']['primaryLanguage']['name'] != 'HTML')]
     repo.extend(repo_contributedto)
+    repo_languages.extend(repo_contributedto_languages)
+    most_languages = [r[0] for r in Counter(repo_languages).most_common(3)]
     # repo is a list contains repo ids [14400303, 1404040, 1440583]
     repo = [int(base64.b64decode(r)[14:]) for r in repo]
-
     post_set = _get_valid_post()
     count = post_set.count()
     # lst contain every valid post
     # 9 is post id and list contain its repo id [{9: [621, 1058, 325198]},...]
     lst = []
     for post in post_set:
-        dic = {post.id: []}
+        dic = {post.id: [], 'languages': []}
         for r in post.repo.all():
             dic[post.id].append(r.repo_id)
+            dic['languages'] += [r.language] if r.language else []
         lst.append(dic)
     # Repos_len means how many repos match
     for l in lst:
@@ -230,7 +245,7 @@ def match(request):
     # lst became [{'repos_len': 5, 9: 'repos_lst': [621, 1058, 325198]},...]
     # Post id sorted [16, 9, 10]
     # https://stackoverflow.com/questions/4916851/django-get-a-queryset-from-array-of-ids-in-specific-order
-    posts_id = [list(l.keys())[0] for l in lst]
+    posts_id = [list(l.keys())[0] for l in lst if l['repos_len']]
     preserved = Case(
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(
