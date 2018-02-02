@@ -51,3 +51,44 @@ def create_one_job(
             user_id=user_id)
     post.repo.add(repo)
     return post
+
+GITHUB_REPO_RETURN = '''
+{
+  "data": {
+    "user": {
+      "name": "Windson yang",
+      "avatarUrl": "https://avatars2.githubusercontent.com/u/14333046?v=4",
+      "location": "China",
+      "websiteUrl": "https://unicooo.com/Windson/act_create/",
+      "email": "wiwindson@outlook.com",
+      "bio": "Hello, If you wanna know more about me, please have a look at https://www.unicooo.com/Windson/act_create/ . I also writing blogs at https://windsooon.github.io/",
+      "repositories": {
+        "edges": [
+          {
+            "node": {
+              "id": "MDEwOlJlcG9zaXRvcnk0MzA1MzM4NQ==",
+              "name": "How-to-pronounce",
+              "nameWithOwner": "Windsooon/How-to-pronounce",
+              "url": "https://github.com/Windsooon/How-to-pronounce",
+              "stargazers": {
+                "totalCount": 63
+              },
+              "primaryLanguage": null
+            }
+          }
+        ]
+      },
+      "repositoriesContributedTo": {
+        "edges": [
+          {
+            "node": {
+              "id": "MDEwOlJlcG9zaXRvcnk0MTY0NDgy",
+              "name": "django"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+'''

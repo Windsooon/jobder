@@ -1,9 +1,12 @@
+import json
+from unittest.mock import patch
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
-from tests.base import create_one_account
+from tests.base import create_one_account, create_one_job
 from common.const import FIND, LOGIN, BROWSE, RANDOM
 from post.models import Post
+from tests.base import GITHUB_REPO_RETURN
 
 
 class PageTestCase(TestCase):
@@ -70,3 +73,26 @@ class PageTestCase(TestCase):
             reverse('post_job'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Job Details')
+
+    @patch('common.views._get_user_repos')
+    def test_find_your_match(self, repos):
+
+        class Repo:
+            @classmethod
+            def json(cls):
+                return json.loads(GITHUB_REPO_RETURN)
+
+        self.user = create_one_account()
+        self.user2 = create_one_account('2testaccouont', '2@example.com')
+        self.client.force_login(self.user)
+        self.post = create_one_job(self.user.id, pay=True)
+        self.post2 = create_one_job(
+            self.user.id, title='Backend Engineer', pay=True)
+        self.post3 = create_one_job(
+            self.user.id, title='Data Scientist', pay=True)
+        repos.return_value = Repo
+        response = self.client.get(
+            reverse('match'))
+        self.assertContains(response, '<a class="job-title" target="_blank"')
+        self.assertContains(
+            response, '<i class="fa fa-building building"')
