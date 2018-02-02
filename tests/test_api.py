@@ -2,6 +2,7 @@ import json
 from django.urls import reverse
 from django.test import TestCase
 from post.models import Post
+from common.query import get_repos_query
 from tests.base import create_one_account
 
 
@@ -56,3 +57,6 @@ class ApiTestCase(TestCase):
         response = self.client.get(
             '/api/settings/' + str(self.user.id) + '/')
         self.assertEqual(response.status_code, 403)
+
+    def test_query(self):
+        self.assertIn('Windson', get_repos_query('Windson', 100))

@@ -29,17 +29,17 @@ class ProfileTestCase(TestCase):
             '/api/settings/' + str(self.user.id) + '/',
             json.dumps(details), content_type='application/json'
         )
+        self.assertEqual(response.status_code, 200)
         # Visiable by owner
         response = self.client.get(
             reverse('profile', kwargs={'name': self.user.username}))
         self.assertEqual(response.status_code, 200)
-        self.client.logout()
         # Non visiable by other users
+        self.client.logout()
         self.client.force_login(self.user2)
         response = self.client.get(
             reverse('profile', kwargs={'name': self.user.username}))
         self.assertEqual(response.status_code, 404)
-        self.assertTemplateUsed('404.html')
 
     def test_user_profile_button_text(self):
         self.client.force_login(self.user)

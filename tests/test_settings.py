@@ -13,6 +13,7 @@ class SettingsTestCase(TestCase):
 
     def test_settings_default_empty(self):
         response = self.client.get(reverse('settings'))
+        self.assertEqual(response.status_code, 200)
         self.assertContains(response, '1testoneaccount')
         self.assertNotContains(response, 'https://www.testblog.com')
 

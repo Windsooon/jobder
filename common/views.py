@@ -209,13 +209,13 @@ def match(request):
         r['node']['id'] for r in
         response.json()['data']['user']['repositoriesContributedTo']['edges']]
     repo.extend(repo_contributedto)
-    # repo contains a list of repo ids [14400303, 1404040]
+    # repo is a list contains repo ids [14400303, 1404040, 1440583]
     repo = [int(base64.b64decode(r)[14:]) for r in repo]
 
     post_set = _get_valid_post()
     count = post_set.count()
     # lst contain every valid post
-    # and its repo id [{'id': 9: 'repos_lst': [621, 1058, 325198]},...]
+    # 9 is post id and list contain its repo id [{9: [621, 1058, 325198]},...]
     lst = []
     for post in post_set:
         dic = {post.id: []}
@@ -227,6 +227,7 @@ def match(request):
         l['repos_len'] = len(set(repo) & set(list(l.values())[0]))
     lst = sorted(
         lst, key=itemgetter('repos_len'), reverse=True)
+    # lst became [{'repos_len': 5, 9: 'repos_lst': [621, 1058, 325198]},...]
     # Post id sorted [16, 9, 10]
     # https://stackoverflow.com/questions/4916851/django-get-a-queryset-from-array-of-ids-in-specific-order
     posts_id = [list(l.keys())[0] for l in lst]
