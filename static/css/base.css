@@ -38,7 +38,7 @@ pre {
 }
 
 #title, #job-company, #job-list, #job-details,
-#company-details, #find-details, #contri-h2{
+#company-details, #find-details, #contri-h2, #signin-h2 {
     text-align:center;
     color: #555;
 }
@@ -78,4 +78,16 @@ pre {
 
 .repe-btn {
     text-align: center;
+}
+
+.socialaccount_provider {
+    font-size: 2.4rem;
+}
+
+.socialaccount_ballot {
+    text-align: center;
+}
+
+#github-mark {
+    max-width: 100%;
 }
