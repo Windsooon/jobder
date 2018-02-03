@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load socialaccount %}
 {% block extra_styles %}
+<link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/jobs_list.css' %}" />
 {% endblock %}
 {% block content %}
@@ -30,7 +31,8 @@
               {% endfor %}
               <span id="onsite" class="repo-span">{{ post.onsite | yesno:"Remove,Onsite And Remote" }}</span>
             </div>
-            <p class="job-des">{{ post.job_des }}</p>
+            <div class="job-editor-{{ post.id }}">
+            </div>
           </div>
         {% endfor %}
       </div> <!-- end col-xs -->
@@ -38,4 +40,14 @@
   </div> <!-- end container -->
 {% endblock %}
 {% block extra_scripts %}
+<script src="{% static 'js/js_lib/quill.min.js' %}"></script>
+<script>
+$(document).ready(function() {
+    // var posts_list = JSON.parse({{ posts|safe }});
+    {% for post in posts %}
+        var job_des = {{ post.job_des|safe }};
+    set_editor_content(".job-editor-" +  {{ post.id }}, job_des);
+    {% endfor %}
+});
+</script>
 {% endblock %}

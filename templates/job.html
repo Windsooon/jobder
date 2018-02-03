@@ -22,13 +22,13 @@
               {% for repo in repos %}
               <span class="repo-span">{{ repo }}</span> 
               {% endfor %}
-              <span id="salary">{{ salary }}</span>
-              <span id="onsite">{{ onsite }}</span>
             </div>
             <div class="job-wrapper">
               <h4 id="job-title">Job Details</h4>
               <div id="job-editor">
               </div>
+              <span id="salary">{{ salary }}</span>
+              <span id="onsite">{{ onsite }}</span>
               <i class="post-create-time pull-right">{{ job.create_time|timesince }} ago </i>
             </div> <!-- end job wrapper -->
           </div>
@@ -47,6 +47,9 @@
         </div> <!-- end job-container-div -->
         <hr>
         {% if not job.pay %}
+        <div class="alert alert-danger" role="alert">
+          This job has not been post. Click bottom button to pay.
+        </div>
         <div class="globalContent">
           <main>
           <section class="container-lg">
@@ -114,8 +117,13 @@
 <script>
 $(document).ready(function() {
     var job_des = {{ job.job_des|safe }};
+    var job_pay = "{{ job.pay }}";
     var company_des = {{ job.company_des|safe }};
-    set_editor_content(job_des, company_des);
+    set_editor_content("#job-editor", job_des);
+    set_editor_content("#company-editor", company_des);
+    if (job_pay != "True") {
+        add_elements();
+    }
 });
 </script>
 {% endblock %}
