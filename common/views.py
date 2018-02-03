@@ -2,6 +2,7 @@ import json
 import base64
 import datetime
 import random
+import math
 import requests
 from operator import itemgetter
 from collections import defaultdict, Counter
@@ -239,13 +240,15 @@ def match(request):
         lst.append(dic)
     # Repos_len means how many repos match
     for l in lst:
-        l['repos_len'] = len(set(repo) & set(list(l.values())[0]))
+        l['repos_point'] = (len(set(repo) & set(list(l.values())[0]))) * 1.5
+        l['repos_point'] += math.log2(
+           len(set(most_languages) & set(list(l.values())[1]))+1)
     lst = sorted(
-        lst, key=itemgetter('repos_len'), reverse=True)
-    # lst became [{'repos_len': 5, 9: 'repos_lst': [621, 1058, 325198]},...]
+        lst, key=itemgetter('repos_point'), reverse=True)
+    # lst became [{'repos_point': 5, 9: 'repos_lst': [621, 1058, 325198]},...]
     # Post id sorted [16, 9, 10]
     # https://stackoverflow.com/questions/4916851/django-get-a-queryset-from-array-of-ids-in-specific-order
-    posts_id = [list(l.keys())[0] for l in lst if l['repos_len']]
+    posts_id = [list(l.keys())[0] for l in lst]
     preserved = Case(
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(
@@ -266,7 +269,7 @@ def after_user_logged_in(sender, **kwargs):
         if repo['node']['stargazers']['totalCount'] > 200:
             repo_name = repo['node']['name']
             owner_name = repo['node']['nameWithOwner'].split('/')[0]
-            if repo['node']['primaryLanguage']:
+            if repo['node']['primaryLanguage'] and repo['node']['primaryLanguage'] != 'HTML':
                 language = repo['node']['primaryLanguage']['name']
             else:
                 language = ""
