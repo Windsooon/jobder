@@ -45,6 +45,7 @@
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .job-repos {
@@ -121,5 +122,4 @@
 
 .post-create-time {
     font-size: 2rem;
-    margin-top: 30px;
 }

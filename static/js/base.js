@@ -34,3 +34,16 @@ function sameOrigin(url) {
         // or any other URL that isn't scheme relative or absolute i.e relative.
         !(/^(\/\/|http:|https:).*/.test(url));
 }
+
+function set_editor_content(container, des) {
+    var toolbarOptions = [
+      ];
+    var editor = new Quill(container, {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow',
+        readOnly: true,
+    });
+    editor.setContents(des);
+};

@@ -17,11 +17,6 @@
     margin-right: 8px;
 }
 
-.job-des {
-    color: gray;
-    font-size: 1.6rem;
-}
-
 .post-create-time {
     margin-top: 14px;
     color: gray;
@@ -79,4 +74,22 @@
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4463cb), to(#385acb));
     background-image: -webkit-linear-gradient(top, #4463cb, #385acb);
     background-image: -o-linear-gradient(top, #4463cb, #385acb);
+}
+
+.ql-container.ql-snow {
+   border: 0px; 
+}
+
+.ql-toolbar {
+    display: none;
+}
+
+.ql-editor {
+    padding: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.ql-container {
+    font-size: 1.8rem;
 }

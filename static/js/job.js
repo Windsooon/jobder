@@ -140,7 +140,7 @@ function registerElements(elements, exampleName) {
     });
 }
 
-(function() {
+function add_elements() {
     'use strict';
 
     var elements = stripe.elements({
@@ -182,25 +182,4 @@ function registerElements(elements, exampleName) {
     card.mount('#example1-card');
 
     registerElements([card], 'example1');
-})();
-
-function set_editor_content(job_des, company_des) {
-    var toolbarOptions = [
-      ];
-    var job_editor = new Quill('#job-editor', {
-        modules: {
-            toolbar: toolbarOptions
-        },
-        theme: 'snow',
-        readOnly: true,
-    });
-    var company_editor = new Quill('#company-editor', {
-        modules: {
-            toolbar: toolbarOptions
-        },
-        theme: 'snow',
-        readOnly: true,
-    });
-    job_editor.setContents(job_des);
-    company_editor.setContents(company_des);
-};
+}
