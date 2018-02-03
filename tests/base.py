@@ -34,10 +34,16 @@ def create_one_job(
         job_des='You are a self-starter who can work with everything.'):
 
     def create_repo(n):
-        Repos = namedtuple('Repo', 'id, name, language')
-        r1 = Repos(4164482, 'django', 'python')
-        r2 = Repos(460078, 'angular.js', 'javascript')
-        r3 = Repos(2325298, 'linux', 'c')
+        Repos = namedtuple('Repo', 'id, name, language, description')
+        r1 = Repos(
+            4164482, 'django', 'python',
+            'The Web framework for perfectionists with deadlines.')
+        r2 = Repos(
+            460078, 'angular.js', 'javascript',
+            'AngularJS - HTML enhanced for web apps!')
+        r3 = Repos(
+            2325298, 'linux', 'c',
+            'Linux kernel source tree')
         repos = [r1, r2, r3]
 
         return Repo.objects.create(
@@ -45,6 +51,7 @@ def create_one_job(
             repo_name=repos[n].name,
             owner_name='django',
             stargazers_count=31000,
+            description=repos[n].description,
             language=repos[n].language,
             html_url='https://github.com/django/django')
 

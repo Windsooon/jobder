@@ -47,6 +47,7 @@ $('#select-open-source').selectize({
             "id": data.id,
             "name": data.name,
             "owner_name": data.owner.login,
+            "description": data.description,
             "html_url": data.html_url,
             "language": data.language,
             "stargazers_count": data.stargazers_count,

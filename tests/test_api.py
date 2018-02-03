@@ -25,6 +25,7 @@ class ApiTestCase(TestCase):
             'repos': [{
                 'id': 4164482, 'name': 'django', 'owner_name': 'django',
                 'html_url': 'https://github.com/django/django',
+                'description': 'The Web framework for perfectionists with deadlines.',
                 'stargazers_count': 30000, 'language': 'python'}],
             'salary': '$150k',
             'apply': 'https://angel.co/builtforme/jobs/',
