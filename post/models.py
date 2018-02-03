@@ -3,24 +3,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 
 
-class Popular(models.Model):
-    repo_id = models.IntegerField()
-    name = models.CharField(max_length=256)
-    name_with_owner = models.CharField(max_length=256)
-    description = models.CharField(max_length=256, blank=True, null=True)
-    url = models.URLField(blank=True)
-    homepage_url = models.URLField(blank=True, null=True)
-    primary_language = models.CharField(max_length=256, blank=True)
-    star_count = models.IntegerField()
-    create_time = models.DateTimeField(auto_now_add=True)
-    update_time = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-
 class Repo(models.Model):
-    repo_id = models.IntegerField()
+    repo_id = models.IntegerField(unique=True)
     repo_name = models.CharField(max_length=256)
     owner_name = models.CharField(max_length=256)
     stargazers_count = models.IntegerField()

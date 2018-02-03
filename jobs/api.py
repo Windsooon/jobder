@@ -50,11 +50,16 @@ class PostSerializer(serializers.ModelSerializer):
         }
 
     def bulk_update_or_create_repo(self, repos):
-        return [Repo.objects.get_or_create(
-            repo_id=r['id'], repo_name=r['name'],
-            owner_name=r['owner_name'], html_url=r['html_url'],
-            stargazers_count=r['stargazers_count'], language=r['language']
-        )[0] for r in repos]
+        return [Repo.objects.update_or_create(
+                repo_id=r['id'],
+                defaults={
+                    'repo_name': r['name'],
+                    'owner_name': r['owner_name'],
+                    'stargazers_count': r['stargazers_count'],
+                    'description': r['description'] if 'description' in r else "",
+                    'language': r['language'],
+                    'html_url': r['html_url'],
+                },)[0] for r in repos]
 
     def create(self, validated_data):
         repo_data = validated_data.pop('repos')
