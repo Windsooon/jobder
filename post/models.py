@@ -48,14 +48,14 @@ class Post(models.Model):
         related_name='post')
     # job
     title = models.CharField(max_length=50)
-    job_des = models.CharField(max_length=1024)
+    job_des = models.CharField(max_length=4096)
     repo = models.ManyToManyField(Repo)
     onsite = models.SmallIntegerField(default=Both)
     visa = models.SmallIntegerField(default=No)
     salary = models.CharField(max_length=50)
     # company
     company_name = models.CharField(max_length=50)
-    company_des = models.CharField(max_length=1024)
+    company_des = models.CharField(max_length=4096)
     location = models.CharField(max_length=50)
     website = models.URLField(blank=True)
     apply = models.CharField(max_length=256)
