@@ -4,6 +4,7 @@ import datetime
 import random
 import math
 import requests
+import stripe
 from operator import itemgetter
 from collections import defaultdict, Counter
 from django.shortcuts import render, get_object_or_404
@@ -67,7 +68,6 @@ def profile(request, name):
 @login_required
 @csrf_exempt
 def token(request):
-    import stripe
     stripe.api_key = STRIPE_API_KEY
     data = json.loads(request.body)
     try:
@@ -93,6 +93,11 @@ def token(request):
         logger.error(e)
         return HttpResponse(
             'Something wrong with stripe authentication.', status=400)
+    except stripe.error.InvalidRequestError as e:
+        logger.error(e)
+        return HttpResponse(
+            'Something wrong with stripe request.', status=400)
+    # update user info
     request.user.settings.stripe_customer_id = customer['id']
     request.user.settings.stripe_email = customer['email']
     request.user.settings.stripe_name = customer['metadata']['username']
@@ -106,7 +111,7 @@ def token(request):
         customer['sources']['data'][0]['address_zip']
     request.user.settings.save()
     try:
-        subscription = stripe.Subscription.create(
+        stripe.Subscription.create(
             customer=customer['id'],
             items=[
               {
@@ -137,15 +142,22 @@ def token(request):
             'Something wrong with subscription.', status=400)
     except Exception as e:
         logger.error(e)
+        return HttpResponse(
+            'Unknown issue.', status=400)
     try:
         post = Post.objects.get(id=data['post_id'])
     except Post.DoesNotExist:
         logger.error('Paying post %s does not exist.' % data['post_id'])
+        return HttpResponse(
+            'Paying post %s does not exist.' % data['post_id'], status=400)
     else:
         post.pay = True
         post.pay_time = timezone.now()
         post.save()
-    return HttpResponse('{0} pay successed'.format(data['post_id'], status=200))
+        return HttpResponse(
+            'Post {0} pay successed'.format(data['post_id'], status=200))
+    return HttpResponse(
+        'Post {0} pay failed'.format(data['post_id'], status=500))
 
 
 @login_required
@@ -188,7 +200,7 @@ def repo_search(request):
         else:
             return JsonResponse({'length': -1, 'data': []})
     else:
-        return HttpResponse(status_code=400)
+        return HttpResponse(status=400)
 
 
 def browse(request):
