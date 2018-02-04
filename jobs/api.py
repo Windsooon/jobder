@@ -4,6 +4,10 @@ from rest_framework import serializers, viewsets
 from rest_framework import permissions as rf_permissions
 from .permissions import IsOwnerOrReadOnly, \
     IsOwnerOrVisiable
+from jobs.set_logging import setup_logging
+
+init_logging = setup_logging()
+logger = init_logging.getLogger(__name__)
 
 
 class SettingsSerializer(serializers.ModelSerializer):
