@@ -70,36 +70,82 @@ def token(request):
     import stripe
     stripe.api_key = STRIPE_API_KEY
     data = json.loads(request.body)
-    customer = stripe.Customer.create(
-        description='Customer for ' + data['name']['name'],
-        email=data['email'],
-        metadata={
-            'username': data['name']['name'],
-            'address_line1': data['name']['address_line1']
-        },
-        source=data['token'],
-    )
+    try:
+        customer = stripe.Customer.create(
+            description='Customer for ' + data['card']['name'],
+            email=data['email'],
+            metadata={
+                'username': data['card']['name'],
+                'address_line1': data['card']['address_line1'],
+                'zip': data['card']['address_zip']
+            },
+            source=data['token'],
+        )
+    except stripe.error.CardError as e:
+        logger.error(
+            'Customer create failed. Card id {0} from {1} may have problem.'
+            .format(data['card']['id'], data['card']['name']))
+        logger.error(e)
+        return HttpResponse(
+            'Something wrong with your card. Please try another card.',
+            status=400)
+    except stripe.error.AuthenticationError as e:
+        logger.error(e)
+        return HttpResponse(
+            'Something wrong with stripe authentication.', status=400)
     request.user.settings.stripe_customer_id = customer['id']
     request.user.settings.stripe_email = customer['email']
     request.user.settings.stripe_name = customer['metadata']['username']
-    request.user.settings.stripe_last4 = customer['sources']['data']['last4']
+    request.user.settings.stripe_last4 = \
+        customer['sources']['data'][0]['last4']
     request.user.settings.stripe_exp_year = \
-        customer['sources']['data']['exp_year']
+        customer['sources']['data'][0]['exp_year']
     request.user.settings.stripe_exp_month = \
-        customer['sources']['data']['exp_month']
+        customer['sources']['data'][0]['exp_month']
     request.user.settings.stripe_zip = \
-        customer['sources']['data']['address_zip']
+        customer['sources']['data'][0]['address_zip']
     request.user.settings.save()
-
-    subscription = stripe.Subscription.create(
-        customer=customer['id'],
-        items=[
-          {
-            "plan": "monthly-plan",
-          },
-        ],
-    )
-    return HttpResponse(200)
+    try:
+        subscription = stripe.Subscription.create(
+            customer=customer['id'],
+            items=[
+              {
+                "plan": "monthly-plan",
+              },
+            ],
+        )
+    except stripe.error.CardError as e:
+        logger.error(
+            'Subscription failed. Card {0} from {1} may have problem.'
+            .format(
+                customer['sources']['data'][0]['last4'],
+                customer['metadata']['username']))
+        logger.error(e)
+        return HttpResponse(
+            'Something wrong with your card. Please try another card.',
+            status=400)
+    except stripe.error.AuthenticationError as e:
+        logger.error(e)
+        return HttpResponse(
+            'Something wrong with stripe authentication.', status=400)
+    except stripe.error.InvalidRequestError as e:
+        logger.error(
+            'Subscription from {0} may have problem.'
+            .format(customer['metadata']['username']))
+        logger.error(e)
+        return HttpResponse(
+            'Something wrong with subscription.', status=400)
+    except Exception as e:
+        logger.error(e)
+    try:
+        post = Post.objects.get(id=data['post_id'])
+    except Post.DoesNotExist:
+        logger.error('Paying post %s does not exist.' % data['post_id'])
+    else:
+        post.pay = True
+        post.pay_time = timezone.now()
+        post.save()
+    return HttpResponse('{0} pay successed'.format(data['post_id'], status=200))
 
 
 @login_required
@@ -143,14 +189,6 @@ def repo_search(request):
             return JsonResponse({'length': -1, 'data': []})
     else:
         return HttpResponse(status_code=400)
-
-
-@login_required
-@csrf_exempt
-def pay(request):
-    event_json = json.loads(request.body)
-    logger.debug(event_json)
-    return HttpResponse(status=200)
 
 
 def browse(request):
@@ -280,6 +318,7 @@ def after_user_logged_in(sender, **kwargs):
                     'owner_name': owner_name,
                     'stargazers_count':
                         repo['node']['stargazers']['totalCount'],
+                    'description': repo['node']['description'],
                     'language': language,
                     'html_url': repo['node']['url'],
                 },

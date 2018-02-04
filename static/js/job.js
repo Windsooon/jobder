@@ -2,7 +2,7 @@
 
 var stripe = Stripe('pk_test_fEJG3FbEEKCGhriUfqjWJZG5');
 
-function submit_token(token, name, email) {
+function submit_token(token, card, email, post_id, example) {
     $.ajax({
         url: base_url + 'token/',
         type: 'POST',
@@ -10,12 +10,18 @@ function submit_token(token, name, email) {
         datatype: "json",
         data:  JSON.stringify({
             "token": token,
-            "name": name,
+            "card": card,
             "email": email,
+            "post_id": post_id,
         }),
-        error: function() {
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
         },
         success: function(res) {
+          example.classList.add('submitted');
+        },
+        complete: function() {
+          example.classList.remove('submitting');
         }
     });
 }
@@ -97,7 +103,6 @@ function registerElements(elements, exampleName) {
       var post_id = $("#post-id").val();
       var additionalData = {
         name: name ? name.value : undefined,
-        email: email ? email.value : undefined,
         address_line1: address ? address.value : undefined,
       };
 
@@ -105,38 +110,16 @@ function registerElements(elements, exampleName) {
       // from the Element group in order to create a token. We can also pass
       // in the additional customer data we collected in our form.
       stripe.createToken(elements[0], additionalData).then(function(result) {
-        // Stop loading!
-        example.classList.remove('submitting');
-
         if (result.token) {
           // If we received a token, show the token ID.
           submit_token(
-              result.token.id, result.token.card, $("#example1-email").val());
-          example.classList.add('submitted');
+              result.token.id, result.token.card, email, post_id, example);
         } else {
           // Otherwise, un-disable inputs.
+          example.classList.remove('submitting');
           enableInputs();
         }
       });
-    });
-
-    resetButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      // Resetting the form (instead of setting the value to `''` for each input)
-      // helps us clear webkit autofill styles.
-      form.reset();
-
-      // Clear each Element.
-      elements.forEach(function(element) {
-        element.clear();
-      });
-
-      // Reset error state as well.
-      error.classList.remove('visible');
-
-      // Resetting the form does not un-disable inputs, so we need to do it separately:
-      enableInputs();
-      example.classList.remove('submitted');
     });
 }
 
