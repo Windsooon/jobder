@@ -55,7 +55,7 @@ class PageTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('token'))
         self.assertEqual(response.status_code, 302)
-        response = self.client.get(reverse('pay'))
+        response = self.client.get(reverse('repo_search'))
         self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('repo_search'))
         self.assertEqual(response.status_code, 302)
@@ -97,3 +97,34 @@ class PageTestCase(TestCase):
         self.assertContains(response, 'Senior Software Engineer')
         self.assertContains(
             response, '<i class="fa fa-building building"')
+
+    def test_repo_search_miss_id_without_login(self):
+        response = self.client.get(reverse('repo_search'))
+        self.assertEqual(response.status_code, 302)
+
+    def test_repo_search_miss_id(self):
+        user = create_one_account()
+        self.client.force_login(user)
+        response = self.client.get(reverse('repo_search'))
+        self.assertEqual(response.status_code, 400)
+
+    def test_repo_search_no_valid_post_user(self):
+        user = create_one_account()
+        self.client.force_login(user)
+        response = self.client.get("%s?repo_id=1" % (reverse('repo_search')))
+        self.assertEqual(response.json(), {"length": -1, "data": []})
+
+    def test_repo_search_valid_post_user(self):
+        user = create_one_account()
+        self.client.force_login(user)
+        create_one_job(user.id, pay=True)
+        response = self.client.get(
+            "%s?repo_id=4164482" % (reverse('repo_search')))
+        user_response = {
+            'length': 1,
+            'data': [{
+                'username': 'Windsooon',
+                'avatar_url': 'https://avatars2.githubusercontent.com/u/14333046?v=4'}
+            ]
+        }
+        self.assertEqual(response.json(), user_response)

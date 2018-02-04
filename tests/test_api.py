@@ -25,7 +25,8 @@ class ApiTestCase(TestCase):
             'repos': [{
                 'id': 4164482, 'name': 'django', 'owner_name': 'django',
                 'html_url': 'https://github.com/django/django',
-                'description': 'The Web framework for perfectionists with deadlines.',
+                'description':
+                'The Web framework for perfectionists with deadlines.',
                 'stargazers_count': 30000, 'language': 'python'}],
             'salary': '$150k',
             'apply': 'https://angel.co/builtforme/jobs/',
@@ -37,6 +38,8 @@ class ApiTestCase(TestCase):
             json.dumps(job_details), content_type='application/json'
         )
         self.assertEqual(response.status_code, 201)
+        post = Post.objects.get(id=response.json()['id'])
+        self.assertFalse(post.pay, False)
         self.assertEqual(Post.objects.all().count(), 1)
 
     def test_settings_visiable(self):
