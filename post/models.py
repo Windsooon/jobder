@@ -9,7 +9,7 @@ class Repo(models.Model):
     owner_name = models.CharField(max_length=256)
     stargazers_count = models.IntegerField()
     description = models.CharField(max_length=256, blank=True, null=True)
-    language = models.CharField(max_length=256)
+    language = models.CharField(max_length=256, blank=True, null=True)
     url = models.URLField(blank=True)
     html_url = models.URLField(blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
