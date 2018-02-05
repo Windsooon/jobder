@@ -10,7 +10,7 @@ from collections import defaultdict, Counter
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Case, When
+from django.db.models import Case, When, Count
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.dispatch import receiver
@@ -178,7 +178,8 @@ def post_job(request):
 @login_required
 def contributors(request):
     '''Find contributors'''
-    repos = Repo.objects.all().order_by('-stargazers_count')[:3]
+    repos = Repo.objects.annotate(
+        q_count=Count('settings')).order_by('-q_count')[:3]
     return render(request, 'contributors.html', {'repos': repos})
 
 
@@ -213,7 +214,7 @@ def browse(request):
     count = ori_posts.count()
     if count:
         first_id = ori_posts.first().id
-        lst = random.sample(range(first_id, first_id + count), count*1//3)
+        lst = random.sample(range(first_id, first_id + count), count*1//3+1)
         posts = Post.objects.filter(id__in=lst)
         return render(request, 'match.html', {'posts': posts, 'title': RANDOM})
     else:
@@ -307,7 +308,7 @@ def match(request):
     preserved = Case(
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(
-        id__in=posts_id).order_by(preserved)[:(count*1//3)]
+        id__in=posts_id).order_by(preserved)[:(count*1//3+1)]
     return render(
         request, 'match.html',
         {'posts': posts, 'title': TITLE, 'type': type})

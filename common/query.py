@@ -14,6 +14,7 @@ def get_repos_query(user_name, num):
                       name
                       nameWithOwner
                       url
+                      description
                       stargazers {
                         totalCount
                       }
@@ -30,6 +31,7 @@ def get_repos_query(user_name, num):
                       name
                       nameWithOwner
                       url
+                      description
                       stargazers {
                         totalCount
                       }
