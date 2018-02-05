@@ -28,7 +28,7 @@
               <div id="job-editor">
               </div>
               <span id="salary">{{ salary }}</span>
-              <span id="onsite">{{ onsite }}</span>
+              <span id="onsite">{{ type }}</span>
               <i class="post-create-time pull-right">{{ job.create_time|timesince }} ago </i>
             </div> <!-- end job wrapper -->
           </div>
@@ -40,8 +40,7 @@
             <h4 id="company-des-h4">Company Details</h4>
             <div id="company-editor">
             </div>
-            <span id="apply">How To Apply :</span>
-            <span id="apply">{{ job.apply }}</span>
+            <span id="apply">Apply: {{ job.apply }}</span>
             <p id="from-jobder">* We will really appreciate if you mention jobder when you apply this job.</p>
           </div> <!-- end company -->
         </div> <!-- end job-container-div -->
