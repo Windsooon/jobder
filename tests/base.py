@@ -1,6 +1,6 @@
 from collections import namedtuple
 from django.contrib.auth import get_user_model
-from allauth.socialaccount.models import SocialToken, SocialAccount
+from allauth.socialaccount.models import SocialToken, SocialAccount, SocialApp
 from post.models import Post, Repo
 
 
@@ -33,15 +33,25 @@ def create_one_account(username='1testoneaccount', email='1@onexample.com'):
             username=username,
             password='1testonepassword',
             email=email)
+
+    app = SocialApp.objects.create(
+        provider='GitHub',
+        name='GitHub',
+        client_id='wienrfdsifnin',
+        secret='jiewninrwer',
+        key=1)
+
+    account = SocialAccount.objects.create(
+        user_id=user.id,
+        provider='GitHub',
+        uid=184843 + user.id,
+        extra_data={"login": "Windsooon", "id": 14333046 + user.id, "avatar_url": "https://avatars2.githubusercontent.com/u/14333046?v=4", "gravatar_id": "", "url": "https://api.github.com/users/Windsooon", "html_url": "https://github.com/Windsooon", "name": "Windson yang", "company": "unicooo", "blog": "https://unicooo.com/Windson/act_create/", "location": "China", "email": "wiwindson@outlook.com", "bio": "Hello, If you wanna know more about me", "public_repos": 54, "public_gists": 2, "created_at": "2015-09-17T15:15:16Z", "updated_at": "2018-01-18T04:14:36Z"})
+
     SocialToken.objects.create(
         token='96a4b09869718ce8d6e46a3488402353ef63c656',
-        account_id=user.id,
-        app_id=1)
-    SocialAccount.objects.create(
-        user_id=user.id,
-        provider='github',
-        uid=184843 + user.id,
-        extra_data={"login": "Windsooon", "id": 14333046, "avatar_url": "https://avatars2.githubusercontent.com/u/14333046?v=4", "gravatar_id": "", "url": "https://api.github.com/users/Windsooon", "html_url": "https://github.com/Windsooon", "name": "Windson yang", "company": "unicooo", "blog": "https://unicooo.com/Windson/act_create/", "location": "China", "email": "wiwindson@outlook.com", "bio": "Hello, If you wanna know more about me", "public_repos": 54, "public_gists": 2, "created_at": "2015-09-17T15:15:16Z", "updated_at": "2018-01-18T04:14:36Z"})
+        account=account,
+        app=app)
+
     repo1 = create_repo(0)
     repo2 = create_repo(1)
     user.settings.repo.add(repo1, repo2)
@@ -248,5 +258,46 @@ SUBSCRIPTION_RETURN = '''
   "tax_percent": null,
   "trial_end": null,
   "trial_start": null
+}
+'''
+
+USER_REPO = '''
+{
+  "data": {
+    "user": {
+      "name": "Windson yang",
+      "avatarUrl": "https://avatars2.githubusercontent.com/u/14333046?v=4",
+      "location": "China",
+      "websiteUrl": "https://unicooo.com/Windson/act_create/",
+      "email": "wiwindson@outlook.com",
+      "bio": "Hello, If you wanna know more about me, please have a look at https://www.unicooo.com/Windson/act_create/ . I also writing blogs at https://windsooon.github.io/",
+      "repositories": {
+        "edges": [
+          {
+            "node": {
+              "id": "MDEwOlJlcG9zaXRvcnk0MzA1MzM4NQ==",
+              "name": "How-to-pronounce",
+              "nameWithOwner": "Windsooon/How-to-pronounce",
+              "url": "https://github.com/Windsooon/How-to-pronounce",
+              "stargazers": {
+                "totalCount": 63
+              },
+              "primaryLanguage": null
+            }
+          }
+        ]
+      },
+      "repositoriesContributedTo": {
+        "edges": [
+          {
+            "node": {
+              "id": "MDEwOlJlcG9zaXRvcnk0MTY0NDgy",
+              "name": "django"
+            }
+          }
+        ]
+      }
+    }
+  }
 }
 '''

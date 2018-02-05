@@ -4,7 +4,6 @@ from unittest.mock import patch
 from django.utils import timezone
 from django.test import TestCase
 from django.urls import reverse
-from dotmap import DotMap
 from tests.base import create_one_account, create_one_job,\
     CUSTOMER_RETURN, SUBSCRIPTION_RETURN
 
@@ -15,7 +14,6 @@ class PostTestCase(TestCase):
         self.user = create_one_account()
         self.user2 = create_one_account('2testaccouont', '2@example.com')
         self.client.force_login(self.user)
-        # create job post
 
     def test_expired_job(self):
         self.post = create_one_job(self.user.id)
@@ -85,6 +83,10 @@ class PostTestCase(TestCase):
         response = self.client.get(reverse('front_page'))
         self.assertContains(response, 'Jobs Created')
 
+    def test_can_not_find_job(self):
+        response = self.client.get(reverse('job', kwargs={'id': 10}))
+        self.assertEqual(response.status_code, 404)
+
     def test_browse_show_up_one_third_job(self):
         self.post = create_one_job(self.user.id, pay=True)
         self.post2 = create_one_job(
@@ -101,7 +103,7 @@ class PostTestCase(TestCase):
     def test_send_token(self, subscription, customer):
         # mock return value
         customer.return_value = json.loads(CUSTOMER_RETURN)
-        subscription.return_value.sources.create.return_value = json.loads(SUBSCRIPTION_RETURN)
+        subscription.return_value = json.loads(SUBSCRIPTION_RETURN)
         self.post = create_one_job(self.user.id, pay=True)
         data = {
             'token': 'tok_1Bri70ADXywKZUxvWPimDJxnJ',
@@ -115,7 +117,7 @@ class PostTestCase(TestCase):
                 'name': 'test username',
             },
             'email': 'test@user.com',
-            'post_id': self.post.id,
+            'post_id': 1,
         }
         response = self.client.post(
             '/token/',
@@ -131,4 +133,4 @@ class PostTestCase(TestCase):
         self.assertEqual(self.user.settings.stripe_exp_month, 4)
         self.assertEqual(self.user.settings.stripe_zip, '51000')
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(self.post.pay)
+        self.assertTrue(self.post.pay)

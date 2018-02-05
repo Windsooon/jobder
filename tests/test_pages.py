@@ -24,6 +24,12 @@ class PageTestCase(TestCase):
         self.assertContains(response, FIND)
         self.assertContains(response, BROWSE)
 
+    def test_browse_no_post(self):
+        user = create_one_account()
+        self.client.force_login(user)
+        response = self.client.get(reverse('browse'))
+        self.assertEqual(response.status_code, 404)
+
     def test_browse_page_200_with_without_login(self):
         user = create_one_account()
         self.client.force_login(user)
@@ -57,6 +63,8 @@ class PageTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('repo_search'))
         self.assertEqual(response.status_code, 302)
+        response = self.client.get(reverse('posted_jobs'))
+        self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('repo_search'))
         self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('contributors'))
@@ -65,6 +73,18 @@ class PageTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('match'))
         self.assertEqual(response.status_code, 302)
+
+    def test_contributors_login(self):
+        user = create_one_account()
+        self.client.force_login(user)
+        response = self.client.get(reverse('contributors'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_posted_job_login(self):
+        user = create_one_account()
+        self.client.force_login(user)
+        response = self.client.get(reverse('posted_jobs'))
+        self.assertEqual(response.status_code, 200)
 
     def test_post_job_pages(self):
         user = create_one_account()
@@ -83,7 +103,6 @@ class PageTestCase(TestCase):
                 return json.loads(GITHUB_REPO_RETURN)
 
         self.user = create_one_account()
-        self.user2 = create_one_account('2testaccouont', '2@example.com')
         self.client.force_login(self.user)
         self.post = create_one_job(self.user.id, pay=True)
         self.post2 = create_one_job(
