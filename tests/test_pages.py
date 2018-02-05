@@ -37,7 +37,7 @@ class PageTestCase(TestCase):
             user=user,
             title='Senior Software Engineer',
             job_des='You are a self-starter who can work with little',
-            onsite=0,
+            type=0,
             visa=0,
             salary='$100k',
             company_name='Built For Me Inc.',
@@ -114,6 +114,31 @@ class PageTestCase(TestCase):
             reverse('match'))
         self.assertContains(response, '<a class="job-title" target="_blank"')
         self.assertContains(response, 'Senior Software Engineer')
+        self.assertContains(
+            response, '<i class="fa fa-building building"')
+
+    @patch('common.views._get_user_repos')
+    def test_find_your_match_with_remote(self, repos):
+
+        class Repo:
+            @classmethod
+            def json(cls):
+                return json.loads(GITHUB_REPO_RETURN)
+
+        self.user = create_one_account()
+        self.client.force_login(self.user)
+        self.post = create_one_job(self.user.id, pay=True, type=2, repo_id=0)
+        self.post2 = create_one_job(
+            self.user.id, title='Backend Engineer', pay=True, repo_id=1)
+        self.post3 = create_one_job(
+            self.user.id, title='Data Scientist', pay=True, repo_id=2)
+        self.post4 = create_one_job(
+            self.user.id, title='Frontend Engineer', pay=True, repo_id=1)
+        repos.return_value = Repo
+        response = self.client.get('/match/?type=remote')
+        self.assertContains(response, '<a class="job-title" target="_blank"')
+        self.assertNotContains(response, 'Senior Software Engineer')
+        self.assertContains(response, 'Backend Engineer')
         self.assertContains(
             response, '<i class="fa fa-building building"')
 

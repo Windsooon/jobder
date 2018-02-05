@@ -117,7 +117,7 @@ class PostTestCase(TestCase):
                 'name': 'test username',
             },
             'email': 'test@user.com',
-            'post_id': 1,
+            'post_id': self.post.id,
         }
         response = self.client.post(
             '/token/',

@@ -28,7 +28,9 @@ def create_repo(n):
     return repo[0]
 
 
-def create_one_account(username='1testoneaccount', email='1@onexample.com'):
+def create_one_account(
+        username='1testoneaccount',
+        email='1@onexample.com', repo_lst=[0, 1]):
     user = get_user_model().objects.create_user(
             username=username,
             password='1testonepassword',
@@ -52,9 +54,8 @@ def create_one_account(username='1testoneaccount', email='1@onexample.com'):
         account=account,
         app=app)
 
-    repo1 = create_repo(0)
-    repo2 = create_repo(1)
-    user.settings.repo.add(repo1, repo2)
+    repo_lst = [create_repo(i) for i in repo_lst]
+    [user.settings.repo.add(i) for i in repo_lst]
     return user
 
 
@@ -64,19 +65,19 @@ def create_multi_accounts(number):
             password=str(num) + 'testpassword',
             email=str(num) + '@example.com') for num in range(1, number+1)]
 
-
 def create_one_job(
-        user_id, pay=None, repo_id=0,
+        user_id, pay=None, repo_id=0, type=0,
         title='Senior Software Engineer',
         job_des='You are a self-starter who can work with everything.'):
 
     post = Post.objects.create(
-            title='Senior Software Engineer',
-            job_des='You are a self-starter who can work with everything.',
+            title=title,
+            job_des=job_des,
             company_name='Built For Me Inc.',
             company_des='We are a small company use the word "startup".',
             location='Seattle, New York, San Francisco',
             salary='$150k',
+            type=type,
             apply='https://angel.co/builtforme/jobs/',
             pay=pay if pay else False,
             user_id=user_id)
