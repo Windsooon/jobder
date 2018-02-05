@@ -18,7 +18,7 @@ class SettingsSerializer(serializers.ModelSerializer):
         model = Settings
         fields = (
             'id', 'user_name', 'blog',
-            'linkedin', 'onsite', 'visiable'
+            'linkedin', 'type', 'visiable'
         )
 
 
@@ -46,7 +46,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = (
             'id', 'user', 'title', 'job_des', 'repos', 'repo',
-            'onsite', 'salary', 'company_name', 'location', 'visa',
+            'type', 'salary', 'company_name', 'location', 'visa',
             'company_des', 'apply',
         )
         extra_kwargs = {

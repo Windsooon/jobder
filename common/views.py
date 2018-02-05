@@ -38,13 +38,18 @@ def _get_user_repos(user):
         json.dumps({"query": query}), headers=headers)
 
 
-def _get_valid_post():
+def _get_valid_post(type='both'):
     '''
     Get paid post and valid post
     '''
-    return Post.objects.filter(pay=1).filter(
-        pay_time__gte=timezone.now()
-        - datetime.timedelta(days=30))
+    if type == 'remote':
+        return Post.objects.filter(pay=1).exclude(type=2).filter(
+            pay_time__gte=timezone.now()
+            - datetime.timedelta(days=30))
+    else:
+        return Post.objects.filter(pay=1).filter(
+            pay_time__gte=timezone.now()
+            - datetime.timedelta(days=30))
 
 
 def index(request):
@@ -156,8 +161,6 @@ def token(request):
         post.save()
         return HttpResponse(
             'Post {0} pay successed'.format(data['post_id'], status=200))
-    return HttpResponse(
-        'Post {0} pay failed'.format(data['post_id'], status=500))
 
 
 @login_required
@@ -175,7 +178,8 @@ def post_job(request):
 @login_required
 def contributors(request):
     '''Find contributors'''
-    return render(request, 'contributors.html')
+    repos = Repo.objects.all().order_by('-stargazers_count')[:3]
+    return render(request, 'contributors.html', {'repos': repos})
 
 
 @login_required
@@ -224,7 +228,7 @@ def posted_jobs(request):
 
 def job(request, id):
     '''job page'''
-    onsite = ['Onsite And Remote', 'Remote', 'Onsite']
+    type = ['Onsite And Remote', 'Remote', 'Onsite']
     visa = ['No Visa Support', 'Visa Support']
 
     try:
@@ -244,7 +248,7 @@ def job(request, id):
         request, 'job.html',
         {
             'repos': [r.repo_name for r in job.repo.all()], 'job': job,
-            'onsite': onsite[job.onsite],
+            'type': type[job.type],
             'visa': visa[job.visa],
             'salary': job.salary})
 
@@ -277,7 +281,8 @@ def match(request):
     most_languages = [r[0] for r in Counter(repo_languages).most_common(3)]
     # repo is a list contains repo ids [14400303, 1404040, 1440583]
     repo = [int(base64.b64decode(r)[14:]) for r in repo]
-    post_set = _get_valid_post()
+    type = request.GET.get('type', 'both')
+    post_set = _get_valid_post(type)
     count = post_set.count()
     # lst contain every valid post
     # 9 is post id and list contain its repo id [{9: [621, 1058, 325198]},...]
@@ -303,7 +308,9 @@ def match(request):
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(
         id__in=posts_id).order_by(preserved)[:(count*1//3)]
-    return render(request, 'match.html', {'posts': posts, 'title': TITLE})
+    return render(
+        request, 'match.html',
+        {'posts': posts, 'title': TITLE, 'type': type})
 
 
 @receiver(user_logged_in)
