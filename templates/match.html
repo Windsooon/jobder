@@ -9,6 +9,7 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1 col-md-10 col-md-offset-1">
+        <h2 id="job-list">{{ title }}</h2>
         <div>
           {% if type == 'remote' %}
           <a href="{% url 'match' %}" class="btn-width btn btn-primary">Show Onsite and Remote Jobs</a>
@@ -16,7 +17,6 @@
           <a href="{% url 'match' %}?type=remote" class="btn-width btn btn-primary">Show Remote Jobs</a>
           {% endif %}
         </div>
-        <h2 id="job-list">{{ title }}</h2>
         <input id="user-id" type="hidden" value="{{ user.id }}" />
         {% for post in posts %}
           <div class="post-div">
@@ -36,7 +36,13 @@
               {% for repo in post.repo.all %}
               <span class="repo-span">{{ repo.repo_name }}</span> 
               {% endfor %}
-              <span id="onsite" class="repo-span">{{ post.type | yesno:"Remove,Onsite And Remote" }}</span>
+              {% if post.type == 0 %}
+              <span id="onsite" class="repo-span">Onsite and Remote</span>
+              {% elif post.type == 1 %}
+              <span id="onsite" class="repo-span">Remote</span>
+              {% elif post.type == 2 %}
+              <span id="onsite" class="repo-span">Onsite</span>
+              {% endif %}
             </div>
             <div class="job-editor-{{ post.id }}">
             </div>

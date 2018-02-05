@@ -178,7 +178,7 @@ $(document).ready(function() {
                     "title": $("#job_title").val().trim(),
                     "job_des": JSON.stringify(job_editor.getContents()),
                     "repos": repos,
-                    "onsite": $("#onsite-select option:selected").val(), 
+                    "type": $("#onsite-select option:selected").val(), 
                     "visa": $("#visa-select option:selected").val(), 
                     "salary": $("#salary").val(),
                     "company_name": $("#company").val().trim(),

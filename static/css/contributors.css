@@ -136,3 +136,8 @@
 .find-repo-div {
     text-align: center;
 }
+
+.repo-re-name {
+    color: gray;
+    font-style: italic;
+}
