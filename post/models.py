@@ -34,7 +34,7 @@ class Post(models.Model):
     title = models.CharField(max_length=50)
     job_des = models.CharField(max_length=4096)
     repo = models.ManyToManyField(Repo)
-    onsite = models.SmallIntegerField(default=Both)
+    type = models.SmallIntegerField(default=Both)
     visa = models.SmallIntegerField(default=No)
     salary = models.CharField(max_length=50)
     # company
