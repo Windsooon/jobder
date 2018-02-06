@@ -203,7 +203,7 @@ def repo_search(request):
                 res_lst.append(u)
             return JsonResponse({'length': length, 'data': res_lst})
         else:
-            return JsonResponse({'length': -1, 'data': []})
+            return JsonResponse({'length': length, 'data': []}, status=403)
     else:
         return HttpResponse(status=400)
 

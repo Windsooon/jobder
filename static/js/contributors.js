@@ -1,7 +1,6 @@
 $('#select-open-source').selectize({
     valueField: 'id',
-    labelField: 'name',
-    searchField: 'name',
+    labelField: 'name', searchField: 'name',
     sortField: [
         {
             field: 'stargazers_count',
@@ -39,7 +38,6 @@ $('#select-open-source').selectize({
     },
     onItemRemove: function (value) {
         var data = this.options[value];
-        repos = removeFunction(repos, 'id', data.id);
     },
     load: function(query, callback) {
         if (!query.length) return callback();
@@ -74,8 +72,11 @@ function set_up_empty() {
 }
 
 function set_up_number(container, length, repo) {
+    if (length == 0) {
+        var text = "0 " + repo + " contributor looking for job.";
+    }
     if (length == 1) {
-        var text = "One " + repo + " contributor looking for job.";
+        var text = "1 " + repo + " contributor looking for job.";
     }
     else {
         var text = length + " " + repo + " contributors looking for job.";
@@ -120,6 +121,7 @@ $(document).ready(function(){
     check_repo($(".search-btn"), ".repo-name");
     $(".search-btn").on("click", function(){
         var csrftoken = getCookie("csrftoken");
+        $(".contri-col").empty();
         $.ajax({
             url: base_url + "repo-search/?repo_id=" + 
                 $(".selectize-input").children().attr("data-value"),
@@ -129,16 +131,16 @@ $(document).ready(function(){
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 } 
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                set_up_number(
+                    $(".contri-col"), xhr.responseJSON.length, $("#repo-name").text());
+                set_up_empty();
             },
             success: function(res) {
                 $(".contri-col").empty(); 
                 set_up_number($(".contri-col"), res.length, $("#repo-name").text());
-                if (res.data.length > 0) {
+                if (res.data.length >= 0) {
                     set_up_contributors($(".contri-col"), res.data);
-                }
-                else {
-                    set_up_empty(); 
                 }
             }
         });
