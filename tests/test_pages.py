@@ -156,7 +156,8 @@ class PageTestCase(TestCase):
         user = create_one_account()
         self.client.force_login(user)
         response = self.client.get("%s?repo_id=1" % (reverse('repo_search')))
-        self.assertEqual(response.json(), {"length": -1, "data": []})
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"length": 0, "data": []})
 
     def test_repo_search_valid_post_user(self):
         user = create_one_account()
