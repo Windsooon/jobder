@@ -72,8 +72,6 @@ pre {
     text-align: center;
     padding-top: 20px;
     padding-bottom: 20px;
-    border-top: 1px solid #cbcbcb;
-    border-bottom: 1px solid #cbcbcb;
 }
 
 .repe-btn {
@@ -90,4 +88,10 @@ pre {
 
 #github-mark {
     max-width: 100%;
+}
+
+#github-alert {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 0.8rem;
 }

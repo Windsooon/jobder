@@ -65,6 +65,7 @@ def create_multi_accounts(number):
             password=str(num) + 'testpassword',
             email=str(num) + '@example.com') for num in range(1, number+1)]
 
+
 def create_one_job(
         user_id, pay=None, repo_id=0, type=0,
         title='Senior Software Engineer',

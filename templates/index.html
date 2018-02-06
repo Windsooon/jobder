@@ -14,6 +14,7 @@
           <a href="{% url 'match' %}" class="btn btn-default btn-lg" title="">{{ FIND }}</a>
           {% else %}
           <a href="{% provider_login_url 'github' %}" class="btn btn-default btn-lg" title="">{{ LOGIN }}</a>
+          <p id="github-alert">*We will not write any data in your <br>GitHub account.</p>
           {% endif %}
         </div> <!-- end col-xs-12 -->
       </div> <!-- end row -->
