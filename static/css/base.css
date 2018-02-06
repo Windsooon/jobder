@@ -48,7 +48,7 @@ pre {
     color: gray;
 }
 
-.index-img, .profile-img {
+.index-img, .profile-img, .fire-img{
     max-width: 100%;
 }
 
@@ -103,4 +103,9 @@ pre {
 
 .index-p {
     text-align: center;
+    font-size: 2rem;
+}
+
+#jobder-name {
+    font-size: 3rem;
 }

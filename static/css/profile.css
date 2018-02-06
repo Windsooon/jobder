@@ -60,8 +60,6 @@
 
 .total-star-div, .total-contributed-div{
     margin-top: 22%;
-    border-top: 1px solid #cbcbcb;
-    border-bottom: 1px solid #cbcbcb;
 }
 
 #total-contributed-p, #total-star-p {
