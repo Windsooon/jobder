@@ -89,6 +89,7 @@ WSGI_APPLICATION = 'jobs.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 if DEBUG:
+    SECURE_SSL_REDIRECT = False
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -98,6 +99,7 @@ if DEBUG:
         }
     }
 else:
+    SECURE_SSL_REDIRECT = True
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
