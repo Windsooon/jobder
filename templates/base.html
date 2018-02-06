@@ -56,10 +56,10 @@
                     <li><a href="{% url 'match' %}">Find Your Match</a></li>
                     <li><a href="{% url 'contributors' %}">Search Contributors</a></li>
                     <li><a href="{% url 'post_job' %}">Post A Job</a></li>
+                  <li role="separator" class="divider"></li>
                     {% if request.user.post.count > 0 %}
                     <li><a href="{% url 'posted_jobs' %}">Jobs Created</a></li>
                     {% endif %}
-                  <li role="separator" class="divider"></li>
                   <li><a href="{% url 'profile' name=''|add:request.user.username %}">Profile</a></li>
                   <li><a href="{% url 'settings' %}">Settings</a></li>
                   <li role="separator" class="divider"></li>

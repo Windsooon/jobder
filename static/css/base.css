@@ -48,7 +48,7 @@ pre {
     color: gray;
 }
 
-.profile-img {
+.index-img, .profile-img {
     max-width: 100%;
 }
 
@@ -94,4 +94,13 @@ pre {
     margin-top: 8px;
     margin-bottom: 8px;
     font-size: 0.8rem;
+}
+
+.index-a {
+    display: block;
+    cursor: pointer;
+}
+
+.index-p {
+    text-align: center;
 }
