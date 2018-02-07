@@ -296,7 +296,8 @@ def match(request):
         lst.append(dic)
     # Repos_len means how many repos match
     for l in lst:
-        l['repos_point'] = (len(set(repo) & set(list(l.values())[0]))) * 1.5
+        points = (len(set(repo) & set(list(l.values())[0]))) * 1.5
+        l['repos_point'] = points
         l['repos_point'] += math.log2(
            len(set(most_languages) & set(list(l.values())[1]))+1)
     lst = sorted(

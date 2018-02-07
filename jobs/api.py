@@ -61,7 +61,7 @@ class PostSerializer(serializers.ModelSerializer):
                     'owner_name': r['owner_name'],
                     'stargazers_count': r['stargazers_count'],
                     'description': r['description'] if 'description' in r else "",
-                    'language': r['language'],
+                    'language': r['language'] if r['language'] != 'HTML' else "",
                     'html_url': r['html_url'],
                 },)[0] for r in repos]
 
