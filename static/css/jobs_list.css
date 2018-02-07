@@ -29,6 +29,7 @@
 }
 
 .post-div {
+    overflow: hidden;
     display: block;
     padding-top: 20px;
     margin-bottom: 25px;
@@ -77,6 +78,7 @@
 }
 
 .ql-container.ql-snow {
+   max-height: 200px;
    border: 0px; 
 }
 
