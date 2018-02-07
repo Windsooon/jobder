@@ -83,7 +83,7 @@ function update_blog(data) {
 }
 
 function update_most_star_tags(data) {
-    console.log(data);  
+    console.log(1);
 }
 
 function update_repo(container, data) {
