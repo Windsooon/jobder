@@ -216,7 +216,9 @@ def browse(request):
         first_id = ori_posts.first().id
         lst = random.sample(range(first_id, first_id + count), count*2//3+1)
         posts = Post.objects.filter(id__in=lst)
-        return render(request, 'match.html', {'posts': posts, 'title': RANDOM})
+        return render(
+            request, 'match.html',
+            {'view': 'browse', 'posts': posts, 'title': RANDOM})
     else:
         return render(request, '404.html', status=404)
 
@@ -224,7 +226,9 @@ def browse(request):
 @login_required
 def posted_jobs(request):
     posts = Post.objects.filter(user_id=request.user.id)
-    return render(request, 'match.html', {'posts': posts, 'title': POSTED})
+    return render(
+        request, 'match.html',
+        {'view': 'posted', 'posts': posts, 'title': POSTED})
 
 
 def job(request, id):
@@ -325,7 +329,7 @@ def match(request):
     return render(
         request, 'match.html', {
             'posts': posts, 'sorted_percent_list': sorted_percent_list,
-            'title': TITLE, 'type': type})
+            'view': 'match', 'title': TITLE, 'type': type})
 
 
 @receiver(user_logged_in)

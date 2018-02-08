@@ -34,7 +34,9 @@
               </div>
             </div>
             <div class="repo-div">
+              {% if view == 'match' %}
               <span class="percentage" class="repo-span">{{ sorted_percent_list|get_at_index:forloop.counter0 }} Match</span>
+              {% endif %}
               {% for repo in post.repo.all %}
               <span class="repo-span">{{ repo.repo_name }}</span> 
               {% endfor %}
