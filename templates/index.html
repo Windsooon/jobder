@@ -76,7 +76,7 @@
         <h2 class="text-center">What you can do with Jobder</h2>
         <a href="{% url 'match' %}" target="_blank" class="index-a col-sm-6 col-xs-12">
           <img src="{% static 'imgs/projects_small.png' %}" alt="project small" class="index-img"/>
-          <p class="index-p">Find jobs match your contributions</p>
+          <p class="index-p">Find jobs match your open source contributions</p>
         </a>
         {% if user.is_authenticated %}
         <a href="{% url 'profile' name=''|add:user.username %}" target="_blank" class="index-a col-sm-6 col-xs-12" >
@@ -84,7 +84,7 @@
         <a href="{% provider_login_url 'github' %}" target="_blank" class="index-a col-sm-6 col-xs-12">
         {% endif %}
           <img src="{% static 'imgs/languages.png' %}" alt="languages" class="index-img"/>
-          <p class="index-p">Contributions statistics</p>
+          <p class="index-p">GitHub Contributions statistics</p>
         </a>
       </div> <!-- end row -->
       <hr>
@@ -96,7 +96,7 @@
         <a href="{% provider_login_url 'github' %}" target="_blank" class="index-a col-sm-6 col-xs-12">
         {% endif %}
           <img src="{% static 'imgs/job_example.png' %}" alt="job example" class="index-img"/>
-          <p class="index-p">Post Jobs with open source tags</p>
+          <p class="index-p">Post Jobs to find contributors</p>
         </a> <!-- end index-a -->
         {% if user.is_authenticated %}
         <a href="{% url 'contributors' %}" target="_blank" class="index-a col-sm-6 col-xs-12">
@@ -104,7 +104,7 @@
         <a href="{% provider_login_url 'github' %}" target="_blank" class="index-a col-sm-6 col-xs-12">
         {% endif %}
           <img src="{% static 'imgs/search_small.png' %}" alt="search small" class="index-img"/>
-          <p class="index-p">Search contributiors looking for job</p>
+          <p class="index-p">Search contributiors who are looking for job</p>
         </a> <!-- end index-a -->
       </div> <!-- end row -->
       <hr>
