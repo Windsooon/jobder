@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load common_extras %}
 {% load socialaccount %}
 {% block extra_styles %}
 <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
@@ -33,6 +34,7 @@
               </div>
             </div>
             <div class="repo-div">
+              <span class="percentage" class="repo-span">{{ sorted_percent_list|get_at_index:forloop.counter0 }} Match</span>
               {% for repo in post.repo.all %}
               <span class="repo-span">{{ repo.repo_name }}</span> 
               {% endfor %}

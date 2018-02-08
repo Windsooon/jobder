@@ -214,7 +214,7 @@ def browse(request):
     count = ori_posts.count()
     if count:
         first_id = ori_posts.first().id
-        lst = random.sample(range(first_id, first_id + count), count*1//3+1)
+        lst = random.sample(range(first_id, first_id + count), count*2//3+1)
         posts = Post.objects.filter(id__in=lst)
         return render(request, 'match.html', {'posts': posts, 'title': RANDOM})
     else:
@@ -260,6 +260,13 @@ def match(request):
     Find the most match jobs
     '''
     # Get user created/contributed repos
+
+    def _sigmoid(x):
+        return 1/(1+math.exp(-x))
+
+    def _sigmoid_to_percentage(x):
+        return str(round(_sigmoid(x) * 100)) + '%'
+
     response = _get_user_repos(request.user)
     repo = [
         r['node']['id'] for r in
@@ -295,11 +302,16 @@ def match(request):
             dic['languages'] += [r.language] if r.language else []
         lst.append(dic)
     # Repos_len means how many repos match
+    # Calculate how many point the post get
+    percent_list = []
     for l in lst:
         points = (len(set(repo) & set(list(l.values())[0]))) * 1.5
         l['repos_point'] = points
         l['repos_point'] += math.log2(
            len(set(most_languages) & set(list(l.values())[1]))+1)
+        percent_list.append(_sigmoid_to_percentage(l['repos_point']))
+    # Calculate percentage
+    sorted_percent_list = sorted(percent_list, reverse=True)
     lst = sorted(
         lst, key=itemgetter('repos_point'), reverse=True)
     # lst became [{'repos_point': 5, 9: 'repos_lst': [621, 1058, 325198]},...]
@@ -309,10 +321,11 @@ def match(request):
     preserved = Case(
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(
-        id__in=posts_id).order_by(preserved)[:(count*1//3+1)]
+        id__in=posts_id).order_by(preserved)[:(count*2//3+1)]
     return render(
-        request, 'match.html',
-        {'posts': posts, 'title': TITLE, 'type': type})
+        request, 'match.html', {
+            'posts': posts, 'sorted_percent_list': sorted_percent_list,
+            'title': TITLE, 'type': type})
 
 
 @receiver(user_logged_in)

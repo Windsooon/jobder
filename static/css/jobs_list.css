@@ -22,6 +22,10 @@
     color: gray;
 }
 
+.post-percent {
+    margin-top: 14px;
+}
+
 .post-pay-status {
     margin-right: 10px;
     margin-top: 14px;
@@ -45,7 +49,7 @@
     margin-bottom: 10px;
 }
 
-.repo-span, #onsite {
+.repo-span, #onsite, .percentage {
     padding: 7px 10px 7px 10px;
     margin-right: 7px;
     color: #fff;
@@ -75,6 +79,14 @@
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4463cb), to(#385acb));
     background-image: -webkit-linear-gradient(top, #4463cb, #385acb);
     background-image: -o-linear-gradient(top, #4463cb, #385acb);
+}
+
+.percentage {
+    background-color: #ff3c7d;
+    background-image: -moz-linear-gradient(top, #fc588f, #ff3c7d);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fc588f), to(#ff3c7d));
+    background-image: -webkit-linear-gradient(top, #fc588f, #ff3c7d);
+    background-image: -o-linear-gradient(top, #fc588f, #ff3c7d);
 }
 
 .ql-container.ql-snow {
