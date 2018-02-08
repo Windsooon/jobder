@@ -198,7 +198,7 @@ $(document).ready(function() {
                 },
                 error: function() {
                     alert("Something went wrong, please email to contact@jobder.net");
-                }
+                },
                 complete: function() {
                     $("preview-btn").prop("disabled", false);
                 }
