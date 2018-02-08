@@ -17,7 +17,7 @@ class PageTestCase(TestCase):
         self.assertContains(response, LOGIN)
         self.assertContains(response, BROWSE)
         self.assertInHTML(
-            '<img src="/static/imgs/fire_256.png" alt="" class="fire-img"/>',
+            '<img src="/static/imgs/fire_256.png" alt="logo 256" class="fire-img"/>',
             response.content.decode('utf-8'))
         user = create_one_account()
         self.client.force_login(user)

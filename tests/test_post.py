@@ -41,8 +41,8 @@ class PostTestCase(TestCase):
             reverse('job', kwargs={'id': self.post.id}))
         self.assertEqual(response.status_code, 200)
         self.assertContains(
-            response, 'This job has not been post. ' +
-            'Click bottom button to pay.')
+            response, 'This job has not been pay. ' +
+            'Please finish the form to pay.')
         self.assertContains(
             response, 'Senior Software Engineer')
         self.assertContains(
