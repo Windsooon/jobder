@@ -188,7 +188,7 @@ $(document).ready(function() {
                     "apply": $("#apply").val().trim(),
                 }),
                 beforeSend:function(xhr, settings) {
-                    $("preview-btn").prop("disabled", true);
+                    $("#preview-btn").prop("disabled", true);
                     if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
                         xhr.setRequestHeader("X-CSRFToken", csrftoken);
                     } 
@@ -200,7 +200,7 @@ $(document).ready(function() {
                     alert("Something went wrong, please email to contact@jobder.net");
                 },
                 complete: function() {
-                    $("preview-btn").prop("disabled", false);
+                    $("#preview-btn").prop("disabled", false);
                 }
             });
         },
