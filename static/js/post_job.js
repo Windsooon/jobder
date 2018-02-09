@@ -198,7 +198,7 @@ $(document).ready(function() {
                     window.location = base_url + "job/" + data.id + "/";
                 },
                 error: function() {
-                    alert("Something went wrong, please email to contact@jobder.net");
+                    alert("Please make sure job details or company details contain no more than 2000 characters.")
                 },
                 complete: function() {
                     $("#preview-btn").prop("disabled", false);
