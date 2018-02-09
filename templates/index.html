@@ -30,7 +30,7 @@
             <div id="carousel-example-generic" class="carousel carousel-fade slide" data-ride="carousel">
               <div class="carousel-inner" role="listbox">
                 <div class="item active">
-                  <img class="img-responsive" src="{% static 'imgs/contri_lists.jpg' %}" alt="First slide">
+                  <img class="img-responsive" src="{% static 'imgs/find_job.png' %}" alt="First slide">
                   <div class="carousel-caption card-shadow reveal">
                     <h3>Better jobs are around the world</h3>
                     <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
@@ -46,7 +46,7 @@
                   </div> <!-- end carousel-caption -->
                 </div> <!-- end item active -->
                 <div class="item">
-                  <img class="img-responsive" src="{% static 'imgs/projects.jpg' %}" alt="First slide">
+                  <img class="img-responsive" src="{% static 'imgs/contri_lists.png' %}" alt="First slide">
                   <div class="carousel-caption card-shadow reveal">
 
                     <h3>Contributors are better</h3>
@@ -89,7 +89,6 @@
       </div> <!-- end row -->
       <hr>
       <div class="row">
-        <h2 class="text-center">For HR</h2>
         {% if user.is_authenticated %}
         <a href="{% url 'post_job' %}" target="_blank" class="index-a col-sm-6 col-xs-12">
         {% else %}
