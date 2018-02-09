@@ -202,6 +202,7 @@ $(document).ready(function() {
                 },
                 complete: function() {
                     $("#preview-btn").prop("disabled", false);
+                    $("#preview-btn").text("Preview");
                 }
             });
         },
