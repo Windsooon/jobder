@@ -99,6 +99,7 @@ pre {
 .index-a {
     display: block;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 .index-p {
