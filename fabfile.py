@@ -23,12 +23,12 @@ def update_val():
     run('sed -i "s/pk_test_fEJG3FbEEKCGhriUfqjWJZG5/pk_live_1vr5cqWQbuK89pF5nDwxNXCQ/g" {0}'.format(js_key_path))
     run('sed -i "s/sk_test_Mrp9fWK53zgna3gSbGGUy60W/sk_live_hdOhJFb3UdlQhvFlW9LfWAaE/g" {0}'.format(py_key_path))
     run('sed -i "s=http://127.0.0.1:8000/=https://www.jobder.net/=g" {0}'.format(js_base_url))
-    run('sed -i "s/DEBUG\s=\sTrue/DEBUG\s=\sFalse/g" {0}'.format(js_base_url))
-    run('sed -i "s/[\'*\']/[\'www.jobder.net\']/g" {0}'.format(settings_path))
+    run('sed -i "s/DEBUG = True/DEBUG = False/g" {0}'.format(settings_path))
+    run('sed -i "s/\[\'127.0.0.1\'\]/\[\'www.jobder.net\'\]/g" {0}'.format(settings_path))
 
 
 def run_deploy():
-    run('cd {0} && git stash && git pull origin master && git stash pop && source ~/.virtualenvs/jobder/bin/activate && python manage.py migrate'.format(site_folder))
+    run('cd {0} && git checkout -- . && git pull origin master && source ~/.virtualenvs/jobder/bin/activate && python manage.py migrate'.format(site_folder))
 
 
 def reset():

@@ -189,6 +189,7 @@ $(document).ready(function() {
                 }),
                 beforeSend:function(xhr, settings) {
                     $("#preview-btn").prop("disabled", true);
+                    $("#preview-btn").text("Loading");
                     if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
                         xhr.setRequestHeader("X-CSRFToken", csrftoken);
                     } 
