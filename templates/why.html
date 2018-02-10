@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load socialaccount %}
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/css_lib/selectize_default.css' %}" />
+<link rel="stylesheet" href="{% static 'css/contributors.css' %}" />
+{% endblock %}
+{% block title %}Jobder - Search Contributors{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
+      <h2 id="why-h2">Why we built Jobder</h2>
+      <p>When I contributing to django, I meet great people like Tim Graham and Simon Charette, they are both excellent engineers and always nice to the newbie. I'm sure they are great employees that every company searches for as well as everyone love to work with them.</p>
+      <p>Products just time to time, long live open source.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

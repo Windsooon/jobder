@@ -70,6 +70,11 @@ def profile(request, name):
     return render(request, 'profile.html', {'user': user})
 
 
+def why(request):
+    '''why page'''
+    return render(request, 'why.html')
+
+
 @login_required
 @csrf_exempt
 def token(request):

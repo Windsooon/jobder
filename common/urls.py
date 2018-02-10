@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^contributors/$', views.contributors, name='contributors'),
     url(r'^posted-jobs/$', views.posted_jobs, name='posted_jobs'),
     url(r'^match/$', views.match, name='match'),
+    url(r'^why/$', views.why, name='why'),
     url(r'^$', views.index, name='front_page'),
     re_path(
         r'^job/(?P<id>[0-9]+)/$',

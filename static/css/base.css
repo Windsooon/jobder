@@ -38,7 +38,7 @@ pre {
 }
 
 #title, #job-company, #job-list, #job-details,
-#company-details, #find-details, #contri-h2, #signin-h2 {
+#company-details, #find-details, #contri-h2, #signin-h2, #why-h2{
     text-align:center;
     color: #555;
 }
@@ -109,4 +109,11 @@ pre {
 
 #jobder-name {
     font-size: 3rem;
+}
+
+.index-a:hover {
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(201,201,201,1);
+    -moz-box-shadow: 0px 4px 5px 0px rgba(201,201,201,1);
+    box-shadow: 0px 4px 5px 0px rgba(201,201,201,1);
+    transition: box-shadow 0.2s ease-in-out;
 }
