@@ -27,6 +27,11 @@ class PageTestCase(TestCase):
         self.assertContains(response, FIND)
         self.assertContains(response, BROWSE)
 
+    def test_why_page(self):
+        response = self.client.get(reverse('why'))
+        self.assertContains(response, 'Why we built Jobder')
+        self.assertEqual(response.status_code, 200)
+
     def test_browse_no_post(self):
         user = create_one_account()
         self.client.force_login(user)
