@@ -60,7 +60,7 @@ function get_user_data(url, token, user_name) {
 		success: function(data){
             data = data.data.user;
             update_profile(data);
-            update_most_star_tags(data);
+            // update_most_star_tags(data);
             update_chart(data);
             
             update_repo($(".repo-class"), data.repositories.edges);
@@ -83,7 +83,6 @@ function update_blog(data) {
 }
 
 function update_most_star_tags(data) {
-    console.log(1);
 }
 
 function update_repo(container, data) {
