@@ -129,3 +129,10 @@
 .post-create-time {
     font-size: 2rem;
 }
+
+#charge-30 {
+    margin-top: 4px;
+    text-align: center;
+    color: #fff;
+    font-size: 1.3rem;
+}
