@@ -74,6 +74,10 @@ def why(request):
     '''why page'''
     return render(request, 'why.html')
 
+def explain(request):
+    '''why page'''
+    return render(request, 'explain.html')
+
 
 @login_required
 @csrf_exempt

@@ -90,7 +90,8 @@ pre {
     max-width: 100%;
 }
 
-#github-alert {
+#github-explain {
+    display: block;
     margin-top: 8px;
     margin-bottom: 8px;
     font-size: 0.8rem;
