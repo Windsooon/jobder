@@ -7,15 +7,21 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
-          <h1>Jobder</h1>
+          <h1 id="open-source-h1">Open Soure Work</h1>
           <p>FIND JOBS THAT MATCH YOU OPEN SOURCE CONTRIBUTIONS.</p>
           <br>
-          {% if user.is_authenticated %}
-          <a href="{% url 'match' %}" class="btn btn-default btn-lg" title="">{{ FIND }}</a>
-          {% else %}
-          <a href="{% provider_login_url 'github' %}" class="btn btn-default btn-lg" title="">{{ LOGIN }}</a>
-          <a id="github-explain" href="{% url 'explain' %}">Why I need to login and <br> why Jobder ask for read/write permission?</a>
-          {% endif %}
+          <div class="row">
+            <div class="col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">
+              <form id="search-form" class="form-horizontal">
+                <div class="form-group">
+                  <div>
+                    <input name="github" type="text" class="form-control" id="github-name" value="" placeholder="Your GitHub Username"/>
+                  </div>
+                </div> <!-- end form-group -->
+              </form>
+            </div> <!-- end col-sm-4 -->
+          </div> <!-- end row -->
+          <a href="" class="btn btn-default btn-lg" title="">{{ FIND }}</a>
         </div> <!-- end col-xs-12 -->
       </div> <!-- end row -->
     </div> <!-- end container -->
@@ -25,7 +31,7 @@
   <div class="section-container">
     <div class="container">
       <div class="row">      
-        <h2 class="text-center">How Jobder Works</h2>
+        <h2 class="text-center">How This Works</h2>
           <div class="col-xs-12">
             <div id="carousel-example-generic" class="carousel carousel-fade slide" data-ride="carousel">
               <div class="carousel-inner" role="listbox">
@@ -41,8 +47,8 @@
                       <i class="fa fa-chevron-right" aria-hidden="true"></i>
                       <span class="sr-only">Next</span>
                     </a>
-                    <p class="details-if">Jobder will recommend companies for you depend on your stack and open source contributions.</p>
-                    <p>Companies use Jobder love contributors. Because contributors like you build great software. When you contributing open source projects from everywhere. Jobder is helping you find the company values your contributions.</p>
+                    <p class="details-if">Open Source Work will recommend companies for you depend on your open source contributions.</p>
+                    <p>Companies use Open Source Work love contributors. Because contributors like you build great software. When you contributing open source projects from everywhere. Open Source Work is helping you find the company values your contributions.</p>
                   </div> <!-- end carousel-caption -->
                 </div> <!-- end item active -->
                 <div class="item">
@@ -58,7 +64,7 @@
                         <i class="fa fa-chevron-right" aria-hidden="true"></i>
                         <span class="sr-only">Next</span>
                       </a>
-                    <p class="details-if">Jobder is a platform that let you post jobs and search contributors who are looking for jobs. We will also show your jobs to contributors who match your company's tech stacks.</p>
+                    <p class="details-if">Open Source Work is a platform that let you post jobs and search contributors who are looking for jobs. We will also show your jobs to contributors who match your company's tech stacks.</p>
                     <p>If you are looking for engineering employees who are patient, consistent and have great interpersonal skills. You are looking for open source contributors :D.</p>
                   </div> <!-- end carousel-caption -->
                 </div> <!-- end item -->
@@ -73,10 +79,10 @@
   <div class="section-container">
     <div class="container">
       <div class="row">
-        <h2 class="text-center">What you can do with Jobder</h2>
+        <h2 class="text-center">What you can do with Open Source Work</h2>
         <a href="{% url 'match' %}" target="_blank" class="index-a col-sm-6 col-xs-12">
           <img src="{% static 'imgs/projects_small.png' %}" alt="project small" class="index-img"/>
-          <p class="index-p">Find jobs match your open source contributions</p>
+          <p class="index-p">Find jobs that match your open source contributions</p>
         </a>
         {% if user.is_authenticated %}
         <a href="{% url 'profile' name=''|add:user.username %}" target="_blank" class="index-a col-sm-6 col-xs-12" >
@@ -109,20 +115,6 @@
       <hr>
     </div> <!-- end container -->
   </div> <!-- end section-container -->
-
-  {% if user.is_anonymous %}
-  <div class="section-container">
-    <div class="container text-center">
-      <div class="row section-container-spacer">
-        <div class="col-xs-8 col-md-6 col-xs-offset-2 col-md-offset-3">
-          <img src="{% static 'imgs/fire_256.png' %}" alt="logo 256" class="fire-img"/>
-        <p id="jobder-name">Jobder</p>
-        <a href="{% provider_login_url 'github' %}" class="btn btn-primary btn-lg" title="">{{ LOGIN }}</a>
-        </div>  
-      </div>
-    </div>
-  </div> <!-- end section-container -->
-  {% endif %}
 {% endblock %}
 
 {% block extra_scripts %}
