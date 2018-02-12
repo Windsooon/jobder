@@ -119,7 +119,6 @@ SOCIALACCOUNT_PROVIDERS = {
             'read:user',
             'user:email',
             'public_repo',
-            'read:org',
         ],
     }
 }
