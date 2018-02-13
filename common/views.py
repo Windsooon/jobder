@@ -19,7 +19,7 @@ from allauth.account.signals import user_logged_in
 from post.models import Post, Repo
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
-from .const import FIND, LOGIN, POSTED, TITLE, RANDOM, STRIPE_API_KEY
+from .const import FIND, LOGIN, PROFILE, POSTED, TITLE, RANDOM, STRIPE_API_KEY
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
@@ -52,12 +52,29 @@ def _get_valid_post(type='both'):
             - datetime.timedelta(days=30))
 
 
+def _update_percentage(lst):
+    '''
+    : para lst: [('Python', 25), ('JavaScript', 10), ('CSS', 5)]
+    '''
+    sum_lst_val = sum(l[1] for l in lst)
+    return {k: v/sum_lst_val for k, v in lst}
+
+
+def _calculate_points(val, most_dict):
+    points = 0
+    for v in val:
+        if v in most_dict:
+            points += most_dict[v]
+    return points
+
+
 def index(request):
     '''Front page'''
-    return render(request, 'index.html', {'FIND': FIND, 'LOGIN': LOGIN})
+    return render(
+        request, 'index.html',
+        {'FIND': FIND, 'LOGIN': LOGIN, 'PROFILE': PROFILE})
 
 
-@login_required
 def profile(request, name):
     '''Profile page'''
     user = get_object_or_404(get_user_model(), username=name)
@@ -73,6 +90,7 @@ def profile(request, name):
 def why(request):
     '''why page'''
     return render(request, 'why.html')
+
 
 def explain(request):
     '''why page'''
@@ -299,7 +317,8 @@ def match(request):
             r['node']['primaryLanguage']['name'] != 'HTML')]
     repo.extend(repo_contributedto)
     repo_languages.extend(repo_contributedto_languages)
-    most_languages = [r[0] for r in Counter(repo_languages).most_common(3)]
+    most_languages_all = [r for r in Counter(repo_languages).most_common(3)]
+    most_dict = _update_percentage(most_languages_all)
     # repo is a list contains repo ids [14400303, 1404040, 1440583]
     repo = [int(base64.b64decode(r)[14:]) for r in repo]
     type = request.GET.get('type', 'both')
@@ -321,7 +340,7 @@ def match(request):
         points = (len(set(repo) & set(list(l.values())[0]))) * 1.5
         l['repos_point'] = points
         l['repos_point'] += math.log2(
-           len(set(most_languages) & set(list(l.values())[1]))+1)
+            _calculate_points(list(l.values())[1], most_dict) + 1)
         percent_list.append(_sigmoid_to_percentage(l['repos_point']))
     # Calculate percentage
     sorted_percent_list = sorted(percent_list, reverse=True)
