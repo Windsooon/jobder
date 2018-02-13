@@ -7,7 +7,7 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
-          <h1 id="open-source-h1">Open Soure Work</h1>
+          <h1 id="open-source-h1">Open Source Work</h1>
           <p>FIND JOBS THAT MATCH YOU OPEN SOURCE CONTRIBUTIONS.</p>
           <br>
           <div class="row">
@@ -21,7 +21,8 @@
               </form>
             </div> <!-- end col-sm-4 -->
           </div> <!-- end row -->
-          <a href="" class="btn btn-default btn-lg" title="">{{ FIND }}</a>
+          <button id="find-match-btn" class="btn btn-default btn-lg" title="">{{ FIND }}</button>
+          <button id="profile-btn" class="btn btn-default btn-lg" title="">{{ PROFILE }}</button>
         </div> <!-- end col-xs-12 -->
       </div> <!-- end row -->
     </div> <!-- end container -->
@@ -38,7 +39,7 @@
                 <div class="item active">
                   <img class="img-responsive" src="{% static 'imgs/find_job.png' %}" alt="First slide">
                   <div class="carousel-caption card-shadow reveal">
-                    <h3>Better jobs are everywhere</h3>
+                    <h3>Better job are everywhere</h3>
                     <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
                       <i class="fa fa-chevron-left" aria-hidden="true"></i>
                       <span class="sr-only">Previous</span>
@@ -48,7 +49,7 @@
                       <span class="sr-only">Next</span>
                     </a>
                     <p class="details-if">Open Source Work will recommend companies for you depend on your open source contributions.</p>
-                    <p>Companies use Open Source Work love contributors. Because contributors like you build great software. When you contributing open source projects from everywhere. Open Source Work is helping you find the company values your contributions.</p>
+                    <p>Companies use Open Source Work love contributors. Because contributors like you build great software. When you contributing open source projects from everywhere. We are helping you find the company values your contributions.</p>
                   </div> <!-- end carousel-caption -->
                 </div> <!-- end item active -->
                 <div class="item">
@@ -80,18 +81,14 @@
     <div class="container">
       <div class="row">
         <h2 class="text-center">What you can do with Open Source Work</h2>
-        <a href="{% url 'match' %}" target="_blank" class="index-a col-sm-6 col-xs-12">
+        <span class="index-a col-sm-6 col-xs-12">
           <img src="{% static 'imgs/projects_small.png' %}" alt="project small" class="index-img"/>
           <p class="index-p">Find jobs that match your open source contributions</p>
-        </a>
-        {% if user.is_authenticated %}
-        <a href="{% url 'profile' name=''|add:user.username %}" target="_blank" class="index-a col-sm-6 col-xs-12" >
-        {% else %}
-        <a href="{% provider_login_url 'github' %}" target="_blank" class="index-a col-sm-6 col-xs-12">
-        {% endif %}
+        </span>
+        <span class="index-a col-sm-6 col-xs-12">
           <img src="{% static 'imgs/languages.png' %}" alt="languages" class="index-img"/>
           <p class="index-p">GitHub Contributions statistics</p>
-        </a>
+        </span>
       </div> <!-- end row -->
       <hr>
       <div class="row">

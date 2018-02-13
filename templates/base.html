@@ -43,7 +43,7 @@
               <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/" title="">
-              JOBDER
+              Open Source Work
             </a>
           </div> <!-- end navbar-header -->
 
@@ -59,7 +59,7 @@
                 {% if request.user.is_authenticated %}
                 <a href="{% url 'post_job' %}" class="post-job-nav" title="">Post A Job</a>
                 {% else %}
-                <a href="{% provider_login_url 'github' %}" class="post-job-nav" title="">Log in with GitHub</a>
+                <a href="{% provider_login_url 'github' %}" class="post-job-nav" title="">Post A Job</a>
                 {% endif %}
               </li>
               <li>
