@@ -19,7 +19,7 @@ from allauth.account.signals import user_logged_in
 from post.models import Post, Repo
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
-from .const import FIND, LOGIN, PROFILE, POSTED, TITLE, RANDOM, STRIPE_API_KEY
+from .const import FIND, LOGIN, POSTED, TITLE, RANDOM, STRIPE_API_KEY
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
@@ -72,7 +72,7 @@ def index(request):
     '''Front page'''
     return render(
         request, 'index.html',
-        {'FIND': FIND, 'LOGIN': LOGIN, 'PROFILE': PROFILE})
+        {'FIND': FIND, 'LOGIN': LOGIN})
 
 
 @login_required
