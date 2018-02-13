@@ -14,16 +14,11 @@ class PageTestCase(TestCase):
     def test_front_page_200_with_without_login(self):
         response = self.client.get(reverse('front_page'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, LOGIN)
         self.assertContains(response, BROWSE)
-        self.assertInHTML(
-            '<img src="/static/imgs/fire_256.png" alt="logo 256" class="fire-img"/>',
-            response.content.decode('utf-8'))
         user = create_one_account()
         self.client.force_login(user)
         response = self.client.get(reverse('front_page'))
         self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, LOGIN)
         self.assertContains(response, FIND)
         self.assertContains(response, BROWSE)
 
