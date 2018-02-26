@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
 from tests.base import create_one_account, create_one_job
-from common.const import FIND, LOGIN, BROWSE, RANDOM
+from common.const import FIND, BROWSE, RANDOM
 from post.models import Post
 from tests.base import GITHUB_REPO_RETURN
 
@@ -22,9 +22,9 @@ class PageTestCase(TestCase):
         self.assertContains(response, FIND)
         self.assertContains(response, BROWSE)
 
-    def test_why_page(self):
-        response = self.client.get(reverse('why'))
-        self.assertContains(response, 'Why we built Jobder')
+    def test_explain_page(self):
+        response = self.client.get(reverse('explain'))
+        self.assertContains(response, 'Why built Open Source Jobs')
         self.assertEqual(response.status_code, 200)
 
     def test_browse_no_post(self):
@@ -56,10 +56,6 @@ class PageTestCase(TestCase):
         self.assertContains(response, RANDOM)
 
     def test_other_pages_not_login_redirect(self):
-        expected_url = '/accounts/login/?next=/settings/'
-        response = self.client.get(reverse('settings'))
-        self.assertRedirects(
-            response, expected_url, status_code=302, target_status_code=200)
         response = self.client.get(reverse('post_job'))
         self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('token'))
@@ -73,8 +69,6 @@ class PageTestCase(TestCase):
         response = self.client.get(reverse('contributors'))
         self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('posted_jobs'))
-        self.assertEqual(response.status_code, 302)
-        response = self.client.get(reverse('match'))
         self.assertEqual(response.status_code, 302)
 
     def test_contributors_login(self):
@@ -138,7 +132,7 @@ class PageTestCase(TestCase):
         self.post4 = create_one_job(
             self.user.id, title='Frontend Engineer', pay=True, repo_id=1)
         repos.return_value = Repo
-        response = self.client.get('/match/?type=remote')
+        response = self.client.get('/match/Windsooon/?type=remote')
         self.assertContains(response, '<a class="job-title" target="_blank"')
         self.assertNotContains(response, 'Senior Software Engineer')
         self.assertContains(response, 'Backend Engineer')

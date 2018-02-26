@@ -40,15 +40,3 @@ class ProfileTestCase(TestCase):
         response = self.client.get(
             reverse('profile', kwargs={'name': self.user.username}))
         self.assertEqual(response.status_code, 404)
-
-    def test_user_profile_button_text(self):
-        self.client.force_login(self.user)
-        response = self.client.get(
-            reverse('profile', kwargs={'name': self.user.username}))
-        self.assertInHTML(
-            '<a href="/match/" class="btn btn-default btn-lg" ' +
-            'title="">Find Your Match</a>', response.content.decode('utf-8'))
-        self.client.logout()
-        self.client.force_login(self.user2)
-        response = self.client.get(
-            reverse('profile', kwargs={'name': self.user.username}))
