@@ -5,15 +5,14 @@ from django.urls import re_path
 from common import views
 
 urlpatterns = [
-    url(r'^settings/$', views.settings, name='settings'),
     url(r'^post-job/$', views.post_job, name='post_job'),
     url(r'^browse/$', views.browse, name='browse'),
     url(r'^token/$', views.token, name='token'),
     url(r'^repo-search/$', views.repo_search, name='repo_search'),
     url(r'^contributors/$', views.contributors, name='contributors'),
     url(r'^posted-jobs/$', views.posted_jobs, name='posted_jobs'),
-    url(r'^match/$', views.match, name='match'),
-    url(r'^why/$', views.why, name='why'),
+    url(r'^match/(?P<name>([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*){1,38})/$',
+        views.match, name='match'),
     url(r'^explain/$', views.explain, name='explain'),
     url(r'^$', views.index, name='front_page'),
     re_path(

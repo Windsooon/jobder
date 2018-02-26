@@ -19,20 +19,20 @@ from allauth.account.signals import user_logged_in
 from post.models import Post, Repo
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
-from .const import FIND, LOGIN, PROFILE, POSTED, TITLE, RANDOM, STRIPE_API_KEY
+from .const import FIND, LOGIN, PROFILE, \
+    POSTED, TITLE, RANDOM, STRIPE_API_KEY, TOKEN_LIST
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
 
 
-def _get_user_repos(user):
+def _get_user_repos(name):
     '''
     Get user all repos through Github graphql api
     '''
-    social_token = (
-        user.socialaccount_set.first().socialtoken_set.first())
-    query = get_repos_query(user.username, 100)
-    headers = {'Authorization': 'bearer ' + social_token.token}
+    token = random.choice(TOKEN_LIST)
+    query = get_repos_query(name, 100)
+    headers = {'Authorization': 'bearer ' + token}
     return requests.post(
         'https://api.github.com/graphql',
         json.dumps({"query": query}), headers=headers)
@@ -87,13 +87,8 @@ def profile(request, name):
     return render(request, 'profile.html', {'user': user})
 
 
-def why(request):
-    '''why page'''
-    return render(request, 'why.html')
-
-
 def explain(request):
-    '''why page'''
+    '''explain page'''
     return render(request, 'explain.html')
 
 
@@ -191,12 +186,6 @@ def token(request):
 
 
 @login_required
-def settings(request):
-    '''Settings page'''
-    return render(request, 'settings.html')
-
-
-@login_required
 def post_job(request):
     '''Post job page'''
     return render(request, 'post_job.html')
@@ -285,8 +274,7 @@ def job(request, id):
             'salary': job.salary})
 
 
-@login_required
-def match(request):
+def match(request, name):
     '''
     Find the most match jobs
     '''
@@ -298,7 +286,7 @@ def match(request):
     def _sigmoid_to_percentage(x):
         return str(round(_sigmoid(x) * 100)) + '%'
 
-    response = _get_user_repos(request.user)
+    response = _get_user_repos(name)
     repo = [
         r['node']['id'] for r in
         response.json()['data']['user']['repositories']['edges']]
