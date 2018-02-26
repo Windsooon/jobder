@@ -13,9 +13,9 @@
         <h2 id="job-list">{{ title }}</h2>
         <div>
           {% if type == 'remote' %}
-          <a href="{% url 'match' %}" class="btn-width btn btn-primary">Show Onsite and Remote Jobs</a>
+          <a href="{{ request.path }}" class="btn-width btn btn-primary">Show Onsite and Remote Jobs</a>
           {% else %}
-          <a href="{% url 'match' %}?type=remote" class="btn-width btn btn-primary">Show Remote Jobs</a>
+          <a href="{{ request.path }}?type=remote" class="btn-width btn btn-primary">Show Remote Jobs</a>
           {% endif %}
         </div>
         <input id="user-id" type="hidden" value="{{ user.id }}" />

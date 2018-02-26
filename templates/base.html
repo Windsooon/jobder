@@ -16,7 +16,7 @@
     {% endblock %}
 
     <title>
-    {% block title %}Open Soure Work - Find your match{% endblock %}
+    {% block title %}Open Soure Jobs - Find your match{% endblock %}
     </title>
     {% if not debug %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -67,7 +67,6 @@
               <input type="hidden" id="api-token" value="{{ request.user.socialaccount_set.first.socialtoken_set.first.token}}" />
               <a id="nav-user-name" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.user.username }}<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="{% url 'match' %}">Find Your Match</a></li>
                 <li><a href="{% url 'contributors' %}">Search Contributors</a></li>
                 <li><a href="{% url 'post_job' %}">Post A Job</a></li>
                 <li role="separator" class="divider"></li>
@@ -75,7 +74,6 @@
                 <li><a href="{% url 'posted_jobs' %}">Jobs Created</a></li>
                 {% endif %}
                 <li><a href="{% url 'profile' name=''|add:request.user.username %}">Profile</a></li>
-                <li><a href="{% url 'settings' %}">Settings</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
               </ul>
