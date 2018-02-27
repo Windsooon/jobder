@@ -340,37 +340,3 @@ def match(request, name):
         request, 'match.html', {
             'posts': posts, 'sorted_percent_list': sorted_percent_list,
             'view': 'match', 'title': TITLE, 'type': type})
-
-
-@receiver(user_logged_in)
-def after_user_logged_in(sender, **kwargs):
-    user = kwargs['user']
-    response = _get_user_repos(user)
-    repos = response.json()['data']['user']['repositories']['edges']
-    repos_contributed = (
-        response.json()['data']['user']['repositoriesContributedTo']['edges'])
-    repos.extend(repos_contributed)
-    repo_lst = []
-    for repo in repos:
-        if repo['node']['stargazers']['totalCount'] > 200:
-            repo_name = repo['node']['name']
-            owner_name = repo['node']['nameWithOwner'].split('/')[0]
-            if repo['node']['primaryLanguage'] and repo['node']['primaryLanguage'] != 'HTML':
-                language = repo['node']['primaryLanguage']['name']
-            else:
-                language = ""
-            obj, created = Repo.objects.update_or_create(
-                repo_id=int(base64.b64decode(repo['node']['id'])[14:]),
-                defaults={
-                    'repo_name': repo_name,
-                    'owner_name': owner_name,
-                    'stargazers_count':
-                        repo['node']['stargazers']['totalCount'],
-                    'description': repo['node']['description'],
-                    'language': language,
-                    'html_url': repo['node']['url'],
-                },
-            )
-            repo_lst.append(obj.id)
-    user.settings.repo.add(*repo_lst)
-    logger.info('%s log in' % user.username)
