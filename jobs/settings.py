@@ -118,7 +118,6 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': [
             'read:user',
             'user:email',
-            'public_repo',
         ],
     }
 }
