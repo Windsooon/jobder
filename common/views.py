@@ -77,14 +77,8 @@ def index(request):
 
 def profile(request, name):
     '''Profile page'''
-    user = get_object_or_404(get_user_model(), username=name)
-    # other users can see the profile if not visiable
-    if not user.settings.visiable:
-        if request.user.username == name:
-            return render(request, 'profile.html', {'user': user})
-        else:
-            return render(request, '404.html', status=404)
-    return render(request, 'profile.html', {'user': user})
+    token = random.choice(TOKEN_LIST)
+    return render(request, 'profile.html', {'name': name, 'token': token})
 
 
 def explain(request):

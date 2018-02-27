@@ -64,7 +64,6 @@
               </li>
               <li>
               {% if request.user.is_authenticated %}
-              <input type="hidden" id="api-token" value="{{ request.user.socialaccount_set.first.socialtoken_set.first.token}}" />
               <a id="nav-user-name" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.user.username }}<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="{% url 'contributors' %}">Search Contributors</a></li>
