@@ -156,10 +156,18 @@ class PageTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(response.json(), {"length": 0, "data": []})
 
-    def test_repo_search_valid_post_user(self):
+    @patch('common.views._get_user_repos')
+    def test_repo_search_valid_post_user(self, repos):
+        class Repo:
+            @classmethod
+            def json(cls):
+                return json.loads(GITHUB_REPO_RETURN)
+        repos.return_value = Repo
         user = create_one_account()
         self.client.force_login(user)
         create_one_job(user.id, pay=True)
+        response = self.client.get(
+            reverse('match', kwargs={'name': 'Windsooon'}))
         response = self.client.get(
             "%s?repo_id=4164482" % (reverse('repo_search')))
         user_response = {
