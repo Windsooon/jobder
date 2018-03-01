@@ -21,11 +21,9 @@ $("#find-match-btn").on("click", function(){
         },
         error: function(xhr, status, error) {
             alert("Please make sure Username is correct.");
-        },
-        complete: function() {
             $("#find-match-btn").prop("disabled", false);
             $("#find-match-btn").text("Find Your Match");
-        }
+        },
     });
 });
 
@@ -43,10 +41,8 @@ $("#profile-btn").on("click", function(){
         },
         error: function(xhr, status, error) {
             alert("Please make sure Username is correct.");
-        },
-        complete: function() {
             $("#profile-btn").prop("disabled", false);
             $("#profile-btn").text("Profile");
-        }
+        },
     });
 });
