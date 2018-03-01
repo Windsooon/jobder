@@ -108,7 +108,7 @@ class PageTestCase(TestCase):
             self.user.id, title='Data Scientist', pay=True, repo_id=2)
         repos.return_value = Repo
         response = self.client.get(
-            reverse('match'))
+            reverse('match', kwargs={'name': self.user.username}))
         self.assertContains(response, '<a class="job-title" target="_blank"')
         self.assertContains(response, 'Senior Software Engineer')
         self.assertContains(
