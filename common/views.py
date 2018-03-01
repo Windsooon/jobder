@@ -81,6 +81,7 @@ def profile(request, name):
     return render(request, 'profile.html', {'name': name, 'token': token})
 
 
+
 def explain(request):
     '''explain page'''
     return render(request, 'explain.html')
