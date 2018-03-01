@@ -13,7 +13,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Case, When, Count
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
 from post.models import Post, Repo
 from common.models import FakeUser
 from jobs.set_logging import setup_logging
@@ -199,16 +198,14 @@ def repo_search(request):
     if repo_id:
         res_lst = []
         # Select user create or contributed to this repo
-        user_lst = get_user_model().objects.filter(
-            settings__visiable=1).filter(settings__repo__repo_id=repo_id).all()
-        length = user_lst.count()
+        fake_user_lst = FakeUser.objects.filter(repo__repo_id=repo_id).all()
+        length = fake_user_lst.count()
         posts = _get_valid_post()
         if any(post.user_id == request.user.id for post in posts):
-            for user in user_lst:
+            for user in fake_user_lst:
                 u = defaultdict(dict)
-                extra_data = user.socialaccount_set.first().extra_data
-                u['username'] = extra_data['login']
-                u['avatar_url'] = extra_data['avatar_url']
+                u['username'] = user.username
+                u['avatar_url'] = user.avatar_url
                 res_lst.append(u)
             return JsonResponse({'length': length, 'data': res_lst})
         else:
