@@ -104,6 +104,7 @@ GITHUB_REPO_RETURN = '''
               "id": "MDEwOlJlcG9zaXRvcnk0MzA1MzM4NQ==",
               "name": "How-to-pronounce",
               "nameWithOwner": "Windsooon/How-to-pronounce",
+              "description": "This is how to pronounce",
               "url": "https://github.com/Windsooon/How-to-pronounce",
               "stargazers": {
                 "totalCount": 63
@@ -120,6 +121,7 @@ GITHUB_REPO_RETURN = '''
               "id": "MDEwOlJlcG9zaXRvcnk0MTY0NDgy",
               "name": "django",
               "nameWithOwner": "django/django",
+              "description": "This is django",
               "url": "https://github.com/django/django",
               "stargazers": {
                 "totalCount": 31490

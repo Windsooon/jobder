@@ -35,6 +35,15 @@ class Settings(models.Model):
         return self.user.username
 
 
+class FakeUser(models.Model):
+    username = models.CharField(max_length=256, blank=True)
+    avatar_url = models.CharField(max_length=256, blank=True)
+    repo = models.ManyToManyField(Repo)
+
+    def __str__(self):
+        return self.username
+
+
 @receiver(post_save, sender=allauth.app_settings.USER_MODEL)
 def init_settings(sender, instance, **kwargs):
     Settings.objects.update_or_create(

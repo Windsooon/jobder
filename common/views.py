@@ -7,16 +7,14 @@ import requests
 import stripe
 from operator import itemgetter
 from collections import defaultdict, Counter
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Case, When, Count
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.dispatch import receiver
-from django.contrib.auth import get_user_model
-from allauth.account.signals import user_logged_in
 from post.models import Post, Repo
+from common.models import FakeUser
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
 from .const import FIND, LOGIN, PROFILE, \
@@ -31,7 +29,7 @@ def _get_user_repos(name):
     Get user all repos through Github graphql api
     '''
     token = random.choice(TOKEN_LIST)
-    query = get_repos_query(name, 100)
+    query = get_repos_query(name, 40)
     headers = {'Authorization': 'bearer ' + token}
     return requests.post(
         'https://api.github.com/graphql',
@@ -190,7 +188,7 @@ def post_job(request):
 def contributors(request):
     '''Find contributors'''
     repos = Repo.objects.annotate(
-        q_count=Count('settings')).order_by('-q_count')[:3]
+        q_count=Count('fakeuser')).order_by('-q_count')[:3]
     return render(request, 'contributors.html', {'repos': repos})
 
 
@@ -201,16 +199,14 @@ def repo_search(request):
     if repo_id:
         res_lst = []
         # Select user create or contributed to this repo
-        user_lst = get_user_model().objects.filter(
-            settings__visiable=1).filter(settings__repo__repo_id=repo_id).all()
-        length = user_lst.count()
+        fake_user_lst = FakeUser.objects.filter(repo__repo_id=repo_id).all()
+        length = fake_user_lst.count()
         posts = _get_valid_post()
         if any(post.user_id == request.user.id for post in posts):
-            for user in user_lst:
+            for user in fake_user_lst:
                 u = defaultdict(dict)
-                extra_data = user.socialaccount_set.first().extra_data
-                u['username'] = extra_data['login']
-                u['avatar_url'] = extra_data['avatar_url']
+                u['username'] = user.username
+                u['avatar_url'] = user.avatar_url
                 res_lst.append(u)
             return JsonResponse({'length': length, 'data': res_lst})
         else:
@@ -282,12 +278,43 @@ def match(request, name):
         return str(round(_sigmoid(x) * 100)) + '%'
 
     response = _get_user_repos(name)
-    repo = [
-        r['node']['id'] for r in
-        response.json()['data']['user']['repositories']['edges']]
-    repo_contributedto = [
-        r['node']['id'] for r in
-        response.json()['data']['user']['repositoriesContributedTo']['edges']]
+
+    fake_user_obj, created = FakeUser.objects.get_or_create(
+            username=name,
+            avatar_url=response.json()['data']['user']['avatarUrl']
+            )
+
+    repo = response.json()['data']['user']['repositories']['edges']
+    repo_contributedto = (
+        response.json()['data']['user']['repositoriesContributedTo']['edges'])
+
+    repo.extend(repo_contributedto)
+
+    # save repos
+    repo_lst = []
+    for r in repo:
+        if r['node']['stargazers']['totalCount'] > 200:
+            repo_name = r['node']['name']
+            owner_name = r['node']['nameWithOwner'].split('/')[0]
+            if r['node']['primaryLanguage'] and r['node']['primaryLanguage'] != 'HTML':
+                language = r['node']['primaryLanguage']['name']
+            else:
+                language = ""
+            obj, created = Repo.objects.update_or_create(
+                repo_id=int(base64.b64decode(r['node']['id'])[14:]),
+                defaults={
+                    'repo_name': repo_name,
+                    'owner_name': owner_name,
+                    'stargazers_count':
+                        r['node']['stargazers']['totalCount'],
+                    'description': r['node']['description'],
+                    'language': language,
+                    'html_url': r['node']['url'],
+                },
+            )
+            repo_lst.append(obj.id)
+    fake_user_obj.repo.add(*repo_lst)
+
     repo_languages = [
         r['node']['primaryLanguage']['name'] for r in
         response.json()['data']['user']['repositories']['edges']
@@ -298,12 +325,11 @@ def match(request, name):
         response.json()['data']['user']['repositoriesContributedTo']['edges']
         if (r['node']['primaryLanguage'] and
             r['node']['primaryLanguage']['name'] != 'HTML')]
-    repo.extend(repo_contributedto)
     repo_languages.extend(repo_contributedto_languages)
     most_languages_all = [r for r in Counter(repo_languages).most_common(3)]
     most_dict = _update_percentage(most_languages_all)
     # repo is a list contains repo ids [14400303, 1404040, 1440583]
-    repo = [int(base64.b64decode(r)[14:]) for r in repo]
+    repo = [int(base64.b64decode(r['node']['id'])[14:]) for r in repo]
     type = request.GET.get('type', 'both')
     post_set = _get_valid_post(type)
     count = post_set.count()

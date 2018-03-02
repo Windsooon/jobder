@@ -34,9 +34,3 @@ class ProfileTestCase(TestCase):
         response = self.client.get(
             reverse('profile', kwargs={'name': self.user.username}))
         self.assertEqual(response.status_code, 200)
-        # Non visiable by other users
-        self.client.logout()
-        self.client.force_login(self.user2)
-        response = self.client.get(
-            reverse('profile', kwargs={'name': self.user.username}))
-        self.assertEqual(response.status_code, 404)
