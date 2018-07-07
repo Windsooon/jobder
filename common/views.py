@@ -43,11 +43,11 @@ def _get_valid_post(type='both'):
     if type == 'remote':
         return Post.objects.filter(pay=1).exclude(type=2).filter(
             pay_time__gte=timezone.now()
-            - datetime.timedelta(days=30))
+            - datetime.timedelta(days=300))
     else:
         return Post.objects.filter(pay=1).filter(
             pay_time__gte=timezone.now()
-            - datetime.timedelta(days=30))
+            - datetime.timedelta(days=300))
 
 
 def _update_percentage(lst):
@@ -252,7 +252,7 @@ def job(request, id):
         # not pay yet or expired
         if not job.pay or \
             ((timezone.now() -
-                datetime.timedelta(days=30)) > job.pay_time):
+                datetime.timedelta(days=300)) > job.pay_time):
             logger.info('job id %s hasn\'t pay or it\'s expired.' % id)
             if request.user != job.user:
                 return render(request, '404.html', status=404)
