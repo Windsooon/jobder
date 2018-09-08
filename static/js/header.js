@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 });
 
 $("#find-match-btn").on("click", function(){
-    var github_username = $("#github-name").val();
+    var github_username = $("#nav-user-name").text();
     $.ajax({
         url: base_url + "match/" + github_username + "/",
         type: "GET",
