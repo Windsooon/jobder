@@ -2,7 +2,6 @@ import os
 from fabric.api import env, run
 
 USER = 'Windson'
-TOUCH = '/var/www/www_jobder_net_wsgi.py'
 
 env.user = 'Windson'
 env.hosts = ['ssh.pythonanywhere.com']
@@ -22,9 +21,9 @@ def update_val():
     settings_path = os.path.join(site_folder, 'jobs/settings.py')
     run('sed -i "s/pk_test_fEJG3FbEEKCGhriUfqjWJZG5/pk_live_1vr5cqWQbuK89pF5nDwxNXCQ/g" {0}'.format(js_key_path))
     run('sed -i "s/sk_test_Mrp9fWK53zgna3gSbGGUy60W/sk_live_hdOhJFb3UdlQhvFlW9LfWAaE/g" {0}'.format(py_key_path))
-    run('sed -i "s=http://127.0.0.1:8000/=https://www.jobder.net/=g" {0}'.format(js_base_url))
+    run('sed -i "s=http://127.0.0.1:8000/=https://www.osjobs.net/=g" {0}'.format(js_base_url))
     run('sed -i "s/DEBUG = True/DEBUG = False/g" {0}'.format(settings_path))
-    run('sed -i "s/\[\'127.0.0.1\'\]/\[\'www.jobder.net\'\]/g" {0}'.format(settings_path))
+    run('sed -i "s/\[\'127.0.0.1\'\]/\[\'www.osjobs.net\'\]/g" {0}'.format(settings_path))
 
 
 def run_deploy():
@@ -32,4 +31,4 @@ def run_deploy():
 
 
 def reset():
-    run('touch /var/www/www_jobder_net_wsgi.py')
+    run('touch /var/www/www_osjobs_net_wsgi.py')
