@@ -18,7 +18,4 @@ urlpatterns = [
     re_path(
         r'^job/(?P<id>[0-9]+)/$',
         views.job, name='job'),
-    re_path(
-        r'^(?P<name>([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*){1,38})/$',
-        views.profile, name='profile'),
 ]

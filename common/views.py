@@ -29,7 +29,7 @@ def _get_user_repos(name):
     Get user all repos through Github graphql api
     '''
     token = random.choice(TOKEN_LIST)
-    query = get_repos_query(name, 40)
+    query = get_repos_query(name, 25)
     headers = {'Authorization': 'bearer ' + token}
     return requests.post(
         'https://api.github.com/graphql',
@@ -38,16 +38,16 @@ def _get_user_repos(name):
 
 def _get_valid_post(type='both'):
     '''
-    Get paid post and valid post
+    Get paid posts and valid posts
     '''
     if type == 'remote':
         return Post.objects.filter(pay=1).exclude(type=2).filter(
             pay_time__gte=timezone.now()
-            - datetime.timedelta(days=300))
+            - datetime.timedelta(days=30))
     else:
         return Post.objects.filter(pay=1).filter(
             pay_time__gte=timezone.now()
-            - datetime.timedelta(days=300))
+            - datetime.timedelta(days=30))
 
 
 def _update_percentage(lst):
@@ -55,6 +55,7 @@ def _update_percentage(lst):
     : para lst: [('Python', 25), ('JavaScript', 10), ('CSS', 5)]
     '''
     sum_lst_val = sum(l[1] for l in lst)
+    # {'Python': 25/40, 'JavaScript': 10/40}
     return {k: v/sum_lst_val for k, v in lst}
 
 
@@ -71,13 +72,6 @@ def index(request):
     return render(
         request, 'index.html',
         {'FIND': FIND, 'LOGIN': LOGIN, 'PROFILE': PROFILE})
-
-
-def profile(request, name):
-    '''Profile page'''
-    token = random.choice(TOKEN_LIST)
-    return render(request, 'profile.html', {'name': name, 'token': token})
-
 
 
 def explain(request):
@@ -217,17 +211,12 @@ def repo_search(request):
 
 def browse(request):
     '''Browse job page'''
-    ori_posts = _get_valid_post().order_by('id')
-    count = ori_posts.count()
-    if count:
-        first_id = ori_posts.first().id
-        lst = random.sample(range(first_id, first_id + count), count*2//3+1)
-        posts = Post.objects.filter(id__in=lst)
-        return render(
-            request, 'match.html',
-            {'view': 'browse', 'posts': posts, 'title': RANDOM})
-    else:
-        return render(request, '404.html', status=404)
+    type = request.GET.get('type', 'both')
+    ori_posts = _get_valid_post(type).order_by('id')
+    return render(
+        request, 'match.html',
+        {'view': 'browse', 'posts': ori_posts,
+            'title': RANDOM, 'type': type})
 
 
 @login_required
@@ -296,7 +285,8 @@ def match(request, name):
         if r['node']['stargazers']['totalCount'] > 200:
             repo_name = r['node']['name']
             owner_name = r['node']['nameWithOwner'].split('/')[0]
-            if r['node']['primaryLanguage'] and r['node']['primaryLanguage'] != 'HTML':
+            if (r['node']['primaryLanguage']
+                    and r['node']['primaryLanguage'] != 'HTML'):
                 language = r['node']['primaryLanguage']['name']
             else:
                 language = ""
