@@ -7,7 +7,7 @@ def get_repos_query(user_name, num):
           websiteUrl
           email
           bio
-          repositories(first:''' + num + ''', orderBy: {direction: DESC, field: STARGAZERS}) {
+          repositories(first:''' + num + ''', isFork: false, orderBy: {direction: DESC, field: STARGAZERS}) {
               edges {
                   node {
                       id
