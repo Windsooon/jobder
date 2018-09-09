@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import admin
 from django.conf.urls import url
 from django.urls import path, include
@@ -39,3 +40,9 @@ urlpatterns = [
         settings_detail, name='settings-detail'),
     url(r"^", include("common.urls")),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
