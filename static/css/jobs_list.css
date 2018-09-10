@@ -81,7 +81,7 @@
     background-image: -o-linear-gradient(top, #4463cb, #385acb);
 }
 
-.percentage {
+.percentage, .location-span {
     background-color: #ff3c7d;
     background-image: -moz-linear-gradient(top, #fc588f, #ff3c7d);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fc588f), to(#ff3c7d));

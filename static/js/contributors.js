@@ -66,7 +66,7 @@ function check_repo(btn, repo) {
 function set_up_empty() {
     var $contri_h3 = $("<h3 />", {
         "class": "contri-empty-h3 col-xs-12",
-        "text": "One valid job post is required to view contributers."
+        "text": "You need to post a job at first."
     });
     $(".contri-col").append($contri_h3);
 }
