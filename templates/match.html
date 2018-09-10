@@ -22,7 +22,7 @@
           <div class="post-div">
             <div class="row">
               <div class="col-sm-8 col-xs-12">
-                <a class="job-title" target="_blank" href="/job/{{ post.id }}/">{{ post.title }}</a>
+                <a class="job-title" href="/job/{{ post.id }}/">{{ post.title }}</a>
                 <i class="fa fa-building building" aria-hidden="true"><span class="company-name">&nbsp;{{ post.company_name }}</span></i>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -46,6 +46,7 @@
               {% elif post.type == 2 %}
               <span id="onsite" class="repo-span">Onsite</span>
               {% endif %}
+              <span class="location-span repo-span">{{ post.location }}</span>
             </div>
             <div class="job-editor-{{ post.id }}">
             </div>
