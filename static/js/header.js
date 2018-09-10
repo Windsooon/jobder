@@ -9,22 +9,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 $("#find-match-btn").on("click", function(){
     var github_username = $("#nav-user-name").text();
-    $.ajax({
-        url: base_url + "match/" + github_username + "/",
-        type: "GET",
-        beforeSend:function(xhr, settings) {
-            $("#find-match-btn").prop("disabled", true);
-            $("#find-match-btn").text("Loading");
-        },
-        success: function(res) {
-            window.location.href = base_url + "match/" + github_username + "/";
-        },
-        error: function(xhr, status, error) {
-            alert("Please make sure Username is correct.");
-            $("#find-match-btn").prop("disabled", false);
-            $("#find-match-btn").text("Find Your Match");
-        },
-    });
+    $("#find-match-btn").text("Loading");
+    $("#find-match-btn").prop("disabled", true);
 });
 
 $("#profile-btn").on("click", function(){
