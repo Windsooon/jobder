@@ -94,7 +94,8 @@ class PostTestCase(TestCase):
         self.post3 = create_one_job(
             self.user.id, title='Data Scientist', pay=True)
         response = self.client.get(reverse('browse'))
-        self.assertContains(response, '<a class="job-title" target="_blank"')
+        self.assertContains(response, '<a class="job-title"')
+        self.assertContains(response, 'Backend Engineer')
         self.assertContains(
             response, '<i class="fa fa-building building" aria-hidden="true">')
 

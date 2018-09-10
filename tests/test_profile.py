@@ -13,7 +13,7 @@ class ProfileTestCase(TestCase):
     def test_user_profile_visiable_or_not_with_login(self):
         response = self.client.get(
             reverse('profile', kwargs={'name': self.user.username}))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.client.force_login(self.user)
         response = self.client.get(
             reverse('profile', kwargs={'name': self.user.username}))
