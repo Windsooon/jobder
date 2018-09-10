@@ -11,9 +11,9 @@
           <p>Search Hundreds Of Jobs That Match Your Contributions. </p>
           <br>
           {% if user.is_authenticated %}
-              <button id="find-match-btn" class="btn btn-default btn-lg" title="">{{ FIND }}</button>
+            <a href="{% url 'match' %}" id="find-match-btn" class="btn btn-default btn-lg" title="">{{ FIND }}</a>
           {% else %}
-              <a href="{% provider_login_url 'github' %}" class="btn btn-default btn-lg" >Log in with GitHub</a>
+            <a href="{% provider_login_url 'github' %}" class="btn btn-default btn-lg" >Log in with GitHub</a>
           {% endif %}
         </div> <!-- end col-xs-12 -->
       </div> <!-- end row -->
@@ -40,6 +40,8 @@
                       <span class="sr-only">Next</span>
                     </a>
                     <p>When you contributing to open source projects. We are helping you find companies value your contributions.</p>
+
+                    <a href="{% url 'match' %}" class="btn btn-primary" title="">{{ FIND }}</a>
                   </div> <!-- end carousel-caption -->
                 </div> <!-- end item active -->
                 <div class="item">
@@ -55,6 +57,7 @@
                         <span class="sr-only">Next</span>
                       </a>
                     <p>If you are looking for engineers who are tolerant, nice and excellent mentors. You are looking for open source contributors.</p>
+                    <a href="{% url 'contributors' %}" class="btn btn-primary">Search Contributors</a>
                   </div> <!-- end carousel-caption -->
                 </div> <!-- end item -->
               </div> <!-- end carousel-inner -->

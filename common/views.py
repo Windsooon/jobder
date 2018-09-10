@@ -17,8 +17,8 @@ from post.models import Post, Repo
 from common.models import FakeUser
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
-from .const import FIND, LOGIN, PROFILE, \
-    POSTED, TITLE, RANDOM, STRIPE_API_KEY, TOKEN_LIST
+from .const import MATCH, LOGIN, PROFILE, \
+    POSTED, TITLE, JOBLIST, STRIPE_API_KEY, TOKEN_LIST
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
@@ -71,7 +71,7 @@ def index(request):
     '''Front page'''
     return render(
         request, 'index.html',
-        {'FIND': FIND, 'LOGIN': LOGIN, 'PROFILE': PROFILE})
+        {'FIND': MATCH, 'LOGIN': LOGIN, 'PROFILE': PROFILE})
 
 
 def explain(request):
@@ -216,7 +216,7 @@ def browse(request):
     return render(
         request, 'match.html',
         {'view': 'browse', 'posts': ori_posts,
-            'title': RANDOM, 'type': type})
+            'title': JOBLIST, 'type': type})
 
 
 @login_required
@@ -241,7 +241,7 @@ def job(request, id):
         # not pay yet or expired
         if not job.pay or \
             ((timezone.now() -
-                datetime.timedelta(days=300)) > job.pay_time):
+                datetime.timedelta(days=30)) > job.pay_time):
             logger.info('job id %s hasn\'t pay or it\'s expired.' % id)
             if request.user != job.user:
                 return render(request, '404.html', status=404)
@@ -254,11 +254,21 @@ def job(request, id):
             'salary': job.salary})
 
 
-def match(request, name):
+@login_required
+def profile(request, name):
+    '''Profile page'''
+    token = random.choice(TOKEN_LIST)
+    return render(request, 'profile.html', {'name': name, 'token': token})
+
+
+@login_required
+def match(request):
     '''
     Find the most match jobs
     '''
     # Get user created/contributed repos
+
+    name = request.user.username
 
     def _sigmoid(x):
         return 1/(1+math.exp(-x))
@@ -352,7 +362,7 @@ def match(request, name):
     preserved = Case(
         *[When(pk=pk, then=pos) for pos, pk in enumerate(posts_id)])
     posts = Post.objects.filter(
-        id__in=posts_id).order_by(preserved)[:(count*2//3+1)]
+        id__in=posts_id).order_by(preserved)[:(count*3//3)]
     return render(
         request, 'match.html', {
             'posts': posts, 'sorted_percent_list': sorted_percent_list,
