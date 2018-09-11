@@ -25,7 +25,6 @@ SECRET_KEY = '63r6#mp-%vuly4+%@+0wf+@!6y_$d6p0=yjpo7%fplestgoc$^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -91,6 +90,7 @@ WSGI_APPLICATION = 'jobs.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 if DEBUG:
+    ALLOWED_HOSTS = ['*']
     SECURE_SSL_REDIRECT = False
     DATABASES = {
         'default': {
@@ -101,6 +101,7 @@ if DEBUG:
         }
     }
 else:
+    ALLOWED_HOSTS = ['www.osjobs.net']
     SECURE_SSL_REDIRECT = True
     DATABASES = {
         'default': {
