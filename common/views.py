@@ -29,7 +29,7 @@ def _get_user_repos(name):
     Get user all repos through Github graphql api
     '''
     token = random.choice(TOKEN_LIST)
-    query = get_repos_query(name, 25)
+    query = get_repos_query(name, 20)
     headers = {'Authorization': 'bearer ' + token}
     return requests.post(
         'https://api.github.com/graphql',
