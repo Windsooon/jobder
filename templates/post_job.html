@@ -15,7 +15,7 @@
           <div class="form-group">
             <label class="job-label" for="job_title">Job Title *</label>
             <div>
-                <input name="job_title" type="text" class="form-control" id="job_title"  placeholder="Senior Backend Engineer" maxlength="50">
+                <input name="job_title" type="text" class="form-control" id="job_title"  placeholder="Senior Backend Engineer" maxlength="50" required>
             </div>
           </div> <!-- end form-group -->
         </form>
@@ -50,20 +50,20 @@
           <div class="form-group">
             <label class="job-label" for="salary">Salary Range *</label>
             <div>
-                <input name="salary" type="text" class="form-control" id="salary"  placeholder="$100k-$150k" maxlength="50">
+                <input name="salary" type="text" class="form-control" id="salary"  placeholder="$100k-$150k" maxlength="50" required>
             </div>
           </div> <!-- end form-group -->
           <h2 id="company-details">Company Details</h2>
           <div class="form-group">
             <label class="job-label" for="company">Company Name *</label>
             <div>
-                <input name="company" type="text" class="form-control" id="company"  placeholder="Open Source Jobs" maxlength="50">
+                <input name="company" type="text" class="form-control" id="company"  placeholder="Open Source Jobs" maxlength="80" required>
             </div>
           </div>
           <div class="form-group">
             <label class="job-label" for="location">Location *</label>
             <div>
-                <input name="location" type="text" class="form-control" id="location"  placeholder="Los Angeles" maxlength="50">
+                <input name="location" type="text" class="form-control" id="location"  placeholder="Los Angeles" maxlength="80" required>
             </div>
           </div>
         </form>
@@ -77,13 +77,13 @@
           <div class="form-group">
             <label class="job-label" for="website">Website *</label>
             <div>
-                <input name="website" type="url" class="form-control" id="website"  placeholder="https://www.osjobs.net/" maxlength="256">
+                <input name="website" type="url" class="form-control" id="website"  placeholder="Start with http or https" maxlength="256" required>
             </div>
           </div>
           <div class="form-group">
             <label class="job-label" for="open_source">How to apply *</label>
             <div>
-              <input name="apply" type="text" class="form-control" id="apply" placeholder="Email address or URL" maxlength="200" />
+              <input name="apply" type="text" class="form-control" id="apply" placeholder="Email address or URL" maxlength="200" required>
             </div> <!-- end col-sm-12 -->
           </div> <!-- end form-group -->
           <div class="form-group warning-div">
