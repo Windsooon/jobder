@@ -7,18 +7,18 @@ import requests
 import stripe
 from operator import itemgetter
 from collections import defaultdict, Counter
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Case, When, Count
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from post.models import Post, Repo
-from common.models import FakeUser
+from common.models import FakeUser, Settings
 from jobs.set_logging import setup_logging
 from .query import get_repos_query
 from .const import MATCH, LOGIN, PROFILE, \
-    POSTED, TITLE, JOBLIST, STRIPE_API_KEY, TOKEN_LIST
+    POSTED, TITLE, JOBLIST, STRIPE_API_KEY, STRIPE_PUB_KEY, TOKEN_LIST
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
@@ -129,9 +129,10 @@ def token(request):
             customer=customer['id'],
             items=[
               {
-                "plan": "monthly-plan",
+                "plan": "plan_DaG62MuKGVwGOQ",
               },
             ],
+            metadata={},
         )
     except stripe.error.CardError as e:
         logger.error(
@@ -153,7 +154,8 @@ def token(request):
             .format(customer['metadata']['username']))
         logger.error(e)
         return HttpResponse(
-            'Something wrong with subscription.', status=400)
+            'Something wrong with subscription.' +
+            'Please email contact@osjobs.net', status=400)
     except Exception as e:
         logger.error(e)
         return HttpResponse(
@@ -212,7 +214,7 @@ def repo_search(request):
 def browse(request):
     '''Browse job page'''
     type = request.GET.get('type', 'both')
-    ori_posts = _get_valid_post(type).order_by('id')
+    ori_posts = _get_valid_post(type).order_by('-pay_time')
     return render(
         request, 'match.html',
         {'view': 'browse', 'posts': ori_posts,
@@ -259,6 +261,41 @@ def profile(request, name):
     '''Profile page'''
     token = random.choice(TOKEN_LIST)
     return render(request, 'profile.html', {'name': name, 'token': token})
+
+
+@login_required
+def card(request, name):
+    '''Update card details'''
+    settings = request.user.settings
+    last4 = settings.stripe_last4
+    return render(
+        request, 'card.html',
+        {'last4': last4,
+         'stripe_name': settings.stripe_name,
+         'STRIPE_PUB_KEY': STRIPE_PUB_KEY,
+         'exp_year': settings.stripe_exp_year})
+
+
+@login_required
+@csrf_exempt
+def card_callback(request):
+    token = request.POST.get('stripeToken', '')
+    email = request.POST.get('stripeEmail', '')
+    if token and email:
+        stripe.api_key = STRIPE_API_KEY
+        id = request.user.settings.stripe_customer_id
+        cu = stripe.Customer.retrieve(id)
+        cu.source = token
+        cu.email = email
+        response = cu.save()
+        user = Settings.objects.get(stripe_customer_id=id)
+        data = response['sources']['data'][0]
+        user.stripe_email = data['name']
+        user.stripe_exp_year = data['exp_year']
+        user.stripe_exp_month = data['exp_month']
+        user.stripe_last4 = data['last4']
+        user.save()
+    return redirect('card', name=request.user.username)
 
 
 @login_required
@@ -367,3 +404,9 @@ def match(request):
         request, 'match.html', {
             'posts': posts, 'sorted_percent_list': sorted_percent_list,
             'view': 'match', 'title': TITLE, 'type': type})
+
+
+@csrf_exempt
+def pay(request):
+    data = json.loads(request.body.decode("utf-8"))
+    print(data)

@@ -33,7 +33,7 @@
         <form class="pull-right" action="{% url 'card_callback' %}" method="POST">
           <script
           src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-          data-key="pk_test_fEJG3FbEEKCGhriUfqjWJZG5"
+          data-key="{{ STRIPE_PUB_KEY }}"
           data-name="Open Source Jobs"
           data-panel-label="Update Card Details"
           data-label="Update Card Details"
