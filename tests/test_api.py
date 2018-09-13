@@ -64,3 +64,25 @@ class ApiTestCase(TestCase):
 
     def test_query(self):
         self.assertIn('Windson', get_repos_query('Windson', 100))
+
+    def test_token_api(self):
+        self.client.logout()
+        data = {
+            'token': 'tok_1Bri70ADXywKZUxvWPimDJxnJ',
+            'card': {
+                'id': 'card_1Bri6zADXywKZUxWrbOZa2ZC',
+                'address_line1': 'test address',
+                'address_zip': '510000',
+                'exp_month': 1,
+                'exp_year': 2022,
+                'last4': "4242",
+                'name': 'test username',
+            },
+            'email': 'test@user.com',
+            'post_id': 1,
+        }
+        response = self.client.post(
+            '/token/',
+            json.dumps(data), content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 302)

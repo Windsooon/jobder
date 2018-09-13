@@ -41,12 +41,11 @@ class PostTestCase(TestCase):
             reverse('job', kwargs={'id': self.post.id}))
         self.assertEqual(response.status_code, 200)
         self.assertContains(
-            response, 'This job has not been pay. ' +
-            'Please finish the form to pay.')
+            response, 'To pay with your credit card')
         self.assertContains(
             response, 'Senior Software Engineer')
         self.assertContains(
-            response, 'Pay $69 per month')
+            response, 'Pay $69.3/first month')
         self.client.logout()
         response = self.client.get(
             reverse('job', kwargs={'id': self.post.id}))
@@ -58,8 +57,7 @@ class PostTestCase(TestCase):
         response = self.client.get(
             reverse('job', kwargs={'id': self.post.id}))
         self.assertNotContains(
-            response, 'This job has not been post. ' +
-            'Click bottom button to pay.')
+            response, 'To pay with your credit card')
         self.assertContains(
             response, 'Senior Software Engineer')
         self.assertContains(
@@ -69,7 +67,7 @@ class PostTestCase(TestCase):
         self.assertContains(
             response, 'Onsite And Remote')
         self.assertNotContains(
-            response, 'Pay $69 per month')
+            response, 'Pay $69.3/first month')
         self.client.logout()
         response = self.client.get(
             reverse('job', kwargs={'id': self.post.id}))
@@ -125,6 +123,7 @@ class PostTestCase(TestCase):
             json.dumps(data), content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(self.post.pay)
         self.assertEqual(
             self.user.settings.stripe_customer_id, 'cus_CGFa0zuiwqxHv1')
         self.assertEqual(self.user.settings.stripe_email, 'test@user.com')
@@ -133,5 +132,3 @@ class PostTestCase(TestCase):
         self.assertEqual(self.user.settings.stripe_exp_year, 2022)
         self.assertEqual(self.user.settings.stripe_exp_month, 4)
         self.assertEqual(self.user.settings.stripe_zip, '51000')
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(self.post.pay)
