@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^post-job/$', views.post_job, name='post_job'),
     url(r'^browse/$', views.browse, name='browse'),
     url(r'^token/$', views.token, name='token'),
+    url(r'^pay/$', views.pay, name='pay'),
+    url(r'^card_callback/$', views.card_callback, name='card_callback'),
     url(r'^repo-search/$', views.repo_search, name='repo_search'),
     url(r'^contributors/$', views.contributors, name='contributors'),
     url(r'^posted-jobs/$', views.posted_jobs, name='posted_jobs'),
@@ -19,5 +21,5 @@ urlpatterns = [
         views.job, name='job'),
     re_path(
         r'^(?P<name>([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*){1,38})/$',
-        views.profile, name='profile'),
+        views.card, name='card'),
 ]
