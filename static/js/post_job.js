@@ -104,12 +104,12 @@ $(document).ready(function() {
             company: {
                 required: true,
                 minlength: 3,
-                maxlength: 50,
+                maxlength: 80,
             },
             location: {
                 required: true,
                 minlength: 3,
-                maxlength: 50,
+                maxlength: 80,
             },
             website: {
                 required: true,
@@ -156,7 +156,7 @@ $(document).ready(function() {
         },
         submitHandler: function(form) {
             if (job_editor.getLength() < 21) {
-                alert("Please tell us more about your job.");
+                alert("Please tell us more about the job.");
                 return false;
             }
             if (company_editor.getLength() < 21) {
@@ -197,8 +197,8 @@ $(document).ready(function() {
                 success: function(data) {
                     window.location = base_url + "job/" + data.id + "/";
                 },
-                error: function() {
-                    alert("Please make sure job details or company details contain no more than 2000 characters.")
+                error: function(err) {
+                    alert("Please make sure 1. You fill in all required fields 2. Your website should be start with 'http' or 'https'. 3. Details or company details contain no more than 2000 characters.")
                 },
                 complete: function() {
                     $("#preview-btn").prop("disabled", false);
