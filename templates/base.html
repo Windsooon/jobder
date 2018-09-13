@@ -76,6 +76,7 @@
               {% if request.user.is_authenticated %}
               <a id="nav-user-name" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.user.username }}<span class="caret"></span></a>
               <ul class="dropdown-menu">
+                <li><a href="{% url 'card' name=request.user.username %}">Account</a></li>
                 <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
               </ul>
               {% endif %}
