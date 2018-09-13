@@ -233,6 +233,7 @@ def job(request, id):
     '''job page'''
     type = ['Onsite And Remote', 'Remote', 'Onsite']
     visa = ['No Visa Support', 'Visa Support']
+    paid_before = bool(request.user.settings.stripe_name)
 
     try:
         job = Post.objects.get(id=id)
@@ -253,7 +254,8 @@ def job(request, id):
             'repos': [r.repo_name for r in job.repo.all()], 'job': job,
             'type': type[job.type],
             'visa': visa[job.visa],
-            'salary': job.salary})
+            'salary': job.salary,
+            'paid_before': paid_before})
 
 
 @login_required

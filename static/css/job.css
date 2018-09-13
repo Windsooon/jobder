@@ -142,3 +142,12 @@
     color: #fff;
     font-size: 2rem;
 }
+
+#pay-again-h3 {
+    text-align: center;
+}
+
+#pay-again-a {
+    text-align: center;
+    display: block;
+}
