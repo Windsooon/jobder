@@ -75,7 +75,7 @@ $('#select-open-source').selectize({
 
 $(document).ready(function() {
     var toolbarOptions = [
-          [{ 'list': 'bullet'}, 'code-block'],
+          ['bold', { 'list': 'bullet'}, 'code-block'],
       ];
     var job_editor = new Quill('#job-editor', {
         modules: {

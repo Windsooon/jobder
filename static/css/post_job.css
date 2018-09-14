@@ -144,3 +144,8 @@
 .icon.source {
     background-image: url(../imgs/repo-source.png);
 }
+
+#only-first-p {
+    color: #ff3c7d;
+    text-align: center;
+}
