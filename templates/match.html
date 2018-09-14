@@ -28,7 +28,7 @@
               <div class="col-sm-4 col-xs-12">
                 <i class="post-create-time pull-right">{{ post.pay_time|timesince }} ago </i>
                 {% if title == 'Jobs You Created' %}
-                <i class="post-pay-status pull-right">{{ post.pay | yesno:"payed,non-payed" }}</i>
+                <i class="post-pay-status pull-right">{{ post.pay | yesno:"paid,non-paid" }}</i>
                 {% endif %}
               </div>
             </div>
