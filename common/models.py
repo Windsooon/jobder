@@ -19,6 +19,7 @@ class Settings(models.Model):
     blog = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
     stripe_customer_id = models.CharField(max_length=256, blank=True)
+    stripe_sub_id = models.CharField(max_length=256, blank=True)
     stripe_zip = models.CharField(max_length=256, blank=True)
     stripe_last4 = models.SmallIntegerField(blank=True, null=True)
     stripe_exp_month = models.SmallIntegerField(blank=True, null=True)
