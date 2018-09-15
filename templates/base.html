@@ -68,14 +68,14 @@
                 {% endif %}
               </li>
               <li>
-                {% if request.user.post.count > 0 %}
-                <a href="{% url 'posted_jobs' %}">Jobs Created</a>
-                {% endif %}
-              </li>
-              <li>
               {% if request.user.is_authenticated %}
               <a id="nav-user-name" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.user.username }}<span class="caret"></span></a>
               <ul class="dropdown-menu">
+                {% if request.user.post.count > 0 %}
+                <li>
+                  <a href="{% url 'posted_jobs' %}">Jobs Posted</a>
+                </li>
+                {% endif %}
                 <li><a href="{% url 'card' name=request.user.username %}">Account</a></li>
                 <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
               </ul>
