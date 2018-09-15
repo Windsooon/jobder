@@ -72,6 +72,9 @@ def _calculate_points(val, most_dict):
 
 
 def _pay_post(id):
+    '''
+    Update post status and pay_time
+    '''
     try:
         post = Post.objects.get(id=id)
     except Post.DoesNotExist:
@@ -238,7 +241,8 @@ def charge_su(request):
     try:
         cus = Customer.objects.get(cus_id=customer_id)
     except ObjectDoesNotExist:
-        pass
+        return HttpResponse(
+            'customer %s doesn\'t exist' % customer_id, status=400)
     else:
         return _pay_post(cus.post_id)
 
