@@ -4,7 +4,7 @@ var stripe = Stripe('pk_test_fEJG3FbEEKCGhriUfqjWJZG5');
 
 function submit_token(token, card, email, post_id, example) {
     $.ajax({
-        url: base_url + 'token/',
+        url: base_url + 'pay/',
         type: 'POST',
         contentType: "application/json",
         datatype: "json",
@@ -113,7 +113,7 @@ function registerElements(elements, exampleName) {
         if (result.token) {
           // If we received a token, show the token ID.
           submit_token(
-              result.token.id, result.token.card, $("#example1-email").val(), post_id, example);
+              result.token.id, result.token.card, $("#osjobs-email").val(), post_id, example);
         } else {
           // Otherwise, un-disable inputs.
           example.classList.remove('submitting');
@@ -162,7 +162,7 @@ function add_elements() {
         },
       },
     });
-    card.mount('#example1-card');
+    card.mount('#osjobs-card');
 
-    registerElements([card], 'example1');
+    registerElements([card], 'osjobs');
 }
