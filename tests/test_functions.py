@@ -25,3 +25,14 @@ class FunctionTestCase(TestCase):
         dic = views._update_percentage(lst)
         self.assertEqual(
             dic, {'CSS': 0.125, 'JavaScript': 0.25, 'Python': 0.625})
+
+    def test_pay_post(self):
+        self.user = create_one_account()
+        self.client.force_login(self.user)
+        self.post = create_one_job(self.user.id)
+        response = views._pay_post(999)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(self.post.pay, False)
+        response = views._pay_post(self.post.id)
+        self.post.refresh_from_db()
+        self.assertEqual(self.post.pay, True)

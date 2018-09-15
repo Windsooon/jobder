@@ -64,7 +64,7 @@ class PageTestCase(TestCase):
         # Before user login
         response = self.client.get(reverse('post_job'))
         self.assertEqual(response.status_code, 302)
-        response = self.client.get(reverse('token'))
+        response = self.client.get(reverse('pay'))
         self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('repo_search'))
         self.assertEqual(response.status_code, 302)

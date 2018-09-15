@@ -99,7 +99,7 @@ class PostTestCase(TestCase):
 
     @patch('stripe.Customer.create')
     @patch('stripe.Subscription.create')
-    def test_send_token(self, subscription, customer):
+    def test_pay(self, subscription, customer):
         # mock return value
         customer.return_value = json.loads(CUSTOMER_RETURN)
         subscription.return_value = json.loads(SUBSCRIPTION_RETURN)
@@ -119,16 +119,7 @@ class PostTestCase(TestCase):
             'post_id': self.post.id,
         }
         response = self.client.post(
-            '/token/',
+            '/pay/',
             json.dumps(data), content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(self.post.pay)
-        self.assertEqual(
-            self.user.settings.stripe_customer_id, 'cus_CGFa0zuiwqxHv1')
-        self.assertEqual(self.user.settings.stripe_email, 'test@user.com')
-        self.assertEqual(self.user.settings.stripe_name, 'test username')
-        self.assertEqual(self.user.settings.stripe_last4, 4242)
-        self.assertEqual(self.user.settings.stripe_exp_year, 2022)
-        self.assertEqual(self.user.settings.stripe_exp_month, 4)
-        self.assertEqual(self.user.settings.stripe_zip, '51000')
