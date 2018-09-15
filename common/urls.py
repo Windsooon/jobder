@@ -9,17 +9,19 @@ urlpatterns = [
     url(r'^browse/$', views.browse, name='browse'),
     url(r'^pay/$', views.pay, name='pay'),
     url(r'^charge_su/$', views.charge_su, name='charge_su'),
-    url(r'^card_callback/$', views.card_callback, name='card_callback'),
     url(r'^repo-search/$', views.repo_search, name='repo_search'),
     url(r'^contributors/$', views.contributors, name='contributors'),
     url(r'^posted-jobs/$', views.posted_jobs, name='posted_jobs'),
     url(r'^match/$', views.match, name='match'),
     url(r'^explain/$', views.explain, name='explain'),
-    url(r'^$', views.index, name='front_page'),
+    re_path(
+        r'^card_callback/(?P<post_id>[0-9]+)/$',
+        views.card_callback, name='card_callback'),
     re_path(
         r'^job/(?P<id>[0-9]+)/$',
         views.job, name='job'),
     re_path(
         r'^(?P<name>([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*){1,38})/$',
         views.card, name='card'),
+    url(r'^$', views.index, name='front_page'),
 ]
