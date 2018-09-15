@@ -15,6 +15,8 @@
           {% else %}
             <a href="{% provider_login_url 'github' %}" class="btn btn-default btn-lg" >Log in with GitHub</a>
           {% endif %}
+          <span id="or-span">or</span>
+          <a href="{% url 'browse' %}" class="btn btn-default btn-lg" >Browse All Jobs</a>
         </div> <!-- end col-xs-12 -->
       </div> <!-- end row -->
     </div> <!-- end container -->

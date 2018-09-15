@@ -130,3 +130,10 @@ pre {
 #open-source-h1 {
     font-size: 5rem;
 }
+
+#or-span {
+    font-size: 2rem;
+    color: white;
+    margin-left: 5px;
+    margin-right: 5px;
+}
