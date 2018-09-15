@@ -4,29 +4,33 @@ import datetime
 import random
 import math
 import requests
-import stripe
 from operator import itemgetter
 from collections import defaultdict, Counter
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Case, When, Count
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from post.models import Post, Repo
-from common.models import FakeUser, Settings
+from common.models import FakeUser, Settings, Customer
 from jobs.set_logging import setup_logging
+from .stripe_method import create_customer_and_subscribe, \
+    update_card
 from .query import get_repos_query
 from .const import MATCH, LOGIN, PROFILE, \
-    POSTED, TITLE, JOBLIST, STRIPE_API_KEY, STRIPE_PUB_KEY, TOKEN_LIST
+    POSTED, TITLE, JOBLIST, STRIPE_PUB_KEY, TOKEN_LIST
 
 init_logging = setup_logging()
 logger = init_logging.getLogger(__name__)
+POST_DAY = 30
 
 
 def _get_user_repos(name):
     '''
-    Get user all repos through Github graphql api
+    Get user all repos through Github graphql api, (blocking)
+    pare
     '''
     token = random.choice(TOKEN_LIST)
     query = get_repos_query(name, 20)
@@ -43,11 +47,11 @@ def _get_valid_post(type='both'):
     if type == 'remote':
         return Post.objects.filter(pay=1).exclude(type=2).filter(
             pay_time__gte=timezone.now()
-            - datetime.timedelta(days=30))
+            - datetime.timedelta(days=POST_DAY))
     else:
         return Post.objects.filter(pay=1).filter(
             pay_time__gte=timezone.now()
-            - datetime.timedelta(days=30))
+            - datetime.timedelta(days=POST_DAY))
 
 
 def _update_percentage(lst):
@@ -67,111 +71,31 @@ def _calculate_points(val, most_dict):
     return points
 
 
-def index(request):
-    '''Front page'''
-    return render(
-        request, 'index.html',
-        {'FIND': MATCH, 'LOGIN': LOGIN, 'PROFILE': PROFILE})
-
-
-def explain(request):
-    '''explain page'''
-    return render(request, 'explain.html')
-
-
-@login_required
-@csrf_exempt
-def token(request):
-    stripe.api_key = STRIPE_API_KEY
-    data = json.loads(request.body)
+def _pay_post(id):
     try:
-        customer = stripe.Customer.create(
-            description='Customer for ' + data['card']['name'],
-            email=data['email'],
-            metadata={
-                'username': data['card']['name'],
-                'address_line1': data['card']['address_line1'],
-                'zip': data['card']['address_zip']
-            },
-            source=data['token'],
-        )
-    except stripe.error.CardError as e:
-        logger.error(
-            'Customer create failed. Card id {0} from {1} may have problem.'
-            .format(data['card']['id'], data['card']['name']))
-        logger.error(e)
-        return HttpResponse(
-            'Something wrong with your card. Please try another card.',
-            status=400)
-    except stripe.error.AuthenticationError as e:
-        logger.error(e)
-        return HttpResponse(
-            'Something wrong with stripe authentication.', status=400)
-    except stripe.error.InvalidRequestError as e:
-        logger.error(e)
-        return HttpResponse(
-            'Something wrong with stripe request.', status=400)
-    # update user info
-    request.user.settings.stripe_customer_id = customer['id']
-    request.user.settings.stripe_email = customer['email']
-    request.user.settings.stripe_name = customer['metadata']['username']
-    request.user.settings.stripe_last4 = \
-        customer['sources']['data'][0]['last4']
-    request.user.settings.stripe_exp_year = \
-        customer['sources']['data'][0]['exp_year']
-    request.user.settings.stripe_exp_month = \
-        customer['sources']['data'][0]['exp_month']
-    request.user.settings.stripe_zip = \
-        customer['sources']['data'][0]['address_zip']
-    request.user.settings.save()
-    try:
-        stripe.Subscription.create(
-            customer=customer['id'],
-            items=[
-              {
-                "plan": "plan_DaG62MuKGVwGOQ",
-              },
-            ],
-            metadata={},
-        )
-    except stripe.error.CardError as e:
-        logger.error(
-            'Subscription failed. Card {0} from {1} may have problem.'
-            .format(
-                customer['sources']['data'][0]['last4'],
-                customer['metadata']['username']))
-        logger.error(e)
-        return HttpResponse(
-            'Something wrong with your card. Please try another card.',
-            status=400)
-    except stripe.error.AuthenticationError as e:
-        logger.error(e)
-        return HttpResponse(
-            'Something wrong with stripe authentication.', status=400)
-    except stripe.error.InvalidRequestError as e:
-        logger.error(
-            'Subscription from {0} may have problem.'
-            .format(customer['metadata']['username']))
-        logger.error(e)
-        return HttpResponse(
-            'Something wrong with subscription.' +
-            'Please email contact@osjobs.net', status=400)
-    except Exception as e:
-        logger.error(e)
-        return HttpResponse(
-            'Unknown issue.', status=400)
-    try:
-        post = Post.objects.get(id=data['post_id'])
+        post = Post.objects.get(id=id)
     except Post.DoesNotExist:
-        logger.error('Paying post %s does not exist.' % data['post_id'])
+        logger.error('Post %s does not exist.' % id)
         return HttpResponse(
-            'Paying post %s does not exist.' % data['post_id'], status=400)
+            'Post %s does not exist.' % id, status=400)
     else:
         post.pay = True
         post.pay_time = timezone.now()
         post.save()
         return HttpResponse(
-            'Post {0} pay successed'.format(data['post_id'], status=200))
+            'Post {0} pay successed'.format(id, status=200))
+
+
+@login_required
+@csrf_exempt
+def pay(request):
+    '''
+    First time when user pay for a job
+    '''
+    data = json.loads(request.body)
+    user = request.user
+    # update user info
+    return create_customer_and_subscribe(user, data)
 
 
 @login_required
@@ -229,11 +153,22 @@ def posted_jobs(request):
         {'view': 'posted', 'posts': posts, 'title': POSTED})
 
 
+def index(request):
+    '''Front page'''
+    return render(
+        request, 'index.html',
+        {'FIND': MATCH, 'LOGIN': LOGIN, 'PROFILE': PROFILE})
+
+
+def explain(request):
+    '''explain page'''
+    return render(request, 'explain.html')
+
+
 def job(request, id):
     '''job page'''
     type = ['Onsite And Remote', 'Remote', 'Onsite']
     visa = ['No Visa Support', 'Visa Support']
-    paid_before = bool(request.user.settings.stripe_name)
 
     try:
         job = Post.objects.get(id=id)
@@ -244,7 +179,7 @@ def job(request, id):
         # not pay yet or expired
         if not job.pay or \
             ((timezone.now() -
-                datetime.timedelta(days=30)) > job.pay_time):
+                datetime.timedelta(days=POST_DAY)) > job.pay_time):
             logger.info('job id %s hasn\'t pay or it\'s expired.' % id)
             if request.user != job.user:
                 return render(request, '404.html', status=404)
@@ -254,42 +189,33 @@ def job(request, id):
             'repos': [r.repo_name for r in job.repo.all()], 'job': job,
             'type': type[job.type],
             'visa': visa[job.visa],
-            'salary': job.salary,
-            'paid_before': paid_before})
-
-
-@login_required
-def profile(request, name):
-    '''Profile page'''
-    token = random.choice(TOKEN_LIST)
-    return render(request, 'profile.html', {'name': name, 'token': token})
+            'salary': job.salary})
 
 
 @login_required
 def card(request, name):
-    '''Update card details'''
+    '''Get current card details'''
     settings = request.user.settings
-    last4 = settings.stripe_last4
+    cards = Customer.objects.filter(settings_id=settings.user_id)
+    count = len(cards)
     return render(
         request, 'card.html',
-        {'last4': last4,
-         'stripe_name': settings.stripe_name,
-         'STRIPE_PUB_KEY': STRIPE_PUB_KEY,
-         'exp_year': settings.stripe_exp_year})
+        {'cards': cards,
+         'count': count,
+         'STRIPE_PUB_KEY': STRIPE_PUB_KEY})
 
 
 @login_required
 @csrf_exempt
 def card_callback(request):
+    '''
+    Update user's card
+    '''
     token = request.POST.get('stripeToken', '')
     email = request.POST.get('stripeEmail', '')
-    if token and email:
-        stripe.api_key = STRIPE_API_KEY
-        id = request.user.settings.stripe_customer_id
-        cu = stripe.Customer.retrieve(id)
-        cu.source = token
-        cu.email = email
-        response = cu.save()
+    id = request.user.settings.stripe_customer_id
+    if token and email and id:
+        response = update_card(id, token, email)
         user = Settings.objects.get(stripe_customer_id=id)
         data = response['sources']['data'][0]
         user.stripe_email = data['name']
@@ -298,6 +224,21 @@ def card_callback(request):
         user.stripe_last4 = data['last4']
         user.save()
     return redirect('card', name=request.user.username)
+
+
+@csrf_exempt
+def charge_su(request):
+    '''
+    charge successed callback event
+    '''
+    response = json.loads(request.body.decode("utf-8"))
+    customer_id = response['data']['object']['customer']
+    try:
+        cus = Customer.objects.get(cus_id=customer_id)
+    except ObjectDoesNotExist:
+        pass
+    else:
+        return _pay_post(cus.post_id)
 
 
 @login_required
@@ -406,9 +347,3 @@ def match(request):
         request, 'match.html', {
             'posts': posts, 'sorted_percent_list': sorted_percent_list,
             'view': 'match', 'title': TITLE, 'type': type})
-
-
-@csrf_exempt
-def pay(request):
-    data = json.loads(request.body.decode("utf-8"))
-    print(data)
