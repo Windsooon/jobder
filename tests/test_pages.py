@@ -40,7 +40,7 @@ class PageTestCase(TestCase):
             pay_time=timezone.now())
         response = self.client.get(reverse('front_page'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Jobs Created')
+        self.assertContains(response, 'Jobs Posted')
         self.client.logout()
         response = self.client.get(reverse('browse'))
         self.assertEqual(response.status_code, 200)
@@ -57,6 +57,7 @@ class PageTestCase(TestCase):
         self.client.force_login(user)
         response = self.client.get(reverse('browse'))
         self.assertContains(response, JOBLIST)
+        self.assertNotContains(response, 'Senior Software Engineer')
         self.assertContains(response, 'Show Remote Jobs')
         self.assertEqual(response.status_code, 200)
 
@@ -67,6 +68,10 @@ class PageTestCase(TestCase):
         response = self.client.get(reverse('pay'))
         self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('repo_search'))
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(reverse('match'))
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(reverse('match'))
         self.assertEqual(response.status_code, 302)
         response = self.client.get(reverse('contributors'))
         self.assertEqual(response.status_code, 302)
@@ -80,8 +85,7 @@ class PageTestCase(TestCase):
         response = self.client.get(reverse('posted_jobs'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, SEARCH)
-        response = self.client.get(
-            reverse('post_job'))
+        response = self.client.get(reverse('post_job'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Job Details')
 
@@ -167,3 +171,11 @@ class PageTestCase(TestCase):
             ]
         }
         self.assertEqual(response.json(), user_response)
+
+    def test_no_card(self):
+        user = create_one_account()
+        self.client.force_login(user)
+        response = self.client.get(
+            reverse('card', kwargs={'name': user.username}))
+        self.assertContains(
+            response, 'You don\'t have any card yet.')

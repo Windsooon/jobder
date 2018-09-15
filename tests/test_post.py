@@ -4,6 +4,8 @@ from unittest.mock import patch
 from django.utils import timezone
 from django.test import TestCase
 from django.urls import reverse
+from common.models import Customer
+from common.views import charge_su
 from tests.base import create_one_account, create_one_job,\
     CUSTOMER_RETURN, SUBSCRIPTION_RETURN
 
@@ -35,7 +37,7 @@ class PostTestCase(TestCase):
         self.post = create_one_job(self.user.id)
         # Posted jobs list on navbar
         response = self.client.get(reverse('front_page'))
-        self.assertContains(response, 'Jobs Created')
+        self.assertContains(response, 'Jobs Posted')
         # Access job detail
         response = self.client.get(
             reverse('job', kwargs={'id': self.post.id}))
@@ -79,7 +81,7 @@ class PostTestCase(TestCase):
         self.assertNotContains(response, 'Jobs Created')
         self.post = create_one_job(self.user.id, pay=True)
         response = self.client.get(reverse('front_page'))
-        self.assertContains(response, 'Jobs Created')
+        self.assertContains(response, 'Jobs Posted')
 
     def test_can_not_find_job(self):
         response = self.client.get(reverse('job', kwargs={'id': 10}))
@@ -97,14 +99,9 @@ class PostTestCase(TestCase):
         self.assertContains(
             response, '<i class="fa fa-building building" aria-hidden="true">')
 
-    @patch('stripe.Customer.create')
-    @patch('stripe.Subscription.create')
-    def test_pay(self, subscription, customer):
-        # mock return value
-        customer.return_value = json.loads(CUSTOMER_RETURN)
-        subscription.return_value = json.loads(SUBSCRIPTION_RETURN)
-        self.post = create_one_job(self.user.id, pay=True)
-        data = {
+    @staticmethod
+    def get_data(post_id):
+        return {
             'token': 'tok_1Bri70ADXywKZUxvWPimDJxnJ',
             'card': {
                 'id': 'card_1Bri6zADXywKZUxWrbOZa2ZC',
@@ -116,10 +113,35 @@ class PostTestCase(TestCase):
                 'name': 'test username',
             },
             'email': 'test@user.com',
-            'post_id': self.post.id,
+            'post_id': post_id,
         }
+
+    @patch('stripe.Customer.create')
+    @patch('stripe.Subscription.create')
+    def test_pay(self, subscription, customer):
+        # mock return value
+        customer.return_value = json.loads(CUSTOMER_RETURN)
+        subscription.return_value = json.loads(SUBSCRIPTION_RETURN)
+        self.post = create_one_job(self.user.id)
+        self.assertEqual(0, Customer.objects.count())
+        data = self.get_data(self.post.id)
         response = self.client.post(
             '/pay/',
             json.dumps(data), content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)
+        # Wait for charge.successed callback
+        cus = Customer.objects.get(stripe_email='test@user.com')
+        self.assertEqual(cus.cus_id, 'cus_CGFa0zuiwqxHv1')
+        self.assertEqual(cus.stripe_exp_year, 2022)
+        self.assertEqual(1, Customer.objects.count())
+
+        class Data:
+            def __init__(self):
+                self.body = (
+                    b'{"data":'
+                    b'{"object": {"customer": "cus_CGFa0zuiwqxHv1"}}}')
+        request = Data()
+        self.assertEqual(charge_su(request).status_code, 200)
+        self.post.refresh_from_db()
+        self.assertEqual(self.post.pay, True)
