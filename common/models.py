@@ -18,14 +18,6 @@ class Settings(models.Model):
     )
     blog = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
-    stripe_customer_id = models.CharField(max_length=256, blank=True)
-    stripe_sub_id = models.CharField(max_length=256, blank=True)
-    stripe_zip = models.CharField(max_length=256, blank=True)
-    stripe_last4 = models.SmallIntegerField(blank=True, null=True)
-    stripe_exp_month = models.SmallIntegerField(blank=True, null=True)
-    stripe_exp_year = models.SmallIntegerField(blank=True, null=True)
-    stripe_name = models.CharField(max_length=256, blank=True)
-    stripe_email = models.EmailField(blank=True)
     visiable = models.BooleanField(default=True)
     type = models.SmallIntegerField(default=Both)
     repo = models.ManyToManyField(Repo)
@@ -34,6 +26,26 @@ class Settings(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Customer(models.Model):
+    settings = models.ForeignKey(
+        Settings,
+        on_delete=models.CASCADE,
+        related_name='customer',
+        blank=True, null=True)
+    cus_id = models.CharField(max_length=256, blank=True)
+    post_id = models.IntegerField(blank=True, null=True)
+    sub_id = models.CharField(max_length=256, blank=True)
+    stripe_name = models.CharField(max_length=256, blank=True)
+    stripe_email = models.EmailField(blank=True)
+    stripe_zip = models.CharField(max_length=256, blank=True)
+    stripe_last4 = models.CharField(max_length=48, blank=True)
+    stripe_exp_month = models.SmallIntegerField(blank=True, null=True)
+    stripe_exp_year = models.SmallIntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.cus_id
 
 
 class FakeUser(models.Model):
