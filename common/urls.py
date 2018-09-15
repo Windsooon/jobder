@@ -7,8 +7,8 @@ from common import views
 urlpatterns = [
     url(r'^post-job/$', views.post_job, name='post_job'),
     url(r'^browse/$', views.browse, name='browse'),
-    url(r'^token/$', views.token, name='token'),
     url(r'^pay/$', views.pay, name='pay'),
+    url(r'^charge_su/$', views.charge_su, name='charge_su'),
     url(r'^card_callback/$', views.card_callback, name='card_callback'),
     url(r'^repo-search/$', views.repo_search, name='repo_search'),
     url(r'^contributors/$', views.contributors, name='contributors'),
