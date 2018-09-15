@@ -13,17 +13,32 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">Current Card</th>
+              <th scope="col">Job</th>
+              <th scope="col">Name</th>
               <th scope="col">Ending in</th>
               <th scope="col">Expires</th>
+              <th scope="col">Update</th>
             </tr>
           </thead>
           <tbody>
             {% for card in cards %} 
             <tr>
+              <td><a href="/job/{{ card.post_id }}">{{ card.post_id }}</a></td>
               <td>{{ card.stripe_name }}</td>
               <td>{{ card.stripe_last4 }}</td>
               <td>{{ card.stripe_exp_year }}</td>
+              <td>
+                <form action="{% url 'card_callback' post_id=card.post_id %}" method="POST">
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                  data-key="{{ STRIPE_PUB_KEY }}"
+                  data-name="Open Source Jobs"
+                  data-panel-label="Update Card Details"
+                  data-label="Update Card Details"
+                  data-allow-remember-me=false
+                  data-locale="auto">
+                  </script>
+                </form>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -32,17 +47,7 @@
         <h4>You don't have any card yet.</h4>
         {% endif %}
         <input id="user-id" type="hidden" value="{{ user.id }}" />
-        <form class="pull-right" action="{% url 'card_callback' %}" method="POST">
-          <script
-          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-          data-key="{{ STRIPE_PUB_KEY }}"
-          data-name="Open Source Jobs"
-          data-panel-label="Update Card Details"
-          data-label="Update Card Details"
-          data-allow-remember-me=false
-          data-locale="auto">
-          </script>
-        </form>
+
       </div> <!-- end col-xs -->
     </div> <!-- end row -->
   </div> <!-- end container -->

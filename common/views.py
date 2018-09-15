@@ -14,7 +14,7 @@ from django.db.models import Case, When, Count
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from post.models import Post, Repo
-from common.models import FakeUser, Settings, Customer
+from common.models import FakeUser, Customer
 from jobs.set_logging import setup_logging
 from .stripe_method import create_customer_and_subscribe, \
     update_card
@@ -207,22 +207,24 @@ def card(request, name):
 
 @login_required
 @csrf_exempt
-def card_callback(request):
+def card_callback(request, post_id):
     '''
     Update user's card
     '''
     token = request.POST.get('stripeToken', '')
     email = request.POST.get('stripeEmail', '')
-    id = request.user.settings.stripe_customer_id
+    try:
+        cus = Customer.objects.get(post_id=post_id)
+    except Customer.ObjectDoesNotExist:
+        pass
     if token and email and id:
-        response = update_card(id, token, email)
-        user = Settings.objects.get(stripe_customer_id=id)
+        response = update_card(cus.cus_id, token, email)
         data = response['sources']['data'][0]
-        user.stripe_email = data['name']
-        user.stripe_exp_year = data['exp_year']
-        user.stripe_exp_month = data['exp_month']
-        user.stripe_last4 = data['last4']
-        user.save()
+        cus.stripe_email = data['name']
+        cus.stripe_exp_year = data['exp_year']
+        cus.stripe_exp_month = data['exp_month']
+        cus.stripe_last4 = data['last4']
+        cus.save()
     return redirect('card', name=request.user.username)
 
 
