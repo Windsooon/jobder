@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
         <h2 id="user-settings">{{ request.user.username }}</h2>
-        {% if last4 %}
+        {% if count %}
         <table class="table">
           <thead>
             <tr>
@@ -19,11 +19,13 @@
             </tr>
           </thead>
           <tbody>
+            {% for card in cards %} 
             <tr>
-              <td>{{ stripe_name }}</td>
-              <td>{{ last4 }}</td>
-              <td>{{ exp_year }}</td>
+              <td>{{ card.stripe_name }}</td>
+              <td>{{ card.stripe_last4 }}</td>
+              <td>{{ card.stripe_exp_year }}</td>
             </tr>
+            {% endfor %}
           </tbody>
         </table>
         {% else %}
