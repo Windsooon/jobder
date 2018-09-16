@@ -1,5 +1,3 @@
-from common import tokens
-
 MATCH = 'Match'
 LOGIN = 'Log in with GitHub'
 TITLE = 'Jobs Recommendation For You'
