@@ -103,3 +103,4 @@ ENV/
 static/.DS_Store
 pro_mysql.cnf
 test_mysql.cnf
+fabfile.py
