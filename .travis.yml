@@ -10,4 +10,7 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
+  - mkdir -p /home/travis/build/Windsooon/jobder/log_files/
+  - touch /home/travis/build/Windsooon/jobder/log_files/info.log
+  - touch /home/travis/build/Windsooon/jobder/log_files/error.log
   - ./runtests.py
