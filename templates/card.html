@@ -15,7 +15,6 @@
           <thead>
             <tr>
               <th scope="col">Job</th>
-              <th scope="col">Name</th>
               <th scope="col">Ending in</th>
               <th scope="col">Expires</th>
               <th scope="col">Update</th>
@@ -25,7 +24,6 @@
             {% for card in cards %} 
             <tr>
               <td><a href="/job/{{ card.post_id }}">{{ card.post_id }}</a></td>
-              <td>{{ card.stripe_name }}</td>
               <td>{{ card.stripe_last4 }}</td>
               <td>{{ card.stripe_exp_year }}</td>
               <td>
@@ -44,6 +42,7 @@
             {% endfor %}
           </tbody>
         </table>
+        <p>All products automatically renew unless you cancel. The payment method you provide today, or we have on file, will be used for renewals, unless you change it or cancel. You may cancel at any time by email to contact@osjobs.net.</p>
         {% else %}
         <h4>You don't have any card yet.</h4>
         {% endif %}
