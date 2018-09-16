@@ -97,6 +97,7 @@ if DEBUG:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'OPTIONS': {
+                'sql_mode': 'traditional',
                 'read_default_file': os.path.join(BASE_DIR, 'test_mysql.cnf'),
             },
         }
@@ -108,6 +109,7 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'OPTIONS': {
+                'sql_mode': 'traditional',
                 'read_default_file': os.path.join(BASE_DIR, 'pro_mysql.cnf'),
             },
         }
