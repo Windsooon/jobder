@@ -93,7 +93,7 @@ function set_up_contributors(container, data) {
         var $contri_a = $("<a />", {
             "class": "contri-a col-sm-3 col-xs-6",
             "target": "_blank",
-            "href": base_url + value["username"] + "/"
+            "href": "https://github.com/" + value["username"] + "/"
         });
         var $contri_div = $("<div />", {
             "class": "contri-inner-div",

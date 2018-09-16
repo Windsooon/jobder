@@ -197,7 +197,7 @@ $(document).ready(function() {
                 success: function(data) {
                     window.location = base_url + "job/" + data.id + "/";
                 },
-                error: function(err) {
+                error: function(xhr, status, error) {
                     alert("Please make sure 1. You fill in all required fields 2. Your website should be start with 'http' or 'https'. 3. Details or company details contain no more than 2000 characters.")
                 },
                 complete: function() {
