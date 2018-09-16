@@ -6,6 +6,7 @@ from django.test import TestCase
 from django.urls import reverse
 from common.models import Customer
 from common.views import charge_su
+from post.models import Post
 from tests.base import create_one_account, create_one_job,\
     CUSTOMER_RETURN, SUBSCRIPTION_RETURN
 
@@ -145,3 +146,12 @@ class PostTestCase(TestCase):
         self.assertEqual(charge_su(request).status_code, 200)
         self.post.refresh_from_db()
         self.assertEqual(self.post.pay, True)
+
+    def test_post_job(self):
+        data = {"user":self.user.id,"title":"Senior","job_des":"{\"ops\":[{\"insert\":\"We're looking for a backend engineer. Need to have a strong background in being able to write scalable software, preferably multi-paradigm, disciplined... (up to 2000 characters)\\n\"}]}","repos":[{"id":4164482,"name":"django","owner_name":"django","description":"🎉The Web framework for perfectionists with deadlines.","html_url":"https://github.com/django/django","language":"Python","stargazers_count":36405}],"type":"1","visa":"1","salary":"$200k","company_name":"OSJOBS","location":"LA","website":"http://www.bing.com","company_des":"{\"ops\":[{\"insert\":\"Open Source Jobs loves open source projects. We have a very engineering-driven culture and a great place to work if you're self-directed, curious, and interested in working in open source environments.... (up to 2000 characters)\\n\"}]}","apply":"abc@ccc.com"}
+        response = self.client.post(
+            '/api/post/',
+            json.dumps(data), content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(1, Post.objects.count())
