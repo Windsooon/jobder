@@ -2,7 +2,7 @@ import stripe
 from django.http import HttpResponse
 from django.db import transaction
 from jobs.set_logging import setup_logging
-from .const import STRIPE_API_KEY, PLAN_ID
+from .const import STRIPE_API_KEY, PLAN_ID, COUPON_ID
 from .models import Customer
 
 init_logging = setup_logging()
@@ -25,6 +25,7 @@ def subscription(user, customer, post_id):
               },
             ],
             metadata={'post_id': post_id},
+            coupon=COUPON_ID,
         )
     except stripe.error.CardError as e:
         logger.error(
