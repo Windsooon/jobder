@@ -79,6 +79,8 @@
                 <li><a href="{% url 'card' name=request.user.username %}">Account</a></li>
                 <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
               </ul>
+              {% else %}
+              <a href="{% provider_login_url 'github' %}">Log in</a>
               {% endif %}
               </li>
             </ul>
