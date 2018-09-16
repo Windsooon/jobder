@@ -10,5 +10,5 @@ STRIPE_PUB_KEY = 'pk_test_fEJG3FbEEKCGhriUfqjWJZG5'
 PLAN_ID = 'plan_DbQUUDQ7Htlo7H'
 COUPON_ID = '1z8qWqEY'
 TOKEN_LIST = [
-    'just_for_test',
+    '6ab59d60b5ff34b664924570381c3bd344462175',
     ]
