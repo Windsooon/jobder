@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'common',
     'post',
-    'debug_toolbar',
 ]
 
 SITE_ID = 1
@@ -56,7 +55,6 @@ MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -93,6 +91,8 @@ WSGI_APPLICATION = 'jobs.wsgi.application'
 if DEBUG:
     ALLOWED_HOSTS = ['*']
     SECURE_SSL_REDIRECT = False
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    INSTALLED_APPS.append('debug_toolbar')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
