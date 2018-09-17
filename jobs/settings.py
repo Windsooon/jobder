@@ -105,6 +105,10 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = ['www.osjobs.net']
     SECURE_SSL_REDIRECT = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
