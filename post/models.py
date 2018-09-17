@@ -8,7 +8,6 @@ class Repo(models.Model):
     repo_name = models.CharField(max_length=256)
     owner_name = models.CharField(max_length=256)
     stargazers_count = models.IntegerField()
-    description = models.CharField(max_length=256, blank=True, null=True)
     language = models.CharField(max_length=256, blank=True, null=True)
     url = models.URLField(blank=True)
     html_url = models.URLField(blank=True, null=True)

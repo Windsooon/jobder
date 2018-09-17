@@ -20,7 +20,6 @@ def index():
               id
               name
               nameWithOwner
-              description
               url
               homepageUrl
               primaryLanguage {
@@ -64,7 +63,6 @@ def index():
                 defaults={
                     'repo_name': d['node']['name'],
                     'owner_name': d['node']['nameWithOwner'],
-                    'description': d['node']['description'],
                     'url': d['node']['url'],
                     'html_url': d['node']['homepageUrl'],
                     'language': (

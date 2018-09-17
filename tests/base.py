@@ -5,16 +5,13 @@ from post.models import Post, Repo
 
 
 def create_repo(n):
-    Repos = namedtuple('Repo', 'id, name, language, description')
+    Repos = namedtuple('Repo', 'id, name, language')
     r1 = Repos(
-        4164482, 'django', 'python',
-        'The Web framework for perfectionists with deadlines.')
+        4164482, 'django', 'python')
     r2 = Repos(
-        460078, 'angular.js', 'javascript',
-        'AngularJS - HTML enhanced for web apps!')
+        460078, 'angular.js', 'javascript')
     r3 = Repos(
-        2325298, 'linux', 'c',
-        'Linux kernel source tree')
+        2325298, 'linux', 'c')
     repos = [r1, r2, r3]
     repo = Repo.objects.update_or_create(
         repo_id=repos[n].id,
@@ -22,7 +19,6 @@ def create_repo(n):
             'repo_name': repos[n].name,
             'owner_name': 'django',
             'stargazers_count': 31000,
-            'description': repos[n].description,
             'language': repos[n].language,
             'html_url': 'https://github.com/django/django'})
     return repo[0]
@@ -104,7 +100,6 @@ GITHUB_REPO_RETURN = '''
               "id": "MDEwOlJlcG9zaXRvcnk0MzA1MzM4NQ==",
               "name": "How-to-pronounce",
               "nameWithOwner": "Windsooon/How-to-pronounce",
-              "description": "This is how to pronounce",
               "url": "https://github.com/Windsooon/How-to-pronounce",
               "stargazers": {
                 "totalCount": 63
@@ -121,7 +116,6 @@ GITHUB_REPO_RETURN = '''
               "id": "MDEwOlJlcG9zaXRvcnk0MTY0NDgy",
               "name": "django",
               "nameWithOwner": "django/django",
-              "description": "This is django",
               "url": "https://github.com/django/django",
               "stargazers": {
                 "totalCount": 31490

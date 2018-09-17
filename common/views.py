@@ -293,7 +293,6 @@ def match(request):
                     'owner_name': owner_name,
                     'stargazers_count':
                         r['node']['stargazers']['totalCount'],
-                    'description': r['node']['description'],
                     'language': language,
                     'html_url': r['node']['url'],
                 },
