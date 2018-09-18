@@ -42,6 +42,7 @@ class Post(models.Model):
     location = models.CharField(max_length=50)
     website = models.URLField(blank=True)
     apply = models.CharField(max_length=256)
+    github_account = models.URLField(blank=True, null=True)
     pay = models.BooleanField(default=False)
     pay_time = models.DateTimeField(default=timezone.now)
     create_time = models.DateTimeField(auto_now_add=True)
