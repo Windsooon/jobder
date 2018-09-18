@@ -80,11 +80,12 @@ class PageTestCase(TestCase):
         # After user login
         user = create_one_account()
         self.client.force_login(user)
+        self.post = create_one_job(user.id)
         response = self.client.get(reverse('contributors'))
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, SEARCH)
         response = self.client.get(reverse('posted_jobs'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, SEARCH)
         response = self.client.get(reverse('post_job'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Job Details')

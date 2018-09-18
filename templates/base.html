@@ -55,9 +55,9 @@
               </li>
               <li>
                 {% if request.user.is_authenticated %}
-                <a href="{% url 'contributors' %}" class="browser-job" title="">Search Contributors</a>
+                <a href="{% url 'contributors' %}" class="browser-job" title="">Search Developers</a>
                 {% else %}
-                <a href="{% provider_login_url 'github' %}" class="post-job-nav" title="">Search Contributors</a>
+                <a href="{% provider_login_url 'github' %}" class="post-job-nav" title="">Search Developers</a>
                 {% endif %}
               </li>
               <li>

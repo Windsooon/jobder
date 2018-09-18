@@ -73,13 +73,13 @@ function set_up_empty() {
 
 function set_up_number(container, length, repo) {
     if (length == 0) {
-        var text = "0 " + repo + " contributor looking for job.";
+        var text = "0 " + repo + " developer looking for a job.";
     }
     if (length == 1) {
-        var text = "1 " + repo + " contributor looking for job.";
+        var text = "1 " + repo + " developer looking for a job.";
     }
     else {
-        var text = length + " " + repo + " contributors looking for job.";
+        var text = length + " " + repo + " developers looking for a job.";
     }
     var $contri_h2 = $("<h2 />", {
         "id": "contri-h2",
