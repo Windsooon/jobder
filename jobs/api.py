@@ -47,7 +47,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'user', 'title', 'job_des', 'repos', 'repo',
             'type', 'salary', 'company_name', 'location', 'visa',
-            'company_des', 'apply', 'website'
+            'company_des', 'apply', 'website', 'github_account'
         )
         extra_kwargs = {
             'repo': {'read_only': True}

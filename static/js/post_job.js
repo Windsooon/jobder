@@ -184,6 +184,7 @@ $(document).ready(function() {
                     "company_name": $("#company").val().trim(),
                     "location": $("#location").val().trim(),
                     "website": $("#website").val().trim(),
+                    "github_account": $("#github_account").val().trim(),
                     "company_des": JSON.stringify(company_editor.getContents()),
                     "apply": $("#apply").val().trim(),
                 }),

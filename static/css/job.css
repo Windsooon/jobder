@@ -78,7 +78,7 @@
     max-width: 100%;
 }
 
-.repo-span, #salary, #onsite, #location, #apply, #visa {
+.repo-span, #salary, #onsite, #location, #apply, #visa, #github_account{
     display: inline-block;
     padding: 7px 10px 7px 10px;
     margin-right: 7px;
@@ -110,7 +110,7 @@
     background-image: -o-linear-gradient(top, #fc588f, #ff3c7d);
 }
 
-#onsite, #apply {
+#onsite, #apply, #github_account{
     background-color: #385acb;
     background-image: -moz-linear-gradient(top, #4463cb, #385acb);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4463cb), to(#385acb));
