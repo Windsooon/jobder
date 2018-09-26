@@ -168,6 +168,11 @@ def explain(request):
     return render(request, 'explain.html')
 
 
+def privacy(request):
+    '''privacy page'''
+    return render(request, 'privacy.html')
+
+
 def job(request, id):
     '''job page'''
     type = ['Onsite And Remote', 'Remote', 'Onsite']

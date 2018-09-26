@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^posted-jobs/$', views.posted_jobs, name='posted_jobs'),
     url(r'^match/$', views.match, name='match'),
     url(r'^explain/$', views.explain, name='explain'),
+    url(r'^privacy/$', views.privacy, name='privacy'),
     re_path(
         r'^card_callback/(?P<post_id>[0-9]+)/$',
         views.card_callback, name='card_callback'),
